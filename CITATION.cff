@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: "dev-conventions: evidence-graded conventions for AI-assisted software development"
+message: "If you cite this collection, please cite the version you read. Claims are corrected between versions and a corrected claim is otherwise indistinguishable from one that still holds."
+type: software
+authors:
+  - family-names: "Fejes"
+    given-names: "Natanael"
+    orcid: "https://orcid.org/0009-0007-8674-0411"
+version: 0.9.0
+date-released: "2026-09-06"
+license:
+  - MIT
+  - CC-BY-4.0
+repository-code: "https://github.com/natanaelfejes/dev-conventions"
+abstract: >-
+  A collection of conventions for AI-assisted software development in which every
+  claim carries the strength of the evidence behind it, graded on an eight-tier
+  scale ordered by review trail rather than by whether numbers exist. Guidance is
+  conditional on a per-repository profile rather than prescribed. Disagreements
+  between sources are left standing with a stated default. The collection keeps a
+  numbered list of its own errors, which as of this version runs to eighteen and
+  includes a fabricated statistic it carried for a day before a verification pass
+  traced it to a source that does not exist.
+keywords:
+  - software engineering
+  - coding agents
+  - evidence grading
+  - developer conventions
+  - reproducibility

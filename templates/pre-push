@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+# Pre-push hook. Copy to .git/hooks/pre-push and make it executable:
+#
+#   cp templates/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+#
+# Two jobs, and only two: run the repository's own check command, and refuse a
+# direct push to the default branch. Both are things prose in an instruction
+# file cannot enforce, which is the entire reason this file exists rather than a
+# rule saying "remember to run the tests".
+#
+# Set these two to match your profile. CHECK_CMD must be the same command the
+# profile's stack.check field names, or the gate and the documentation disagree
+# and one of them is lying.
+
+CHECK_CMD="just check"
+DEFAULT_BRANCH="main"
+
+# Set SKIP_CHECK=1 to bypass deliberately. An escape hatch that exists and is
+# named is better than one improvised as --no-verify under pressure, because
+# this one is visible in your shell history.
+
+set -e
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$current_branch" = "$DEFAULT_BRANCH" ]; then
+	printf '\n  Refusing to push directly to %s.\n\n' "$DEFAULT_BRANCH"
+	printf '  Branch first:  git switch -c <name>\n'
+	printf '  Override:      SKIP_CHECK=1 git push --no-verify\n\n'
+	exit 1
+fi
+
+if [ "$SKIP_CHECK" = "1" ]; then
+	printf '\n  SKIP_CHECK=1 set, skipping %s.\n\n' "$CHECK_CMD"
+	exit 0
+fi
+
+printf '\n  Running %s\n\n' "$CHECK_CMD"
+
+if ! $CHECK_CMD; then
+	printf '\n  %s failed. Push refused.\n\n' "$CHECK_CMD"
+	printf '  Fix it, or SKIP_CHECK=1 git push if you know why you are bypassing.\n\n'
+	exit 1
+fi
+
+# Deliberately nothing after this point. Do not add anything that filters,
+# truncates or summarises the push output itself: a push is a one-shot
+# state-changing command and a hidden ref update cannot be re-read. Compress
+# build and test output all you like. Never the push.
+
+exit 0

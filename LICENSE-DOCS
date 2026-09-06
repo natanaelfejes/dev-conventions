@@ -1,0 +1,36 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 Natanael Fejes
+
+The prose in this collection is licensed under the Creative Commons Attribution
+4.0 International License. The canonical legal text is at:
+
+    https://creativecommons.org/licenses/by/4.0/legalcode
+
+and the human-readable summary at:
+
+    https://creativecommons.org/licenses/by/4.0/
+
+Files covered by this licence rather than by the MIT licence in LICENSE:
+
+    README.md, SKILL.md, EVIDENCE.md, DOCS.md, SECURITY.md, WORKFLOW.md,
+    RESEARCH.md, TOOLING.md, OBSERVABILITY.md, VOCABULARY.md, PROFILE.md,
+    OPERATING.md, ADOPTION.md, CHANGELOG.md
+
+You are free to share and adapt these, including commercially, provided you
+give appropriate credit, link to this licence, and indicate if changes were
+made. Attribution should name the collection and the version, because a claim
+corrected between versions is otherwise indistinguishable from one that still
+holds. CITATION.cff carries the citation metadata.
+
+Why the split. The MIT licence is written for software and permits use without
+attribution, which is the wrong default for a document collection whose entire
+argument is that claims should be traceable to who made them and when. CC BY
+requires the credit that makes a corrected claim followable back to its source.
+The templates, examples and build script stay MIT because they are meant to be
+copied into other repositories without a licence obligation travelling with
+them.
+
+LOCAL.md, where present, is under neither licence. It names a specific personal
+toolchain, machine paths and account access, is excluded from every
+distribution, and is not part of the shareable artefact.

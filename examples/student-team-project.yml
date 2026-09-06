@@ -1,0 +1,75 @@
+# Example profile: a six-person university project, one semester, graded.
+#
+# Written from the cold-start path, because this is the shape that usually has
+# no agent configuration at all. Two things about it are worth copying: the
+# reviewers value is the uncomfortable one rather than the flattering one, and
+# the inferences are dated and marked as inferences.
+#
+# Inferred 2026-09-02 from history. Fields marked GUESSED were not verifiable
+# from the repository and need confirming with the team.
+
+team: small-team
+reviewers: nominal       # The uncomfortable value, and the correct one.
+                         # A pull request template names reviewers and a
+                         # contributing file binds everyone, while in practice
+                         # changes are self-merged by their author.
+                         #
+                         # This is its own state, not a rounding error toward
+                         # none. A declared-but-absent reviewer removes the solo
+                         # discipline without supplying the team discipline:
+                         # nobody writes the review record because a reviewer is
+                         # nominally going to catch it, and nobody reviews
+                         # because they were never actually asked.
+                         #
+                         # Determine it from history: count merges where the
+                         # merging identity differs from the author, and count
+                         # review comments. Both near zero plus a checklist
+                         # present means this value.
+
+docs:
+  current_state: README.md   # Doing three jobs at once, which is the finding.
+  history: null
+  pending: null
+  decisions: null
+  contributing: CONTRIBUTING.md
+  absent:
+    history: "in commit messages only; a deleted subsystem survives in one commit subject"
+    pending: "in unmerged remote branches; not written down as planned anywhere"
+    decisions: "nowhere. Architecture arguments are settled in chat and lost"
+                         # All three are the displacement rule. Dropping a slot
+                         # relocates its content, it does not remove it. Check
+                         # all four targets (sibling docs, commit messages,
+                         # branch topology, external tracker) before concluding
+                         # anything is missing.
+
+stack:
+  language: typescript
+  check: null            # THE FIRST THING TO BUILD. Everything else in the
+                         # skill depends on one command whose green state means
+                         # something, and here it does not exist yet. Do not
+                         # write an instruction file before this.
+  format: npm run format
+  test: npm test         # Mocked at the HTTP boundary, so a green run does not
+                         # mean the assembled system starts. Name what the tests
+                         # mock; keep one check that exercises the real thing.
+  build: npm run build
+
+review:
+  - code-review          # Only pass actually available. A change description
+                         # here must not claim the others.
+
+tools:
+  orchestrator: frontier
+  worker: cheap
+  forbidden: []          # GUESSED. Course rules on AI use were never written
+                         # into the repository. Ask before assuming none.
+
+maturity: prototype      # Derived: no CI, no integration test, no credential
+                         # boundary, no licence. The README calls the project
+                         # complete, which is exactly why this field is derived
+                         # from process evidence rather than copied from prose.
+
+secrets: .env            # Gitignored and nothing else. No hook, no CI check.
+                         # Deployment credentials were shared in a chat channel
+                         # because the repository documented no other source for
+                         # them, which is the same fact rather than two.

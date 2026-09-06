@@ -1,0 +1,63 @@
+# Repository profile. Place at .agents/profile.yml
+#
+# Read by the dev-conventions skill before it applies any rule. Every field is optional; an absent
+# field means "infer it and say so", never "use a default silently".
+#
+# Three of these are answerable only by looking, not by filling in a template:
+#   stack.check  - find the command that actually runs format, build and test together
+#   docs         - list what exists, not what should, then fill `absent` for every missing slot
+#   secrets      - verify against full history, not against the ignore file
+
+team: solo                   # solo | pair | small-team | open-source
+reviewers: none              # none | nominal | agent | one | rotating
+                             # Humans who ACTUALLY read the diff. Not agents, and not humans a
+                             # template merely names. Count changes where merger != author, and
+                             # count review comments. If both are near zero while a reviewer
+                             # checklist exists, the answer is `nominal` - see PROFILE.md, it has
+                             # its own failure mode.
+                             #
+                             # `agent` means a review agent reviews and no human reads the diff.
+                             # Its own value, not a kind of `one`: measured, agent-only-reviewed
+                             # changes merged at 45.20% against 68.37%, and 12 of 13 agents
+                             # averaged below 60% signal. The solo discipline still applies.
+
+docs:
+  current_state:             # how the system works now
+  history:                   # what shipped and why
+  pending:                   # what is still open
+  decisions:                 # decision records directory
+  contributing:              # branch, commit and change-description conventions
+  absent:
+    # For every slot left blank above, say where its content goes instead. This is a commitment,
+    # not a note: dropping a slot relocates its content rather than removing it, usually into a
+    # document that forbids it.
+    # history: "milestone notes live in the architecture doc, deliberately"
+
+stack:
+  language:
+  check:                     # the single command that must be green before a push
+  format:
+  test:
+  build:
+
+review:                      # which passes actually exist here
+  # - code-review
+  # - security-review
+  # - independent-context    # a review from a context that did not do the work
+
+tools:
+  orchestrator:              # role, not brand: whichever frontier model plans and reviews
+  worker:                    # whichever cheaper model implements
+  forbidden: []              # tools banned by an employer, a customer, or a course
+
+maturity: prototype          # prototype | production | published
+                             # DERIVE this from process evidence; do not copy the readme's claim.
+                             # Three of three repositories checked claimed a maturity their process
+                             # contradicted, in both directions. Ask: does a check command exist and
+                             # does anything run it automatically, do tests exercise the assembled
+                             # system, is there a credential boundary, is there a licence.
+                             # published also requires no employer-identifying content and an
+                             # explicit statement of what is not established.
+
+secrets:                     # gitignored paths that must never be committed
+  # - .env

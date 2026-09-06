@@ -1,0 +1,1258 @@
+# Evidence
+
+Every claim in this skill, with its tier, its source, and what could not be verified. Read this when
+a rule is challenged. **Compiled 2026-09-01, venue checks completed 2026-09-02.**
+
+## The tier scale
+
+> **A tier is not a correctness score, and the numbering will mislead you if you let it.** It records
+> **how much scrutiny a claim has survived**, which is correlated with being right and is not the
+> same thing. A tier-4 preprint can be correct; a tier-2 paper can be wrong, because peer review
+> catches method errors rather than all errors. A lower number means *more people have checked*,
+> never *more true*.
+>
+> The warning is here because numbering does rhetorical work no disclaimer undoes: a reader who skims
+> reads "tier 2" as "truer than tier 4" whatever the surrounding prose says. **Use a tier to decide
+> how hard to push back on a claim, not to decide whether it is true.** Added 2026-09-03 after an
+> external review named exactly this failure.
+
+Ordered by **review trail**, not by whether numbers exist. That ordering is the point: a
+seven-author study with public code and 5,000 runs and a single-author self-published preprint both
+produce numbers, and collapsing them into one "measured" bucket is what let a weak source be used to
+retire a practice.
+
+| Tier | Name | Means |
+|---|---|---|
+| 1 | Replicated | Independent groups, consistent direction. **States its review status separately**, see below |
+| 2 | Reviewed | Peer-reviewed and accepted, confirmed against the venue or a publisher DOI |
+| 3 | Under review | Multi-author, public code or data, submitted to a reviewed venue, decision not confirmed |
+| 4 | Preprint | Methodology and numbers exist, no review trail, possibly self-published |
+| 5 | Vendor-disclosed | A company's own instrumentation or security research, evaluation not independently published |
+| 6 | Analyst-forecast | A research firm's survey-based projection. A forecast, not an observed outcome |
+| 7 | Practitioner judgment | Named, credible individual, no comparison arm |
+| 8 | Unverifiable | Circulates, no primary source traceable |
+
+### A tier is a rater's judgment, not a property of the source
+
+**Added 2026-09-06, and it is the sharpest external criticism this scale has received.** A
+verification pass went looking for what is known about evidence hierarchies *as instruments*, in the
+one field that has run the experiment for three decades. The finding bears directly on this scale.
+
+**Grading schemes have measurably poor inter-rater reliability.** An early GRADE working-group
+reliability test found agreement among raters across twelve outcomes at only "fair", kappa around
+0.27, ranging from **worse than chance for four outcomes** up to 0.82 for one. A separate study
+applying GRADE in practice found reliability from "slight" (kappa 0.18 for precision) to "almost
+perfect" (0.84 for consistency), with overall quality-of-evidence agreement "slight" in one review
+and "moderate" in another.
+
+Those are trained people, applying a mature and heavily documented scheme, to the same evidence, and
+disagreeing at rates that are themselves only fair. **This scale is younger, less documented, and has
+been applied by one person.** There is no reason to think it does better and every reason to think
+it does worse.
+
+What follows from that, and what does not:
+
+- **A tier is a judgment made by whoever assigned it, with known disagreement between raters.** It is
+  not a measured attribute of the source. The scale header already says a tier is not a correctness
+  score; this is the stronger and better-sourced version of the same warning, and it was missing.
+- **Two people applying this scale to the same paper will sometimes differ, and neither is
+  necessarily wrong.** If you disagree with a tier here, that is an ordinary outcome rather than a
+  bug report, though it is still worth raising.
+- **It strengthens the asymmetric-burden rule rather than weakening it.** If grades are noisy, a rule
+  that forbids acting on a weak grade to *remove* a safeguard is doing more work, not less.
+- **It does not invalidate the scale.** The critique literature's own conclusion is that hierarchies
+  are useful and oversold, not that they are useless. Related known criticisms, which apply here too:
+  hierarchies conflate study design with study quality, and they systematically under-rate
+  observational evidence in domains where randomisation is infeasible, which is exactly this domain.
+
+**One further finding worth recording because it explains an absence.** Evidence-based software
+engineering launched as a movement in 2004 and its systematic-review half took hold while its
+grading-and-appraisal half largely did not. Its own retrospectives cite missing infrastructure, the
+cost of systematic reviews, and vulnerability to experimenter bias. So a practitioner collection
+attempting evidence grading in this field is not filling an obvious gap that everybody missed; it is
+attempting something the field tried and mostly abandoned. That is a reason for humility about the
+instrument, not a reason to drop it.
+
+**Tier 1 is not simply tier 2 plus a replication, and treating it that way was a defect in this
+scale.** Corrected 2026-09-03 when the first tier-1 entry turned out to be two independent preprints.
+Replication and review are orthogonal: one says other people got the same answer, the other says
+reviewers scrutinised the method. Neither implies the other, and for deciding whether to act on a
+finding, convergence is usually the more informative of the two. So a tier-1 entry always names its
+review status rather than leaving it inferred from the number 1.
+
+### First-party observation is a separate axis, not a tier
+
+The scale above grades **external** claims: things someone else published, which a reader can go and
+check. A large share of this skill rests on something different - direct observation of the
+repositories and teams it came from.
+
+That is **not tier 1, and it is not tier 8 either.** It is a different kind of thing:
+
+- **Strong for the case it came from.** A rule derived from a failure in your own repository is the
+  best possible evidence about your own repository.
+- **Unfalsifiable by an outside reader.** Nobody can check it. A stranger reading "47 of 47 changes
+  self-merged" has to take it on trust or discard it.
+- **Not automatically generalisable.** Repositories worked on by one or two people share confounds.
+  A pattern across all of them may be a pattern in how one person works.
+
+**Two numbers are hiding inside every first-party claim here, and conflating them is the easiest way
+to over-read this document.** Added 2026-09-03 after an external review flagged it:
+
+- **The observations within a case.** "47 of 47 merged changes self-merged, zero human reviews
+  across 51" rests on every change in that repository's history. Within that repository the finding
+  is not thin at all.
+- **The cases themselves.** That same claim rests on **one repository**. As a statement about
+  repositories in general it is a single case study and nothing more.
+
+So read a first-party number as **strong about its own case, weak about yours**, and notice which
+question you are asking. A dramatic figure with a large internal N still generalises no further than
+the handful of repositories it came from. Where a claim states a count of independent contexts, that
+count is the number that bounds generalisation.
+
+Everything of this kind is labelled **`first-party`** wherever it appears, and the label is a
+warning to the reader rather than a boast. Where a first-party pattern appears in genuinely
+independent contexts it says how many, because that is the only strengthening available without
+external work: the mocked-tests-certifying-a-broken-build pattern is stated as three independent
+repositories for exactly this reason.
+
+**Do not promote a first-party observation to a tier by repetition.** Observing it again in the same
+hands is not independent.
+
+### The two standing rules
+
+**Asymmetric burden.** A tier-4-or-weaker source may raise a doubt about a practice. It may **not**
+retire a practice, remove a control, or downgrade a standing recommendation. Adding a safeguard on
+weak evidence costs effort; removing one costs correctness. Any revision that uses a tier-4-or-weaker
+source to justify *stopping* something must say so explicitly and flag it for a stronger check.
+
+**Check the artifact, not the claim about the artifact.** A paper's own "submitted to venue X" line
+states intent, not outcome; check the accepted list or a publisher DOI distinct from the preprint's.
+This generalises well past citations, and it is the single highest-yield habit in this document:
+
+- A tool's hook was configured and the binary it invoked was not on `PATH`. The hook failed silently
+  on every call and the savings were zero.
+- A tool believed installed was not installed at all; three name variants and three data directories
+  came back empty.
+- A tool was installed, its script present and executable, and it still could not run: the skill
+  invoked `python3`, which resolved to a shim rather than the real interpreter.
+
+All three were "verified installed" by someone who had checked that a file or command existed.
+**Run the thing.**
+
+**Rediscovery is not replication.** Two research passes finding the same paper confirms the paper
+exists and says what it claims. It does not corroborate the finding, and it does not resolve a
+disagreement between that paper and another.
+
+---
+
+## Sources
+
+### Tier 1, Replicated
+
+**Run-to-run nondeterminism in agent evaluation, and it discounts everything else here.**
+
+**Upgraded 2026-09-06 from two groups to four.** A verification pass found a third and fourth
+independent measurement, and both name the mechanism rather than only the effect:
+
+- **arXiv:2602.16666**, "Towards a Science of AI Agent Reliability", runs each agent-benchmark
+  combination **K=5 times at temperature 0** so that any observed variance is attributable to
+  non-sampling sources, and attributes it to **floating-point non-associativity, batch-size variation
+  from concurrent server load, and non-deterministic kernel scheduling**. It also notes that
+  reasoning models **do not expose a user-configurable temperature parameter**, which answers a
+  question this collection had explicitly listed as open.
+- **arXiv:2608.08239**, "The Replay Gap", calls batching- and kernel-induced nondeterminism at
+  temperature 0 **an experimental floor in the agentic setting**, and finds it **differs sharply
+  across quantization stacks**.
+- Supporting rather than independent: arXiv:2604.12147 repeats runs three times and reports a
+  pairwise McNemar test showing statistically significant differences across runs; arXiv:2408.04667
+  quantifies temperature-0 instability generally.
+
+These are independent by group, by data and by method: different scaffolds, different benchmarks,
+different variance-attribution approaches. **So the finding is now multiply replicated rather than
+merely replicated**, and the causes are named rather than inferred. Everything in this collection
+that rests on a single run inherits a larger caveat than before, not a smaller one.
+
+The two original sources, different methods, different scale, same direction:
+
+- **arXiv:2607.09691**, single author, SWE-bench Verified, N=70 multi-file instances, affiliated with
+  a small consultancy. The finding that matters and is uncontested: **re-running one arm at
+  temperature 0 flips 6 of 70 per-instance outcomes, roughly 9%**, which the paper itself calls a
+  noise floor bounding "ours and others'" small differences.
+
+  **One detail is contested between two independent verification passes and is therefore not
+  asserted here.** An earlier version of this entry read the 25-of-70 and 23-of-70 figures as two
+  runs of the same arm. A second pass reports them as **two different experimental arms**
+  (keep-and-drop at 25 of 70, structured-signature at 23 of 70, with a null result between them at
+  p=0.754), which would make the earlier reading a conflation of arms with runs. **See the contested
+  findings section below**: this collection does not have a direct read settling it, so the flip
+  count stands and the 25-versus-23 framing is withdrawn.
+- **arXiv:2602.07150**, Bjarnason, Silva & Monperrus (KTH). **Published at the ICLR 2026 Workshop on
+  Agents in the Wild**, confirmed 2026-09-04 from the paper's own front matter. **This upgrades the
+  entry**: an earlier version of this section described both tier-1 papers as preprints, and one of
+  them is workshop-accepted.
+
+  **60,000 trajectories** over **500 SWE-bench Verified tasks**, six configurations (three models
+  across two scaffolds), **ten runs per configuration** at multiple temperatures. **pass@1 varies 2.2
+  to 6.0 percentage points run-to-run**, with standard deviations **up to 1.8pp** and exceeding 1.5pp
+  **even at temperature 0**. Concrete example: one configuration at temperature 0 scored 22.3% with a
+  standard deviation of 1.8 and a range of 19.8 to 25.2.
+
+  **And a figure this collection should have been quoting all along**: the gap between pass@1 and
+  pass@5 reaches **24.9 percentage points**, and between pass@1 and pass^5 reaches **18.9 percentage
+  points**. That is the size of the lie a single run tells you, and it is the strongest available
+  justification for the pass^k rule in `SKILL.md`.
+
+  **One sub-claim retracted 2026-09-04.** An earlier version of this entry added that the
+  interquartile range at temperature 0 was comparable to or wider than at temperature 0.7. A direct
+  read of the paper found only standard deviation and min-max ranges, no interquartile comparison.
+  **Unconfirmed rather than contradicted**, and removed because it was doing rhetorical work the
+  paper does not support. The finding that matters, that temperature 0 does not buy determinism,
+  stands on the standard-deviation figure alone.
+
+The second finding is the one to remember: **setting temperature to zero does not make agent
+evaluation deterministic.** Anyone comparing two configurations on a single run, on their own
+repository, is very likely reading noise.
+
+**This entry forced a correction to the scale itself, which is worth more than the finding.** When
+it was written, both papers were believed to be preprints with no venue: the scale is ordered by
+review trail, so it could not express "two independent groups agree, neither peer-reviewed", and it
+was quietly treating tier 1 as tier 2 plus replication. That was wrong, and the fix stands even
+though the premise has since changed. **One of the two is now confirmed workshop-accepted and the
+other remains a preprint**, so this pair is *still* not "tier 2 plus replication", just for a
+different reason.
+
+> **Replication and review are orthogonal axes.** Tier 1 records that independent groups converged.
+> Tier 2 records that reviewers accepted the work. Neither implies the other. Two independent
+> preprints agreeing is genuinely stronger on the dimension that matters most for acting on a
+> finding, and genuinely weaker on method scrutiny.
+
+So a tier-1 entry now **states its review status explicitly** rather than implying one. This pair is
+**tier 1, both preprints**. Read that as: the effect is probably real, the exact numbers have not
+been through review.
+
+Everything else in this document that rests on a single benchmark run inherits this caveat, including
+the compression result below, which comes from one of these two papers.
+
+### Tier 2, Reviewed
+
+**Self-declaration of AI-generated code.** Kashif, Liang & Tahir, arXiv:2504.16485. Published as
+**ACM Transactions on Software Engineering and Methodology, vol. 35 no. 7, pp. 1-37, July 2026**.
+Confirmed 2026-09-02 against the **Crossref registrar record** for `10.1145/3771937`, which carries
+volume, issue and pagination, so this is final publication rather than acceptance alone. Note what
+the earlier basis was worth: the publisher DOI printed on the arXiv listing is an author-entered
+field, so on its own it was still the paper's own claim about itself. The registrar record is what
+makes this tier 2. Method: 613 mined code snippets plus a survey of 111
+practitioners. Findings: 76.6% self-declare AI-generated code always or sometimes, 23.4% never;
+declaration is motivated by traceability for later review and debugging, and by ethics;
+non-declaration is motivated by extensive modification making the code feel distinct, and by
+disclosure feeling like overhead.
+
+This is **the best-evidenced source in the skill**, and it went unused by four separate research
+passes before being found. Worth remembering when a research chain reports convergence.
+
+**Re-verified 2026-09-02 by a second direct fetch of the registrar record**, because an independent
+check that same day reported the volume, issue and DOI as *unconfirmed*. Both fetches were of the
+same record; the second one reached it and the first of the two attempts did not. Title, journal,
+volume 35, issue 7, pages 1-37, July 2026, and all three authors match.
+
+This produced a rule worth having on its own:
+
+> **A failed verification is not a negative finding.** "Could not confirm" and "confirmed absent"
+> are different results, and only the second one is evidence. Treating the first as the second
+> would have downgraded the strongest source in this collection on the strength of one pass not
+> reaching a URL.
+
+The asymmetric-burden rule already covers weak evidence retiring a practice. This covers the
+adjacent case: **absent evidence retiring a practice**, which is easier to miss because it arrives
+looking like diligence.
+
+**The OWASP ranking.** The GenAI Security Project's **2026 LLM Top 10, published 2026-08-04, keeps
+prompt injection at number one**, and a separate 2026 Top 10 for agentic applications now exists
+alongside it. Confirmed 2026-09-02. This is the basis for treating prompt injection as the primary
+production failure mode rather than a secondary concern, and the separate agentic list is worth
+reading directly since this collection does not reproduce it.
+
+**Vulnerability disclosures.** Treated as tier 2 because a CVE is an independently verified
+disclosure rather than a vendor's self-report. **Vendors named**, unlike the first-party examples
+elsewhere in this collection: a CVE is public record, and "an agentic IDE" gives a reader nothing to
+check or patch against. Both mechanisms verified against the CVE records 2026-09-04.
+CVE-2026-22708 against **Cursor**: shell built-ins such as `export`, `unset` and `alias` bypass the
+terminal allowlist, letting an attacker poison the shell environment so that a later *trusted*,
+allowlisted command such as `git` executes a malicious payload. **The allowlist was never the thing
+that mattered**, which is the whole lesson.
+CVE-2025-59532 against **Codex CLI**: the agent trusted a **model-generated `cwd`** as the sandbox's
+writable root, so the model's own output redefined the boundary meant to contain it.
+
+**Adversarial review, and how many reviewers.** Qiu & Gill, arXiv:2608.18167. **Accepted at the
+ICML 2026 Workshop on Deep Learning for Code.** Tier 2 with the venue weight named: a workshop is
+peer-reviewed and accepted, which is what the tier requires, and it is a lighter review trail than a
+journal or a main track. Added 2026-09-02, having been missed by four research passes.
+
+Findings, and all three are directly load-bearing here:
+
+- A **three-agent** adversarial review (main, reviewer, critic) outperformed a **five-agent**
+  baseline on one benchmark. More reviewers is not better, and this is the only measured statement
+  available on the question.
+- Naive adversarial review produced the **worst F1 measured anywhere in the paper, 0.457**, on a
+  pull-request benchmark, through a false-consensus failure mode: the reviewer agreed with the
+  implementer.
+- Adding an **explicit instruction to disagree** fixed it and produced the best F1 in the
+  comparison.
+
+So isolating the reviewer's context is necessary and not sufficient. The reviewer also has to be
+told to disagree, because a reviewer that merely lacks the implementer's reasoning will still
+converge on its conclusion. This closes open gap 2, which this document previously declared
+sourceless.
+
+**Who actually reviews AI-authored changes, and how well.** Two peer-reviewed mining studies, added
+2026-09-03. Both use the same public dataset of agent-authored pull requests, so treat them as
+related rather than independent.
+
+- **arXiv:2605.02273, Duma et al., EASE 2026.** Most AI-generated pull requests **receive no review
+  at all**, and where they are reviewed, the review is dominated by AI agents rather than humans.
+  Human-authored pull requests are more likely to attract human-only review and direct human
+  feedback. Sample size could not be extracted from the available text, which is worth stating
+  because the finding is qualitative without it.
+- **arXiv:2604.03196, Chowdhury et al., MSR 2026, DOI 10.1145/3793302.3793614.** From 19,450 pull
+  requests: 3,109 in a commented-review state, 98 closed reviewed only by a code-review agent, 13
+  such agents studied. **Agent-only-reviewed pull requests merged at 45.20% against 68.37% for
+  human-only, a 23.17 point gap.** 60.2% of the closed agent-only pull requests fell in the 0 to 30%
+  signal-to-noise band, and 12 of the 13 agents averaged a signal ratio below 60%. The authors'
+  conclusion, quoted: code review agents "should augment rather than replace human reviewers".
+
+This pair is the external evidence the team layer previously lacked entirely, and it lands on the
+same conclusion the first-party self-merge observation reached from one repository.
+
+**AI-contribution policy prevalence.** **arXiv:2605.16706, accepted at ICSME 2026.** 1,000 GitHub
+repositories surveyed, **118 carrying an explicit AI policy**: of those, 78% permit AI
+contributions, **51% require disclosure**, and 74% require a human in the loop.
+
+Note carefully what this is and is not. It measures **project policy prevalence**, a different unit
+from the self-declaration *rate* among practitioners in arXiv:2504.16485. So it corroborates that
+disclosure norms exist and are being formalised. **It does not replicate the 76.6% figure**, and the
+disclosure claim therefore stays tier 2 single-study rather than moving toward replicated.
+
+**Documentation inconsistency is measurably harmful. Two papers, and they were conflated here until
+2026-09-04.**
+
+- **Wen et al., ICPC 2019**, DOI 10.1109/ICPC.2019.00019. The large-scale mining study: **1.3 billion
+  AST-level changes across 1,500 systems**. Its finding is about timing, not magnitude: an
+  inconsistency's bug-introducing impact is **highest immediately after it is introduced and decays
+  over time**. That is a more useful finding than the one previously attributed to it, and it argues
+  for catching drift early rather than auditing periodically.
+- **Radmanesh, Imani, Ahmed & Moshirpour**, arXiv:2409.10781, "Investigating the Impact of Code
+  Comment Inconsistency on Bug Introducing". **This is where the 1.5x figure comes from**:
+  inconsistent changes are "around 1.5 times more likely to lead to a bug-introducing commit than
+  consistent changes".
+
+The earlier version of this entry credited the 1.5x figure to Wen et al. It is not in that paper. See
+error 12.
+
+This is the first external support for the documentation rot taxonomy's core mechanism, which was
+otherwise entirely first-party. It is also seven years older than everything else here, which is
+itself informative: the problem is not new and the agentic framing did not create it.
+
+**Benchmark scores transfer poorly to real repositories.** "What's in a Benchmark? The Case of
+SWE-Bench in Automated Program Repair", **ACM ICSE-SEIP 2026, DOI 10.1145/3786583.3786904**.
+Existence and peer-reviewed status confirmed; **the full text could not be retrieved, so no number
+from it is quoted here.** Recorded at tier 2 for its existence and used only to support the general
+claim that benchmark critiques exist in reviewed venues.
+
+Figures circulating alongside it, and deliberately **not** adopted as claims: roughly a third of
+successful patches said to contain solution leakage in issue text, a quarter said to pass on weak
+tests, and a vendor audit reporting that 59.4% of one model's apparent failures were harness flaws.
+Each is plausible, none was verified to a primary source in this pass, and all three are the sort of
+figure this document has previously restated wrongly. **Treat as unverified until fetched.**
+
+**AI assistance speeds the writing and does not improve what comes after. A controlled experiment,
+and the strongest study in this collection on the question that matters most.** Borg et al., "Echoes
+of AI: Investigating the Downstream Effects of AI Assistants on Software Maintainability",
+arXiv:2507.00788, **published in Empirical Software Engineering, a peer-reviewed journal**, 2025.
+Added 2026-09-04.
+
+Two-phase design, **151 participants, roughly 95% professionals**:
+
+- **Phase 1.** Participants add a feature to a Java web application, with or without AI assistance.
+  Result: **30.7% median reduction in completion time**, and an estimated **55.9% speedup** for
+  habitual AI users. A large, real effect on the writing.
+- **Phase 2, and this is the point.** *Different* participants, randomly assigned, then evolve those
+  solutions **without** AI assistance. Result: **no significant differences** in subsequent evolution
+  time or code quality. A Bayesian analysis concludes any speed or quality improvement was **"at most
+  small and highly uncertain"**.
+
+**Why this is the most important entry added in this pass.** It is a peer-reviewed controlled
+experiment that separates the phase AI helps from the phase that inherits the consequences, and it
+finds the benefit does not carry. That is a stronger design than anything else here on downstream
+effects, and it is the closest existing work to the controlled defect-rate study this collection
+keeps saying does not exist. **It does not close that gap**, because maintainability and evolution
+time are not defect rates, but it narrows it considerably.
+
+Affiliations include a commercial code-analysis company alongside academic co-authors, so **vendor
+involvement is present**, and the direction of the finding is not the flattering one for that
+vendor's market, which is worth noting in both directions.
+
+**Developers are wrong about their own speedup, and wrong in the confident direction.**
+arXiv:2507.09089, a randomised controlled trial from a non-commercial research organisation. Added
+2026-09-04. **16 experienced open-source developers, 246 tasks**, in mature repositories they had
+worked in for around five years.
+
+- They **forecast** AI tools would make them **24% faster**.
+- Afterwards they **believed** they had been **20% faster**.
+- Measured, they were **19% slower**, with a confidence interval from **+2% to +39%** slower.
+
+Small N, expert developers, familiar codebases, so it does not generalise to every setting. But the
+gap between believed and measured is the finding, and it is the empirical backing for the
+`OPERATING.md` rule about holding performance opinions loosely. **You cannot introspect your own
+throughput**, and this is the study to cite when somebody reports that an agent made them much
+faster.
+
+**AI-generated code carries more of two specific defect classes.** arXiv:2508.21634, preprint, over
+**500,000 code samples** across Python and Java, comparing human-written code with output from three
+model families. Reports AI-generated code as more prone to **unused constructs and hardcoded
+debugging artefacts**, and as containing **more high-risk security vulnerabilities**. Added
+2026-09-04; per-model breakdowns were not extracted in this pass, so treat the direction as the
+finding and not any single rate.
+
+> **Contradicted at the aggregate on 2026-09-06, and neither figure is now safe to quote.**
+> arXiv:2603.27130, a large-scale measurement of AI-generated code in real-world repositories,
+> reports the opposite direction overall: **fewer static-analyzer alerts and lower defect density**
+> than matched human code, with high-risk alert rates varying by language.
+>
+> The two are not trivially reconcilable, and the honest position is that this collection asserted
+> one side of a live disagreement. Per the standing rule, **the disagreement is left standing** and
+> neither paper's numbers are restated until both full texts have been read directly, which the
+> verification pass could not do.
+>
+> **Default meanwhile, and it is judgment rather than evidence:** keep reviewing AI-generated code
+> for the two named defect classes. Unused constructs and hardcoded debugging artefacts are cheap to
+> check for and cheap to remove, so the asymmetric-burden rule applies: a contested source may raise
+> a doubt about a safeguard and may not retire it.
+>
+> **Both studies count static-analyzer alerts, so neither answers the question that matters**, which
+> is whether ordinary human review catches these at ordinary rates. No study measuring that was
+> found.
+
+### Tier 3, Under review
+
+**Test-impact context beats test-first procedure.** Alonso, Yovine & Braberman, arXiv:2603.17973,
+March 2026. Multi-author, public code and data, states submission to a reviewed venue's data and
+benchmark track. Checked: it does not appear on that venue's accepted-papers list, so tier 3 rather
+than tier 2. Findings: supplying a graph-based test-impact map cut regressions by 70%, from 6.08% to
+1.82%; imposing test-driven development as a procedural instruction *without* that context raised
+regressions to 9.94%, worse than no intervention.
+
+This is the source for "context beats procedure", the most actionable finding in the skill.
+
+### Tier 4, Preprint
+
+**Rule polarity.** Zhang, Wang, Cui, Qiu, Li, Zhu & He, arXiv:2604.11088, April 2026, revised May
+2026. 679 real rule files, 25,532 rules, 5,000+ agent runs on a frontier model against a standard
+benchmark. Findings: random rule files improved performance as much as expert-curated ones, both
++13.8pp on a discriminative subset; every individually beneficial rule was a negative constraint,
+every individually harmful one a positive directive; gains were largely content-independent,
+consistent with context priming rather than instruction-following.
+
+**Checked directly: no journal reference, no venue, no acceptance comment. Tier 4 despite seven
+authors and 5,000 runs.** This document originally cited it as tier 3, which was an overstatement of
+exactly the kind the scale exists to catch. The prohibition-phrasing convention survives because
+choosing a phrasing style does not retire a practice, so the asymmetric-burden rule does not apply.
+But it is a convention, not a settled result.
+
+**Specification writing and defect rates.** Single author, self-published preprint, version 3, with
+public code. 119 repositories, 100,247 pull requests, within-author fixed effects and defect tracing.
+Finding: no association between specification presence or quality and defect outcomes across all
+robustness checks.
+
+Note carefully what this does and does not support. The claim it challenges was never measured
+either: specification-driven development's defect-reduction benefit is vendor methodology, tier 5 at
+best. So the honest statement does not depend on this preprint being right: **nobody has produced
+tier-1-or-2 evidence that specifications reduce defects, including the one person who tested it.** If
+the methodology holds, there is a tier-4 null. If it does not, there is still no support for the
+original claim.
+
+This source was once used to instruct a downgrade of specification practice from "do this" to
+"contested". That is precisely what the asymmetric-burden rule forbids, and it is the reason the rule
+is written down.
+
+### Tier 4, venue checked and none found
+
+Four studies of agent instruction files, **checked 2026-09-02: no journal reference, no venue and no
+acceptance comment on any of the four**. Tier 4 is now a confirmed floor rather than an open
+question:
+
+- arXiv:2602.11988, Gloaguen et al. - context files did not generally improve task success while
+  raising inference cost **over 20% on average**. **Authorship did matter, and this document
+  previously stated the opposite.** Corrected 2026-09-02: LLM-generated context files *hurt*
+  performance by 0.5% and 2% in two settings, while developer-written files gained **+2.4% on
+  average**. Corrected 2026-09-04 from "roughly 4%", which overstated it by more than half; see
+  error 12. Cost rose 20% in one setting and 23% in the other, so "over 20%" is precise for one and
+  borderline for the other. The aggregate
+  null conceals two effects pointing in opposite directions, and the practical reading is that a
+  generated instruction file is worse than no instruction file. The paper also distinguishes by
+  content type: instructions are well followed by agents, and **repository overviews specifically
+  did not help**, contradicting vendor guidance. Five authors, v1 February 2026, v2 June 2026.
+
+  Note for anyone citing the 4-point figure: it is internal to this paper. An earlier reading of
+  the research chain treated it as a separate rebuttal by a different author, which would have made
+  two sources out of one.
+
+  **A nuance found 2026-09-04 that narrows the rule built on this paper, and it matters.** When
+  existing documentation is **removed** from the repository, LLM-generated context files **improve**
+  performance by about **2.7 percentage points** and can outperform developer-written docs. So the
+  finding is not "generated context is bad". It is **"generated context is redundant when
+  documentation already exists, and helpful when it does not"**. The rule in `SKILL.md` is scoped
+  accordingly: do not generate one *over the top of existing documentation*.
+
+  Design detail worth having: two benchmarks, one of 300 tasks across popular repositories and a
+  purpose-built one of 138 issues across twelve **less-popular** repositories that have
+  developer-written context files. The human-context gain is reported on the second. Affiliations:
+  a university group **and a commercial company**, so vendor involvement is present.
+- arXiv:2601.20404 - instruction-file presence cut median wall-clock time **28.64%** and median
+  output tokens **16.58%**. **Correctness was explicitly not measured**, and the authors say so. Six
+  authors, five pages, two agents.
+- arXiv:2607.27250 - a with/without context-file comparison across two agents, 288 evaluated runs,
+  found the correctness effect bounded and not statistically significant in either direction. Failure
+  triage attributed failures to implementation skill rather than missing repository knowledge.
+  **Single author**; releases all code and data.
+- arXiv:2607.09691 - rendering an unread file remainder as signatures resolved no more issues than
+  deleting it outright (N=70, exact McNemar p=0.75). **Single author**, but pre-registered hypotheses
+  with the nulls published, which is stronger method discipline than the tier alone implies. Two
+  further findings from it bear on this document's own open gaps, below.
+
+### Tier 4, added 2026-09-03
+
+**Review load, not defect rate, is what AI throughput actually moves.** arXiv:2607.01904, He,
+Vasilescu et al. Enterprise field study, **802 developers, 196,212 pull requests**, January 2024 to
+April 2026, staggered difference-in-differences. Throughput reached **2.09 times baseline**,
+**per-reviewer load roughly doubled**, automated review overtook human review, and **merge and revert
+rates held steady**.
+
+The last clause is the interesting one and it cuts against alarmism: on this study's defect proxy,
+nothing got worse. What changed was who and what does the reviewing, and how much of it there is.
+Preprint, large N, enterprise data.
+
+**Compression on a real code-editing workload, second data point.** arXiv:2601.16746, SWE-Pruner.
+On SWE-bench Verified, **23 to 54% token reduction on agent tasks while improving success rates**,
+using a small neural line-skimmer. Method is entirely different from arXiv:2607.09691's
+representation ablation, so this is a second data point on the same question rather than a
+replication. Both point the same way: compression on coding workloads is not the loss it is on
+summarisation workloads.
+
+**Code structure does affect agent success, and the first non-opinion evidence for it.**
+arXiv:2605.06445, "Constraint Decay", Dente, Satriani & Papotti. 80 greenfield plus 20 feature
+tasks across **8 web frameworks**. Capable configurations **lose 30 points on average in assertion
+pass rates** moving from baseline to fully specified tasks, with **data-layer and ORM defects as the
+dominant failure mode**, and worse results in convention-heavy frameworks than in minimal ones.
+Single group, no replication found.
+
+Worth noting because it is unusual: this **supports** a practitioner claim already in this document
+(plain queries over ORMs, less magic over more), which had been sitting at tier 7 with no measured
+backing. The direction now has one study behind it.
+
+**Two competing reconciliations of the instruction-file disagreement, neither a replication.**
+arXiv:2606.20512, Shepard & Albrecht, attributes the conflict to step-budget and iterative-refinement
+differences (33.0% against 28.3% resolve rate). arXiv:2607.27250, Khatri, attributes it to
+agent-specific task-difficulty bands (Spearman 0.75) across 288 runs, 17 tasks, 3 repositories and 2
+agents, concluding that context strategy "does not measurably move correctness on either agent",
+bounded to 15 points or less by equivalence testing. **Two different explanations of the same
+disagreement is not a resolution of it**, and the disagreement below stays open.
+
+**Model reviewers have a measured agreeableness bias.** arXiv:2510.11822 reports LLM judges at a
+**true positive rate above 96% against a true negative rate below 25%** on validity judgments, which
+is a machine that mostly says yes. arXiv:2605.25273, a scoping review of 13 studies in one domain,
+found judge-to-expert concordance ranging **0.66 to 0.96, median 0.83**, worst on fine-grained
+tasks, with a three-judge rubric-anchored ensemble reaching 0.90.
+
+Both corroborate the mechanism behind the tier-2 adversarial-review finding: a reviewer agent's
+default failure is agreement, so the disagreement instruction is doing real work rather than
+decorating the prompt.
+
+**Agent context files behave unlike documentation.** arXiv:2511.12884, "Agent READMEs". **2,303
+context files across 1,925 repositories.** They function as **living configuration rather than
+documentation**: frequent small edits rather than decay. Content skews to functional matters, tests
+at 75.9% and architecture at 68.1%, while **security appears in 14.8% and performance in 14.5%**.
+
+This one **contradicts a claim in this collection** and is recorded as such in the disagreements
+below.
+
+**Venue rechecks, 2026-09-03.** arXiv:2604.11088 and arXiv:2607.09691: **confirmed preprint-only**,
+no venue or journal field present at all rather than merely unreached. arXiv:2603.17973: comments
+field still reads submitted to a data and benchmark track, not on any reachable accepted list, so
+**tier 3 stands unchanged**. arXiv:2607.27250: **could not confirm** either way, page fields did not
+render on fetch. That last one is a "could not confirm" and not a "confirmed absent", which is the
+distinction this document nearly got wrong once already.
+
+### Tier 5, Vendor-disclosed
+
+- **Agent skill supply chain.** A security vendor's study of agent skills found **36.8%, or 1,467
+  of them, carrying at least one security flaw, and 76 carrying a confirmed malicious payload**
+  established by human-in-the-loop review. Verified against the primary source 2026-09-04, which
+  also separately reports **13.4%, or 534 skills, with critical-level issues**. Do not conflate the
+  36.8% and the 13.4%: they measure different severities.
+  Corrected 2026-09-02: this document previously reported it as "prompt injection in 36% of surveyed
+  agent skills, with 1,467 malicious payloads", which is wrong twice over. It restated a
+  flaw-of-any-kind count as a prompt-injection count, and it attached the flaw count to the word
+  malicious, inflating 76 to 1,467. See error 6 below. Directly actionable either way: this is why
+  installing a third-party skill without reading what it executes is prohibited.
+- **Multi-agent scaling.** A large research organisation's blog reported that independent
+  non-communicating parallel agents amplified errors 17.2x on tasks requiring coordination, and that
+  every multi-agent variant degraded performance 39-70% on tasks requiring strict sequential
+  reasoning. A blog post, not a peer-reviewed paper.
+- **Context degradation with input length.** A company research report across 18 models found
+  performance degrades as input length grows even on simple tasks, non-uniformly across models, and
+  worse when relevant information sits mid-context.
+- **A vendor cutting over 80% of its agent's system prompt with no measured evaluation loss.** Widely
+  repeated. **Could not be confirmed from an official source**; the citation trail led to an
+  aggregator. Treat the direction as real and the specific figure as unverified.
+- **Supply-chain incidents, 2026.** A malicious repository issue title chained four vulnerabilities
+  into an npm compromise of **Cline**, February 2026, by exploiting an AI triage workflow that read
+  the issue title as instructions. Confirmed 2026-09-02, and vendor-named for the same reason the
+  CVEs are. A separate campaign harvested a publishing token through a compromised CI action and
+  pushed backdoored package versions. Reported by security vendors and press rather than in
+  peer-reviewed work, which is what keeps these at tier 5 despite being well documented.
+
+- **Throughput up, stability down.** A large industry survey with roughly 5,000 respondents, 2025
+  edition, reversed its own prior year: AI adoption now associates positively with delivery
+  throughput and **negatively with delivery stability**. Vendor-adjacent, survey-based, not
+  peer-reviewed, and it is an association rather than a controlled comparison.
+- **Vendor telemetry, cited with its magnitude flagged.** One vendor's telemetry across 22,000-plus
+  developers reports median pull-request review time up 441%, incidents per pull request up 242.7%,
+  and bugs per developer up 54%. **Treat these numbers with suspicion.** They sit far above the
+  survey framing above and far above the enterprise study at tier 4, which found revert rates
+  unchanged across 196,212 pull requests. Three sources, three magnitudes, one direction at most.
+  Cite the direction if anything, never these figures.
+
+### Tier 6, Analyst-forecast
+
+**"Over 40% of agentic AI projects will be canceled by end of 2027."** A research firm's
+survey-based projection, mid-2025. Frequently restated as "40% of multi-agent pilots fail", which is
+a different claim: this measures **business project cancellation**, projected, not observed technical
+failure. Cite it as a forecast about funding decisions or not at all.
+
+### Tier 7, Practitioner judgment
+
+Named, credible, no comparison arm. Useful, and often more actionable than the measured findings, but
+not evidence in the same sense.
+
+- The agent is fallible and stochastic; the discipline is specification design, diff review, eval
+  design, security oversight and taste. Surface assumptions as numbered options rather than choosing
+  silently; define verifiable success criteria before starting; change only the lines the task
+  requires and leave pre-existing dead code alone.
+- An LLM pair programmer is over-confident and will not volunteer that it is wrong. Writing code is
+  cheap now, so the bottleneck moves to verification. Automated tests are no longer optional.
+- Codebase properties that help agents: plain SQL over ORMs, functions with long descriptive names
+  over clever class hierarchies, permission checks kept locally visible rather than hidden in config,
+  fast tools, and logs an agent can read. Unsupervised agentic loops amplify weak invariants and can
+  produce code that passes tests while becoming globally incoherent.
+- For high-quality systems work you have to stay fully involved; models are excellent amplifiers on
+  bounded tasks and produce fragile results when left unsupervised on non-trivial goals.
+- Giving an agent a way to verify its own work makes it self-correct more reliably than better
+  prompting does.
+- Test-first is a superpower specifically because agents introduce regressions that only pre-existing
+  tests catch, and agents have been observed deleting failing tests rather than fixing the cause.
+
+### Tier 8, Unverifiable
+
+- **"Orchestrator context overflow starts at 4+ workers."** Architecturally plausible and consistent
+  with the context-degradation findings, but traced only to a practitioner pattern site with no
+  benchmark, token count or model disclosed. Cite as engineering judgment.
+- **The instruction-file line-count targets.** 20-30, 150 and 200 all circulate. None is measured.
+
+---
+
+## Administrative facts are not research claims
+
+The tier scale grades findings: something somebody measured, with a method that can be reviewed. A
+donation, a governance change, a supported-tool list or an adoption count is a different kind of
+statement. It has no method to review, so a review-trail scale grades it badly, and stuffing it into
+tier 8 as this document previously did understates a fact confirmable from a primary organisational
+record.
+
+Grade these three ways instead: **primary record** (the organisation's own announcement or registry
+entry), **vendor-claimed** (a number only its beneficiary publishes), or **aggregated** (a figure
+circulating with no traceable origin).
+
+**`AGENTS.md` and the ecosystem around it**, rechecked 2026-09-02:
+
+- **Primary record.** Donated to the Agentic AI Foundation under the Linux Foundation on
+  **2025-12-09**, by OpenAI and Anthropic jointly, alongside two other projects. Confirmed against
+  the Linux Foundation's own announcement, so the governance detail this document previously left
+  unchecked is now checked. Upgraded from tier 8.
+- **Vendor-claimed.** The **"60,000+ adopting repositories"** figure originates in the foundation's
+  own materials and is repeated verbatim by secondary blogs. No independent audit found. Cite it
+  with its owner attached or not at all.
+- **Aggregated, and softer than it looks.** The native-adopter list is real in direction and **not
+  canonical**: which tools appear varies by source, across at least fifteen candidates. So "read
+  natively by nine or more tools" should be stated as a direction rather than a roster.
+- **No stable versioned specification was found.** Anyone depending on a fixed spec version should
+  check before relying on it.
+- **The skill format itself is now a cross-tool standard**, natively supported well beyond one
+  vendor. A collection like this one therefore travels as a skill and does not have to degrade into
+  a single instructions file to be portable.
+
+**Why this section exists at all:** every fact in it is the kind that goes stale in months. A
+document that grades its research carefully and then asserts an adoption number as timeless has
+moved its weakest claim to where nobody is checking. Recheck this section on the cadence, and treat
+a stale entry here as a defect rather than as background.
+
+---
+
+## Contested between verification passes, 2026-09-04
+
+**A category this document did not have, and it is different from a disagreement between sources.**
+Here the *sources agree with themselves*: two independent verification passes read the same primary
+material and **extracted different figures**. That is a defect in the reading, not in the field, and
+it means neither number can be asserted.
+
+Both passes were competent, both cited primary material, and **neither can be preferred without a
+third read**. Recording them rather than picking is the only honest option, and each entry names what
+would settle it.
+
+**1. The pull-request size numbers, and this one undercuts a headline.** `WORKFLOW.md` leads on the
+claim that "keep pull requests under 400 lines" misreads a 2006 study by turning a review *rate*
+into a *batch size*. One pass reported the study's own recommendation as **100 to 300 lines over 30
+to 60 minutes**, with **400 lines per hour** as the rate and defect density high *below* 200 lines. A
+second pass reported it as **200 to 400 lines over 60 to 90 minutes** yielding 70 to 90% defect
+discovery, with the rate threshold at **under 500 lines per hour**.
+
+If the second reading is right, **the popular rule is roughly correct and this collection's headline
+is wrong.** What survives either way is weaker and still useful: **the figures attributed to this
+study vary between retellings, so no specific threshold from it is safe to cite.** Settled by reading
+the original 2006 book rather than any summary of it. Until then `WORKFLOW.md` presents it as
+contested.
+
+**2. The developer-written context-file gain.** One pass reported **+2.4% on average**; a second
+reported **4% on average on the purpose-built benchmark**, at a cost of 3.34 extra steps and up to
+19% more spend. These may both be true of different tables. **This collection previously "corrected"
+4% to 2.4% on the strength of one pass**, which was premature. Settled by a direct read of the
+paper's results tables. The rule built on it depends only on the direction and is unaffected.
+
+**3. Two venue statuses.** For the adversarial-review paper, one pass confirmed acceptance at an
+ICML 2026 workshop; a second noted the arXiv text carries **no acceptance line**, with acceptance
+known only from external commentary. For the agent-context-file mining study, one pass called it a
+preprint; a second observed an **ISBN and ACM subject categories** in the arXiv version, suggesting
+proceedings publication. **Both are therefore tiered provisionally**, and the honest reading is that
+this collection's tier 2 is doing more work than its evidence supports in these two cases. Settled by
+a publisher record, not an arXiv page.
+
+**Why this section exists at all.** Independent verification was meant to raise confidence, and on
+most items it did: the majority of figures came back confirmed, several with added precision. But on
+four items it **lowered** confidence, which is what independent verification is for and is the
+opposite of what a document usually reports after a review pass. A collection that only ever gains
+certainty from checking is not checking.
+
+---
+
+## Disagreements, left standing
+
+Not averaged into a consensus that does not exist.
+
+**And each one now names what to do anyway, because "the evidence is split" is not an answer to a
+question you have to settle today.** Added 2026-09-03 after an external review pointed out, correctly,
+that an honest map of uncertainty is not by itself a decision tool.
+
+The rule for these defaults: **pick the option that is cheapest to reverse and least damaging if the
+other side turns out right, and label it judgment rather than evidence.** That is the same logic as
+the asymmetric-burden rule, applied to a tie rather than to a weak source. A default chosen this way
+is not a finding, and it must never be cited as one.
+
+Each disagreement below carries a **Default** line on that basis.
+
+**Does an agent context file rot like documentation? This collection says yes and the one study says
+no.** Added 2026-09-03, and it is the clearest external contradiction of a first-party claim here.
+
+`DOCS.md` treats instruction and context files as documentation subject to the same rot taxonomy as
+everything else. arXiv:2511.12884, across 2,303 context files in 1,925 repositories, found they
+behave as **living configuration**: frequently edited in small increments rather than left to decay.
+
+Both can be true, and the reconciling variable is probably repository activity: a file edited weekly
+does not rot, and the first-party observations here come from repositories where nobody revisited the
+file for two hundred commits. But **the study has 1,925 repositories and the counter-claim has
+five**, so the honest statement is that the rot taxonomy is **not established for agent context
+files specifically**, and `DOCS.md` now says so where it makes that claim.
+
+**Default while this stands:** treat an instruction file as configuration for *maintenance* purposes,
+so edit it freely and do not schedule ceremonial audits of it. But still run the cheap mechanical
+checks against it, the path checker and the count reconciler, because those cost nothing and catch
+real drift whichever side is right. Judgment, not evidence.
+
+One finding from the same paper is not in tension and is worth acting on directly: context files
+cover tests at 75.9% and architecture at 68.1%, and **security at 14.8% and performance at 14.5%**.
+Whatever else those files are, they are not carrying security context.
+
+**How much harm does AI-assisted throughput actually do?** Three sources, one rough direction, wildly
+incompatible magnitudes. An enterprise study of 196,212 pull requests found review load doubling
+while **merge and revert rates held steady**. An industry survey found a negative association with
+delivery stability. Vendor telemetry reported incidents per pull request up 242.7%. The first has the
+best design and the least alarming result, which is a pattern worth noticing rather than resolving.
+
+**Default while this stands:** plan for **review capacity** rather than for a defect surge. Add
+reviewers or reviewing time before adding gates, because the best-designed study found load doubling
+while revert rates held. If the alarming figures turn out right you will need the capacity anyway; if
+they are wrong you have lost nothing. Judgment, not evidence.
+
+**Do instruction files help or cost?** One study finds them raising cost 20-23%; another finds them
+cutting runtime 28.6% and tokens 20%. Both are primary sources with disclosed methodology and they
+disagree on the direction of the efficiency effect. The likely reconciling variable, untested by
+either, is content quality and length rather than mere presence. Both broadly agree the correctness
+effect is small.
+
+**Default while this stands:** keep a **short, human-written** instruction file and no repository
+overview. That is the one direction anything was measured in, the cost is bounded and visible, and
+deleting a file later is free. **Do not generate one**, because generated files are the single case
+where a measured effect points at harm. Judgment, not evidence.
+
+**Positive or negative phrasing?** Practitioner guides advise writing constraints as positive
+directives. The largest study of real rule files measured the opposite: positive directives were the
+individually harmful ones. Tier 4 measured beats tier 7 advice here, but the disagreement is real and
+the study is a preprint.
+
+**Default while this stands:** use prohibitions, and above all use them **consistently**. Choosing a
+phrasing convention retires no practice, so the asymmetric-burden rule does not bite, and mixed
+phrasing is worse than either style whichever turns out better. Judgment, not evidence.
+
+**Does test-first help?** Two credible practitioners advocate it from experience. The one controlled
+study on agents found the procedural instruction alone made things worse and the *context* did the
+work. No controlled comparison of test-first versus test-after for agents exists.
+
+**Default while this stands:** supply the **test-impact context** and skip the ceremony. The one
+controlled study found the procedural instruction alone made things worse and the context did the
+work, so the ordering is the part with no support and the context is the part with some. Judgment,
+not evidence.
+
+---
+
+## Open gaps
+
+No primary source found by any pass. Do not present these as resolved.
+
+1. **Prompt and output compression evaluated on agentic coding task success**, as opposed to
+   question-answering or summarisation benchmarks. The published compression results are real and are
+   measured on the wrong workload. Losing one load-bearing token in an agentic loop, a file path or
+   an exact error string, is qualitatively different from losing detail in a summary.
+
+   **No longer sourceless, as of 2026-09-02: partially addressed, tier 4.** arXiv:2607.09691
+   measured compressed context against full files on a real code-editing workload and found it
+   **matched full files while using one-third of the tokens**. That is the right workload, which is
+   what this gap was asking for. It is not closed: one single-author preprint, and the same paper
+   reports that **roughly 9% of per-instance outcomes flip between byte-identical temperature-0
+   runs**, which bounds how much any single-run agent measurement in this document can carry,
+   including its own.
+
+   **Second data point, 2026-09-03, and this gap is now effectively closed on direction.**
+   arXiv:2601.16746 reports 23 to 54% token reduction on agent tasks on the same benchmark while
+   improving success rates, by a completely different method. Two independent measurements on the
+   right workload, both saying compression is affordable there. What remains open is the boundary:
+   nobody has characterised *which* content is safe to drop, and the load-bearing-token worry that
+   opened this gap is unaddressed rather than refuted.
+
+   The nondeterminism pair at tier 1 also came out of this line of work, and it partly undercuts
+   both compression results, since each rests on single-run comparisons on a benchmark now measured
+   to move several points run to run.
+2. ~~**Whether a reviewing agent seeing the implementer's reasoning causes false consensus**, versus
+   diff-only review.~~ **Closed 2026-09-02, tier 2.** arXiv:2608.18167 measures the false-consensus
+   failure directly and measures a fix for it, and it also answers a question this document never
+   thought to ask, which is how many reviewer agents to use. Three beat five. Kept visible rather
+   than deleted, because a gap that stood as sourceless while an accepted paper existed is itself
+   the finding: the gap list records what four research passes failed to find, not what does not
+   exist. Re-search the remaining two on that basis.
+3. **Any empirical link between code-structure choices and agent task success.** ORMs, language
+   features, indirection, module boundaries. **Partially answered 2026-09-03, tier 4.**
+   arXiv:2605.06445 measured 8 web frameworks across 100 tasks and found data-layer and ORM defects
+   the dominant failure mode, with convention-heavy frameworks performing worse than minimal ones.
+   One group, no replication. Still open for the specific comparisons: ORM against plain queries as
+   a controlled variable, monorepo against polyrepo, and file size. **Searched and not found**, as
+   opposed to confirmed nonexistent.
+4. **A controlled comparison of defect rates with and without AI assistance. Narrowed on 2026-09-04,
+   and the previous wording was closer to overclaiming than it should have been.** This document
+   says repeatedly that no practice here has tier-1-or-2 defect-reduction evidence.
+
+   **What changed.** A peer-reviewed two-phase controlled experiment with 151 participants exists on
+   the adjacent question, and its answer is that the writing gets 30.7% faster while downstream
+   evolution time and code quality show **no significant difference**. That is a real controlled
+   result from a reviewed venue, on a question this document had been describing as unstudied. It
+   measures **maintainability and evolution effort, not defect rates**, so the specific gap stands,
+   but it is far narrower than "nobody has measured this" implied.
+
+   **On defect rates specifically, the original search still holds.** Searched deliberately on
+   2026-09-03, and it holds. No study was found meeting all
+   three of: random assignment, a genuine defect outcome rather than a proxy, and adequate power.
+   The near misses each fail a different axis, which is itself the useful result:
+   - A vendor randomised trial, N=202, measures test-pass rate and expert quality ratings, not
+     defects found later.
+   - A practitioner study, N=785, measures real bugs and reports a 41% higher rate, but is not
+     randomised and conflates tool *access* with tool *use*.
+   - A randomised trial, N=96, measures time on task only.
+   - A vendor release reporting a 30% defect-risk figure is correlational on code-health quintiles,
+     with no AI comparison arm at all.
+
+   **Re-searched 2026-09-06 and the status hardens from "could not confirm" toward "confirmed
+   absent".** Thirteen further query strings against the SE venues returned no qualifying study. The
+   largest randomised work now known is **Cui, Demirer, Jaffe, Musolff, Peng & Salz, "The Effects of
+   Generative AI on High-Skilled Work", Management Science 2026, DOI 10.1287/mnsc.2025.00535**, tier
+   2. N=4,867 developers pooled across three RCTs, preregistered, randomised tool access. It reports
+   a **26.08% increase in completed tasks (SE 10.3%)**, plus more commits and more compiles.
+
+   **It collects no defect outcome at all**, and its own co-author says so: the researchers did not
+   have access to the code produced and were unable to evaluate its quality, naming that as an
+   important next step. So it fails bar (b) by design rather than by accident.
+
+   **That is the more useful finding, and it changes what closing this gap would take.** The largest,
+   best-powered, preregistered randomised platform in the field deliberately did not instrument
+   defects. Closing Gap A therefore looks less like mounting a fresh trial and more like **bolting a
+   defect secondary-outcome onto an existing productivity RCT**. Recorded as a new gap below.
+
+   Also newly logged as failing a different bar: a Google enterprise RCT (arXiv:2410.12944, N=96,
+   about 21% time reduction, time-on-task only) and a peer-reviewed Meta study at FSE 2025 (DOI
+   10.1145/3803437.3805217) whose outcome is review-state time rather than defects.
+
+   Search terms used, recorded so the next person can do better rather than repeat it: randomised
+   controlled trial AI coding defect rate control group; randomized controlled trial AI code quality
+   bugs; no controlled study defect rate AI-assisted coding; escaped defects AI coding assistance
+   randomized controlled experiment; bug injection randomized experiment professional developers;
+   difference-in-differences defect density AI assisted.
+
+   **This is a "could not confirm", not a "confirmed absent".** The distinction matters here more
+   than anywhere: the whole collection leans on this gap, so anyone who finds a qualifying study
+   should assume this entry is out of date rather than that the study does not exist.
+5. **Nobody is instrumenting defects on the trials that could carry it.** Opened 2026-09-06 out of
+   gap 4. The field's largest randomised platform had 4,867 subjects, preregistration, and no defect
+   outcome. This is a gap in *research design*, not in the literature: the studies exist and collect
+   the wrong variable. Anyone with access to one of those programmes could close gap 4 far more
+   cheaply than by starting over.
+6. **The grader is becoming an agent, and nobody has asked what that does to reproducibility.**
+   Opened 2026-09-06. Agent-based artifact evaluation now exists (arXiv:2602.02235, with a rubric and
+   an evaluator agent) and it runs **three repeated passes specifically to handle its own evaluator's
+   nondeterminism**, reporting three-run mean exact-badge agreement of 70.56% for its best system.
+   So agent nondeterminism, this collection's only multiply-replicated finding, now threatens the
+   **badging process** and not merely the artifacts being badged. The collection has no entry for
+   nondeterminism of the evaluator and needs one.
+7. **A binding legal provenance regime arrived under a set of voluntary conventions.** Opened
+   2026-09-06. The **EU AI Act, in force 2 August 2026**, requires AI-generated public text to be
+   labelled, and at least one major foundation now says so in its own guidance. Every provenance
+   entry in `RESEARCH.md` is framed around voluntary trailers. Announcements, advisories, release
+   notes and website copy are a different axis with actual enforcement, and there is no entry for it.
+8. **The aggregate security direction is contested and this collection asserts one side.** Opened
+   2026-09-06, and see the contested-findings section. Not a missing source: two large studies point
+   opposite ways and neither has been read in full.
+
+---
+
+## This document's own errors
+
+Kept deliberately, because they are the argument for the scale.
+
+1. A submission line was read as a review trail, tiering a paper as reviewed when its venue had not
+   accepted it.
+2. The polarity study was cited as tier 3 when it has no venue at all.
+3. A tier-4 self-published preprint was used to instruct the downgrade of a standing practice.
+4. A source was cited as support after being read only through a thin automated summary, and later
+   proved unverifiable with available tooling. It was removed rather than downgraded.
+5. Three separate tools were reported as installed and working on the strength of a file or command
+   existing. None of the three worked.
+6. **A correctly sourced finding was restated with the wrong numbers, twice in one sentence.** The
+   agent-skill security study was reported as prompt injection in 36% of skills with 1,467 malicious
+   payloads. It measured a security flaw of any kind in 36.8% (1,467) of them, with 76 confirmed
+   malicious payloads. The source was right; the retelling narrowed a broad category and inflated a
+   count nineteenfold, in the security file, where an inflated threat number is the most damaging
+   place to be wrong.
+7. **A source was cited as saying the opposite of what it found.** The instruction-file study was
+   reported as finding authorship irrelevant. It found generated files harmful and
+   developer-written files mildly beneficial. Same paper, inverted conclusion.
+8. **One paper was counted as two.** The 4-point developer-written-file result was read as a separate
+   rebuttal by another author. It is internal to the paper it was said to rebut, so a single source
+   was briefly doing the work of a disagreement between two.
+9. **A verification check passed because it was inert.** The link checker prescribed in `DOCS.md` was
+   run across this collection and reported it clean. It had extracted **zero** references: the
+   pattern was broken, so it compared an empty list against the filesystem and exited successfully.
+   The clean output and the broken output were identical. Caught by feeding it a filename known not
+   to exist, which showed the comparison working while the extraction returned nothing; the fixed
+   version found 17 references, all resolving.
+
+   This one is a category the earlier entries missed. Errors 1 to 5 were unverified claims. Errors 6
+   to 8 were paraphrase drift. **This is a verification instrument reporting success while measuring
+   nothing**, which is worse than either, because it manufactures confidence rather than merely
+   failing to supply it. The rule is in `DOCS.md`: make a check fail once, deliberately, before
+   believing it when it passes.
+10. **A search reported "confirmed absent" while looking for the wrong string.** An inventory of a
+    large codebase reported **no pull-request-mediated merge flow anywhere in its history**. It had
+    searched for the merge-commit wording used by one hosting platform. The repository was hosted on
+    a different platform, whose wording differs. **36 real pull requests returned zero matches**, and
+    the absence was written up with full confidence and published in this collection before being
+    caught.
+
+    Three things make this the most instructive entry on the list:
+
+    - **It was caught by the reader, not by the author or the tool.** Someone who knew which platform
+      the repository was hosted on asked whether the assumption held. No amount of internal rigour
+      substitutes for the person with the missing context.
+    - **It defeated the existing rule.** This document already required distinguishing *could not
+      confirm* from *confirmed absent*, and the report said confirmed absent, correctly by its own
+      lights: the search ran, completed, and matched nothing. **The rule protects against an
+      unreached source, not against a well-executed search for the wrong pattern.**
+    - **The corrected finding was better than the wrong one.** "The mechanism existed, was barely
+      used, produced no review anyway, and was dropped with nothing recording the decision" is a
+      sharper finding than "they never had one", and the first version had reported the second.
+
+    New rule, since the old one did not cover this: **before reporting an absence, state what string
+    or shape you searched for and confirm that shape is the one this system would produce.** A grep
+    for a convention the target does not use returns zero, indistinguishable from a true absence.
+11. **A rewrite silently broke the field that routes this skill.** Shortening the frontmatter
+    `description` to fit a 200-character platform cap introduced a colon followed by a space. A YAML
+    plain scalar **cannot contain `": "`**, so the value truncated at the first colon and the tool
+    fell back to displaying the document's heading instead of the description.
+
+    Why this one is instructive rather than merely embarrassing:
+
+    - **Every check in place passed.** Character count: fine. Em dashes: none. Identifier scan:
+      clean. Link check: clean. None of them knew the field had a format constraint, so all of them
+      reported success on a broken file.
+    - **The symptom was visible and nearly ignored.** The tool's own listing changed from the
+      description to the heading. That was the instrument reporting the fault, and the temptation was
+      to read it as a display quirk. **Checking it was what found the bug.**
+    - It is the fourth instance of the collection's dominant shape: something that ran cleanly and
+      was wrong about what it produced. The others were the inert link checker, the wrong-platform
+      search, and a file count that counted a virtual environment.
+
+    New rule: **a field with a format constraint needs a check that knows the format.** For a skill
+    frontmatter, that means parsing it as YAML rather than measuring its length, and confirming the
+    value that comes back is the value you wrote. Length checks and content checks are not
+    substitutes for a parse.
+12. **A figure was attributed to the wrong paper, and another was overstated by more than half.**
+    Both found on 2026-09-04 by fetching primary sources for every external claim in this document
+    rather than trusting what a research pass reported.
+
+    - The **1.5x bug-introducing** figure for inconsistent comments was credited to a 2019 mining
+      study of 1.3 billion changes. **It is not in that paper.** It belongs to a later, separate
+      paper. The 2019 study's actual finding is about *timing*: impact is highest immediately after
+      an inconsistency appears and decays afterwards. Two papers had been fused into one citation,
+      and the more useful of the two findings was the one being discarded.
+    - **Developer-written instruction files gained 2.4% on average, not "roughly 4%".** Overstated
+      by more than half. The rule built on it survives unchanged, because the rule depends on the
+      *direction* rather than the size, but a reader checking the number would have found it wrong.
+
+13. **An unverified sub-claim propagated to four documents before anyone checked it.** The
+    nondeterminism entry had acquired a detail about interquartile ranges at different temperatures.
+    A direct read of the paper found only standard deviations and min-max ranges: **no interquartile
+    comparison exists in it.** Unconfirmed rather than contradicted, and removed.
+
+    The instructive part is the spread. One unchecked detail, added once, had reached `SKILL.md`,
+    `OPERATING.md`, this file, the changelog and the published page. **A claim's blast radius is
+    every document that cites it**, and nothing here tracked that. New rule: **when a figure is
+    corrected or retracted, grep the whole collection for it before considering the correction done.**
+    The changelog is the exception and is corrected by a new entry rather than an edit, per this
+    collection's own rule about history.
+14. **A fabricated statistic was carried in this collection for a day, and it is the most serious
+    error on this list.** A figure reporting that a single agent matched or beat multi-agent systems
+    on **64% of benchmarked tasks**, with multi-agent adding **2.1 percentage points at roughly twice
+    the cost**, was attributed to a named university group.
+
+    A verification pass traced the exact wording to **a search-engine-optimised blog post that names
+    no paper, no author and no identifier**, then fetched the one genuinely related paper in full and
+    **found none of those numbers in it**. The attribution appears to be invented.
+
+    Why this is worse than every earlier error here:
+
+    - **It was not drift. It was laundering.** Errors 6 to 8 were real sources restated badly.
+      Errors 12 and 13 were real sources misattributed or over-read. **This had no source at all**,
+      and it arrived wearing an institutional name that made it feel checkable.
+    - **A research agent produced it and this document recorded it.** The failure was not the
+      agent's alone: a specific, quotable, flattering statistic with a prestigious attribution is
+      exactly the shape of claim that should have triggered a primary-source check *before*
+      publication, and it did not, because it agreed with a position already held.
+    - **It survived one external review.** The reviewer that caught three real design flaws did not
+      catch this, which is a useful limit on what review buys you.
+
+    Recorded as **could not source** rather than **confirmed false**: extensive searching found no
+    primary source, which is not proof none exists. New rule: **a statistic that is specific,
+    quotable, and agrees with you gets its primary source fetched before it is written down**, not
+    after.
+
+15. **Two independent verification passes disagreed with each other on four items.** Not with the
+    sources, with each other. This produced the contested-findings section above, and one of the four
+    calls a headline claim in `WORKFLOW.md` into question. Recorded as an error rather than a
+    curiosity because **the earlier single-pass "corrections" were asserted with a confidence one
+    pass does not earn.**
+16. **A profile field was derived from the author's own context instead of from the repository, and
+    asserted a security gap that had already been fixed.** Found 2026-09-04 by an agent following
+    this collection's own adoption procedure on the repository in question.
+
+    The profile recorded `maturity: prototype` and justified it partly on an auth default that fails
+    open. **That had been fixed and merged three days before the profile was written**, and the
+    repository's own readme already described it correctly. The field's verdict happened to remain
+    right for other reasons, which is what made the error survivable and also what made it hard to
+    see.
+
+    Why this is the most self-indicting entry on the list:
+
+    - **`PROFILE.md` contains a section titled "Maturity is derived, not declared"**, which exists
+      because three of three repositories were found claiming a maturity their process contradicted.
+      The author of that section then declared a maturity from memory rather than deriving it.
+    - **The repository was telling the truth and the profile was not.** The readme was accurate. The
+      derivation did not read it.
+    - **It was caught by a reader following the written procedure**, not by the author and not by an
+      external reviewer. That is the procedure working, and it is the first time this collection has
+      been corrected by its own documented method rather than by inspection.
+
+    New rule, and it is narrower and sharper than "derive it": **when deriving a field, read the
+    repository's own current claims about that field and reconcile with them explicitly.** If the
+    readme says a property holds and your derivation says it does not, one of you is wrong and you
+    must say which before writing the field. A derivation that never consults what the repository
+    asserts is not derived from the repository, it is derived from whatever you already believed.
+
+    Corollary for anyone using an agent to derive a profile: **the agent's context is not evidence
+    about the repository.** A long session accumulates stale facts that feel like knowledge, and a
+    fact that was true last week reads identically to one that is true now.
+
+    **A second instance, same day, different mechanism, and it produced a fix to the procedure
+    rather than to a file.** A profile's `secrets` field listed one credential-bearing path. An agent
+    following this collection's procedure found a second one: gitignored, never committed, carrying
+    database URLs that can embed credentials, and simply never mentioned.
+
+    The verification commands in `PROFILE.md` were correct and had been run correctly. **They were
+    being pointed at a list assembled from memory.** The procedure said how to verify a candidate and
+    never said how to find the candidates, so a complete-looking verification ran against an
+    incomplete set. `PROFILE.md` step 3 now enumerates first, from the ignore file and from disk,
+    before verifying anything.
+
+    The general lesson is the sharper one: **a verification step is only as complete as the list it
+    is given, and a procedure that omits the enumeration will produce confident partial results
+    forever.** Nothing about the output distinguishes "checked everything" from "checked what
+    somebody happened to remember".
+17. **The identifier-leak check searched file contents while the identifier sat in the metadata of
+    every commit. Then the fix searched one ref while the leak survived on another.** Found
+    2026-09-04, twice in the same afternoon, in the same direction.
+
+    The collection forbids naming an employer anywhere outside `LOCAL.md`, and `build.py` enforces it
+    with a regex over every shipped file. On first publication the check reported no identifier
+    leaks. **Every commit in the repository was authored and committed under an employer email
+    address**, which is not file content, so neither `build.py` nor the `git grep` run alongside it
+    examined it. The prose was de-identified and the commit headers re-identified it, which defeats
+    the de-identification completely: one `git log` recovers what the rounding was there to hide.
+
+    The rewrite that fixed it was then verified with `git log` on the current branch. **A second
+    branch on the remote still pointed at the original commits**, so the address remained published
+    while the check reported it gone.
+
+    Why it earns a number rather than a footnote:
+
+    - **It is error 9's shape a third time.** A check that cannot fail because its scope excludes the
+      failure. The collection documents that class, states it as the worst failure available, and
+      then shipped two fresh instances of it inside four hours.
+    - **The two instances have the same cause, not two causes.** Both drew the boundary at what was
+      convenient to search rather than at where the identifier could be. Content but not metadata;
+      one ref but not all refs. Fixing the first did not suggest the second, which is the evidence
+      that the underlying habit was never addressed.
+    - **The consequence class is different from every other entry.** The rest are wrong claims, which
+      mislead a reader and can be corrected in a later version. This one published an identifier that
+      the collection's own publication gate exists to withhold, and a distributed identifier cannot
+      be recalled by a version bump.
+
+    New rule: **an identifier check runs against commit metadata across all refs, not against file
+    contents on the current branch.** Concretely, `git log --all` over author, committer and message,
+    reporting the number of commits and refs examined. Corollary, and it is the general form: **when
+    a check has a scope, state what the scope excludes next to the result.** "No identifier leaks"
+    was true of the files and false of the repository, and the output gave a reader no way to tell
+    which had been measured.
+
+    One asymmetry the new check encodes deliberately: **the prose pattern and the metadata pattern
+    are not the same pattern.** Skill prose must name nobody, the author included. Commit metadata
+    must name the author, because that history is the ownership record. Only the employer identifiers
+    are forbidden in both.
+
+18. **A measured finding about one thing was restated as measuring a different thing, in a shipped
+    template.** Found 2026-09-06 by an independent verification pass, in `templates/AGENTS.md`, which
+    had never been audited against this collection's own discipline.
+
+    The template said **"do not add a directory tree: measured as not helping"**. What is actually
+    measured is that **repository overviews** do not help. A directory tree is a plausible instance of
+    the same idea and **no measurement of it was found**, by that pass or by this document.
+
+    Why it belongs on the list rather than being quietly fixed:
+
+    - **It is errors 6 through 8's shape, in the file most likely to be copied.** The tier was right,
+      the underlying source was right, and the sentence retelling it widened the scope. A template is
+      the worst place for that, because it propagates into other people's repositories verbatim while
+      the file that could correct it stays behind.
+    - **It has the signature this collection warns about.** Specific, quotable, and flattering to a
+      position already held. That is hard rule 1, and the template predated it.
+    - **The templates were a known unaudited gap and stayed that way for days.** `ROADMAP.md` listed
+      them as the most likely place a stale or unsupported claim was still sitting. It was right, and
+      naming a risk is not the same as retiring it.
+
+    Corrected by scoping rather than deleting: the measured claim keeps the word measured, the
+    unmeasured extension is labelled judgment, and the independent reason to drop a directory tree,
+    that it duplicates the readme, is stated on its own merits.
+
+    New rule: **when a rule generalises a measured finding to a neighbouring case, the sentence must
+    say which half was measured.** "Measured as not helping" attached to a broader category than the
+    measurement covered is a claim nobody can trace back to a defect.
+
+Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
+through 8 are a different failure and they need a different check.** All three were paraphrase drift:
+the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
+protects its provenance and does nothing for its wording.
+
+Two lessons, not one:
+
+- **The taxonomy classifies, it does not verify.** The check is the deliverable.
+- **Trace every external number back to the source's own words before publishing, separately from
+  tiering it.** A cited claim and a correctly quoted claim are independent properties, and this
+  document had the first without the second in three places.
+- **Make a check fail on purpose before you believe it passing.** A verification instrument that
+  reports success while measuring nothing is the worst failure available here, because every other
+  error on this list at least leaves you uncertain. This one hands you confidence.
+
+**And one pattern runs through errors 9 and 17 and every repeat of them, which is worth stating as a
+rule because naming the instances did not stop it recurring.** Four times in this repository, a check
+drew its boundary at the convenient unit and the exposure sat one unit outside it:
+
+| The check looked at | The exposure was in |
+|---|---|
+| File contents | Commit metadata |
+| The current branch | Every other ref |
+| The distributable | The repository |
+| The prose files | The changelog, which ships |
+
+Every one of those checks passed. Every one was correct within its scope. **None of them stated its
+scope**, so a clean result read as "clean" rather than as "clean in the half I looked at".
+
+**The rule: a check must report the boundary it drew, next to its result.** "No identifier leaks in
+22 files, contents only" is a result a reader can act on. "No identifier leaks" is compatible with
+four different failures, and this repository shipped all four.
+
+---
+
+## External review, 2026-09-03
+
+The first time anyone outside this project read the collection and pushed back. Recorded because the
+README asks for exactly this and it would be dishonest to solicit challenge and then not log it.
+
+**What it independently verified.** Three citations checked against primary sources and matched as
+quoted: the nondeterminism paper, the rule-polarity study, and the agent-skill security figures. That
+last one matters most, because the security figure was **wrong in an earlier version of this
+document** and inflated nineteenfold. An outside check now confirms the corrected numbers.
+
+**Three criticisms, all accepted, all acted on the same day:**
+
+1. **A tier number reads as a truth score.** Valid, and a design flaw rather than a reading error:
+   the scale is *named* by review trail but *numbered* like a quality ranking, and numbering carries
+   rhetorical weight no disclaimer removes. Fixed with the warning now at the head of the scale.
+2. **First-party claims were written with more confidence than the sample earns.** Half a misread and
+   half a real gap. The dramatic figures have a large N *within* one case and an N of one *across*
+   cases, and this document stated that distinction once, in the axis section, then never restated it
+   where the numbers appear. Fixed by naming both numbers explicitly.
+3. **"Disagreements left standing" gave no answer for Monday.** The sharpest of the three. An honest
+   map of uncertainty is not a decision tool, and the asymmetric-burden rule covers a weak source but
+   not a tie. Fixed: every standing disagreement now carries a **Default**, chosen for cheapest to
+   reverse and least damaging if wrong, and labelled judgment rather than evidence.
+
+**One thing the review got slightly wrong, and it is this document's fault.** It reported nine
+recorded errors when there were ten. It had read a published version of the page that predated the
+tenth being added, which is the staleness problem this collection warns about, arriving via its own
+distribution. **A reviewer's version matters and should be stated when soliciting review.**
+
+**What the review recommended, and it is fair.** Adopt the two tier-1-and-2-backed rules immediately
+(do not let an agent review its own diff, and never trust a single run's pass rate), and cherry-pick
+the rest rather than adopting it wholesale. That is a correct application of this document's own
+advice to itself, and it is a better recommendation than "adopt this collection".

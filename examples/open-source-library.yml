@@ -1,0 +1,67 @@
+# Example profile: a published open-source library with outside contributors.
+#
+# The shape where the team rules genuinely apply and where `published` maturity
+# imposes obligations the other two examples do not carry. Note that this is
+# also the shape this collection's own evidence base covers WORST: its team
+# findings come from a two-person repository and a six-person student project,
+# neither of which is this. Treat Layer 3 here as the least tested part.
+
+team: open-source
+reviewers: rotating      # Real, and verifiable: merges are performed by
+                         # someone other than the author, and review comments
+                         # exist and are retrievable.
+                         #
+                         # Verify it rather than assuming from policy. In both
+                         # teams this collection observed, the only available
+                         # signal was who clicked merge, not who reviewed. A
+                         # mixed merge pattern is evidence of a mixed merge
+                         # pattern and nothing more.
+
+docs:
+  current_state: docs/architecture.md
+  history: CHANGELOG.md
+  pending: https://github.com/OWNER/REPO/issues
+  decisions: docs/adr/
+  contributing: CONTRIBUTING.md
+  absent:
+    pending: "external tracker, deliberately. Do not recreate a roadmap file."
+                         # The one displacement target that is fine when
+                         # declared: chosen, written down, with an explicit
+                         # do-not-recreate rule so nobody helpfully adds a
+                         # second source of truth.
+
+stack:
+  language: python
+  check: make check
+  format: make fmt
+  test: make test
+  build: make build
+
+review:
+  - code-review
+  - security-review
+  - independent-context
+  - human                # The distinguishing field. A human reads the diff, so
+                         # Layer 2 does NOT apply: the change description is a
+                         # summary for that human, not the review record. Do
+                         # not carry solo habits into this shape.
+
+tools:
+  orchestrator: frontier
+  worker: cheap
+  forbidden: []          # Worth stating explicitly if the project requires
+                         # disclosure of AI-assisted contributions. That is the
+                         # best-evidenced finding in this collection: in a study
+                         # of 613 snippets and 111 practitioners, the commonest
+                         # reason given for NOT declaring was that heavy
+                         # modification made the code feel distinct, which is
+                         # exactly the case where a reviewer most needs to know.
+
+maturity: published      # Not a claim about ambition. Requires a licence, no
+                         # employer-identifying content, and an explicit
+                         # statement of what is not established. If any of those
+                         # three is missing, this field is production at most.
+
+secrets: .env, secrets/  # Verified against full history. On a public repository
+                         # this is not optional and the ignore file proves
+                         # nothing about what was committed before it existed.

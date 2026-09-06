@@ -1,0 +1,91 @@
+# Profile for the repository that develops this collection.
+#
+# Derived 2026-09-04 by inspecting this repository, not templated. Third profile
+# in existence, and the first for a prose-dominant repository, which is a shape
+# the schema had not been tested against.
+#
+# Read AGENTS.md before applying any rule from the collection here.
+
+team: solo
+reviewers: none
+# Honest and currently trivially true: the repository was created today and has
+# one contributor. NOT `nominal`: nothing here claims a reviewer it does not
+# have. So Layer 2 applies and the change description is the review record.
+#
+# Expected to change. The point of this repository is that a second author, on a
+# different machine, develops the collection too. When that happens, count it
+# from history rather than assuming: `git log --format='%ae|%ce'` and check
+# whether author and committer ever differ.
+
+docs:
+  current_state: SKILL.md
+  pending: ROADMAP.md
+  history: CHANGELOG.md
+  decisions: null
+  contributing: AGENTS.md
+  absent:
+    decisions: "no ADR directory. Decisions live inline as dated corrections in EVIDENCE.md, which is unusual and deliberate: a decision here is almost always a decision about a claim, and it belongs next to the claim."
+  # Note the inversion worth knowing about: in this repository the four slots are
+  # filled by the collection's own files. SKILL.md is both the product and the
+  # current-state document. That is legitimate and it means an edit to SKILL.md
+  # is simultaneously a product change and a documentation change, so the
+  # doc-rot rules apply to it more strongly than usual, not less.
+
+stack:
+  language: markdown
+  check: null
+  format: null
+  test: null
+  build: python build.py
+  # THE HONEST GAP IN THIS REPOSITORY. There is no single command whose green
+  # state means something. PROFILE.md says plainly that where none exists,
+  # building it is the first thing to do before anything else in the collection
+  # applies. That instruction is being violated here, on purpose and visibly,
+  # rather than quietly.
+  #
+  # What a `check` would need to run: the em-dash grep, the identifier-leak
+  # grep, a YAML parse of the frontmatter with a length assertion, and a
+  # cross-reference resolver that PRINTS ITS COUNT rather than exiting zero.
+  # The commands are in AGENTS.md; nothing has wrapped them yet.
+  #
+  # Until that exists, every check here is a human remembering to run it, which
+  # is exactly the failure mode DOCS.md documents. Roadmap item.
+
+review:
+  - independent-context
+  # The only pass genuinely available: a fresh-context reader instructed to
+  # disagree. Two external reviews have now run, on 2026-09-03 and 2026-09-04,
+  # and between them they found a fabricated statistic, two wrong figures and
+  # four items where independent passes disagreed with each other.
+  #
+  # Do not let a change description here claim code-review or security-review.
+  # Neither exists for a prose repository.
+
+tools:
+  orchestrator: frontier
+  worker: cheap
+  forbidden: []
+  # Roles, not brands. Relevant here because the collection is expected to be
+  # developed by more than one agent on more than one machine, and the profile
+  # should not need editing when the model changes.
+
+maturity: prototype
+# DERIVED, and the derivation is uncomfortable. Present: a licence, a changelog,
+# a versioning rule that is actually followed, an errors list, two external
+# reviews, every external claim in EVIDENCE.md fetched from a primary source.
+# Absent: any automated check, any test, and any use by a person other than the
+# author.
+#
+# That last absence is why this is `prototype` and not `published`, and it is
+# not a formality. The collection's central claim is that it adapts to a
+# repository profile. Three profiles exist and one person wrote all three. Until
+# somebody else derives one, the claim is documented rather than demonstrated.
+
+secrets: none
+# Verified against history rather than the ignore file: this repository has no
+# credential, no environment file and no configuration carrying a value. It is
+# prose and templates. The `.gitignore` excludes build output only.
+#
+# One real exposure risk that is not a credential: LOCAL.md, which names machine
+# paths and a personal toolchain, must never be committed here. It is gitignored
+# and it is also excluded by build.py, so both paths are covered.

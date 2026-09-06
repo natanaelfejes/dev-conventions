@@ -1,0 +1,45 @@
+# Minimal .editorconfig. Deliberately small.
+#
+# The point of this file is not style preference, it is removing a class of rule
+# from your instruction file entirely. Anything an editor or formatter can
+# enforce should never be written as prose for a model to remember: that is
+# slower, costlier and inconsistent, and it consumes context on every turn to
+# achieve less than a config file achieves once.
+#
+# So keep this file boring and let it do its job. If you find yourself writing
+# "use spaces, not tabs" into an instruction file, the rule belongs here and the
+# prose belongs deleted.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.md]
+# Trailing whitespace is significant in Markdown line breaks. Leave it alone
+# here rather than discovering later that a formatter has been silently
+# reflowing your documentation.
+trim_trailing_whitespace = false
+max_line_length = 100
+
+[Makefile]
+indent_style = tab
+
+[*.{sh,bash}]
+indent_style = tab
+
+# Add one block per language you actually use, not one per language you might.
+#
+# Then go further than this file can: promote your analyzer or linter rules to
+# build errors rather than warnings. A warning is a rule nobody enforces. One
+# repository moved five style rules from prose into analyzer severities set to
+# error; enabling them failed the build immediately on five violations, one of
+# which a careful manual review had already missed.
+#
+# That asymmetry is worth stating plainly: the tool caught what the human
+# reading did not, on the same code, in the same week.

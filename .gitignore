@@ -1,0 +1,17 @@
+# Build output
+dist/
+
+# Machine-specific notes. Never committed: names paths and a personal toolchain.
+# Also excluded by build.py, so both the repository and the distributable are covered.
+LOCAL.md
+
+# Working notes that must stay on disk and out of every commit. build.py excludes
+# .agents/ from the distributable, which is not the same thing as keeping a file out
+# of a public repository, and that gap has caught this project more than once.
+.agents/clearance-inventory.md
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc

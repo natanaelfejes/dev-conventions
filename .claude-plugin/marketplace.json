@@ -1,0 +1,17 @@
+{
+  "name": "dev-conventions",
+  "owner": {
+    "name": "natanaelfejes",
+    "url": "https://github.com/natanaelfejes"
+  },
+  "plugins": [
+    {
+      "name": "dev-conventions",
+      "source": "./",
+      "description": "Evidence-graded conventions for AI-assisted development. Every claim carries the strength of the evidence behind it, and the guidance adapts to a per-repository profile.",
+      "version": "0.9.0",
+      "license": "MIT",
+      "keywords": ["conventions", "evidence", "agents", "documentation", "security"]
+    }
+  ]
+}

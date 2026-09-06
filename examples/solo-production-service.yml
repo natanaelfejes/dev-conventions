@@ -1,0 +1,54 @@
+# Example profile: a solo-maintained service that real users depend on.
+#
+# The interesting thing about this shape is that maturity and team size pull in
+# opposite directions. One person means Layer 2 applies and the change
+# description becomes the review record. Real users mean prototype-grade gaps
+# are not acceptable. Both are true at once, and a profile is how you say so.
+
+team: solo
+reviewers: none          # Honest. Not "nominal": no template claims a reviewer
+                         # either, so the Layer 2 compensating control is live
+                         # and the change description IS the review record.
+
+docs:
+  current_state: docs/ARCHITECTURE.md
+  history: CHANGELOG.md
+  pending: docs/ROADMAP.md
+  decisions: docs/adr/
+  contributing: null
+  absent:
+    contributing: "no second contributor exists; onboarding notes live in README"
+                  # Note this is a commitment about where content goes, not a
+                  # note that a gap exists. Check it rather than assume it.
+
+stack:
+  language: csharp
+  check: just check      # Must be the single command whose green state means
+                         # something. If none exists, build it before profiling.
+  format: just format
+  test: just test
+  build: dotnet build
+
+review:
+  - code-review
+  - security-review
+  - independent-context  # A fresh-context reviewer, instructed to disagree.
+                         # Isolation alone is not enough: an agent reviewer
+                         # without an explicit disagreement instruction scored
+                         # the worst measured result in the one accepted study.
+
+tools:
+  orchestrator: frontier
+  worker: cheap
+  forbidden: []
+
+maturity: production     # DERIVED, not declared. Justification, since this
+                         # field is the one most often wrong in both
+                         # directions: check command exists and runs in CI,
+                         # tests exercise the assembled system, there is a
+                         # credential boundary, there is a licence.
+
+secrets: appsettings.Development.json, .env
+                         # Verified against full history, not against the
+                         # ignore file. An ignored path can have been committed
+                         # before it was ignored.
