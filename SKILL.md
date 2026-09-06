@@ -482,6 +482,12 @@ own terms. So the maintenance schedule is part of the artifact rather than an af
 - **Recheck the tier of anything at tier 3.** Tier 3 means a decision was pending. Pending decisions
   resolve, in both directions, and nobody sends you a notification.
 
+**The cadence is now enforced rather than promised.** `build.py` reads the recheck date from this
+file's header, **warns at 90 days and fails the build at 180**. `REFRESH.md` is the pass itself: what
+to recheck, in what order, and the rules that do not relax because it is routine. Before those two
+existed this section was a promise, and a collection that grades other people's evidence while
+letting its own cadence run on good intentions has failed on its own terms.
+
 **On every edit, not quarterly:**
 
 - **Trace any number you add back to the source's own words.** Separate pass from tiering it. Three

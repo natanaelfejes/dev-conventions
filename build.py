@@ -134,6 +134,30 @@ def check_frontmatter():
         ok("frontmatter carries only accepted fields")
 
 
+def check_staleness():
+    """A cadence nobody enforces is a promise, not a mechanism.
+
+    SKILL.md says a stale entry counts as a defect rather than as background.
+    That was true of everybody else's documents and not of this one, because
+    nothing checked it. Warn at 90 days, fail at 180.
+    """
+    import datetime
+    text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+    m = re.search(r"External claims last rechecked (\d{4})-(\d{2})-(\d{2})", text)
+    if not m:
+        fail("no recheck date in SKILL.md, so staleness could NOT be checked")
+        return
+    checked = datetime.date(*map(int, m.groups()))
+    age = (datetime.date.today() - checked).days
+    if age >= 180:
+        fail(f"external claims last rechecked {checked}, {age} days ago. Run REFRESH.md")
+    elif age >= 90:
+        print(f"  WARN  external claims are {age} days old (rechecked {checked}). "
+              f"Quarterly refresh is due; build fails at 180.")
+    else:
+        ok(f"external claims rechecked {checked}, {age} days ago")
+
+
 def check_prose(files):
     """The two content rules, plus a link check that reports its count."""
     md = [f for f in files if f.endswith((".md", ".yml", ".yaml")) or "/" in f]
@@ -233,6 +257,7 @@ def main():
     check_frontmatter()
     check_prose(files)
     check_metadata()
+    check_staleness()
 
     if FAILURES:
         print(f"\n{len(FAILURES)} check(s) failed. Nothing built.")

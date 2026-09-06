@@ -85,6 +85,7 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
 | `ADOPTION.md` | A two-phase prompt that adopts this in one repository | **Start here.** Paste it into an agent session rooted in that repo |
 | `SKILL.md` | Agent-facing rules, in three profile-conditional layers | Always the entry point for an agent |
 | `SPEC.md` | A prompt that specifies a change before it is built, with numbered assumptions and a test-impact map | About to start something large enough that getting it wrong costs a rebuild, or about to delegate one |
+| `REFRESH.md` | The quarterly re-research pass: what to recheck, in what order, and the rules that do not relax | The build warns that the recheck date is over ninety days old |
 | `EVIDENCE.md` | The tier scale, every source, the disagreements, the open gaps, the errors | A rule is challenged, or you need a claim's provenance |
 | `DOCS.md` | Documentation conventions and an empirical rot taxonomy | Setting up, auditing or pruning documentation |
 | `SECURITY.md` | Agentic security obligations, grounded in 2026 incidents | Touching auth, secrets, CI, untrusted input, or installing a third-party skill or MCP server |
