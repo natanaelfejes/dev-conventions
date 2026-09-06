@@ -15,13 +15,19 @@ Researched 2026-09-04. Externally verified 2026-09-06.
 > badging corpus and its 9.8%; CITATION.cff 1.2.0; CRediT's fourteen roles.
 >
 > **Contradicted**: the git-trailer convergence claim, which named seven projects as converging on
-> one token. Two of them use a different token and the "barring AI from `Co-Authored-By:`" half was
-> one project's policy stated as a general rule. Corrected in place below, with per-project
-> verification status.
+> one token. **There are two camps and an abstainer**: the kernel, Fedora and Rocky Linux use
+> `Assisted-by:`, the Apache Software Foundation and OpenInfra use `Generated-by:`, and OpenTelemetry
+> prescribes no token at all. The "barring AI from `Co-Authored-By:`" half was one project's policy
+> stated as a general rule. Corrected in place below, with a per-project source column.
 >
-> **Still unverified, and named rather than buried**: Fedora and Rocky Linux policies, the
-> OpenTelemetry primary document, the Linux kernel's own file, and the citation-difference study.
-> Those carry a status column or a withdrawal, and none of them should be cited from this file.
+> **A second, independent pass on 2026-09-06 closed every gap the first one left.** Fedora, Rocky
+> Linux, OpenTelemetry and the Linux kernel's own file were all reached, and the citation-difference
+> study was located and is now cited. Each pass found what the other could not, which is the case for
+> running two rather than one.
+>
+> **What still stands unverified**: nothing in this file. Two claims are withdrawn rather than
+> unverified, and say so where they appear: whether a mainstream commit linter shipped an
+> AI-attribution configuration in 2026, and the "barring AI from `Co-Authored-By:`" generalisation.
 
 ## Why this file exists, and why convergence is the strongest evidence available here
 
@@ -50,18 +56,30 @@ paragraph said seven named projects "converged on an `Assisted-by:` trailer" whi
 barring AI from `Co-Authored-By:`". A verification pass fetched them individually and **both halves
 were overstated**. What each project actually does, with its verification status:
 
-| Project | Trailer | Status |
+| Project | Trailer | Verified against |
 |---|---|---|
-| Linux kernel | `Assisted-by:` | Secondary sources agree; `coding-assistants.rst` not fetched directly |
-| Zephyr | attribution trailer, voluntary | **Confirmed** from its own contribution guidelines. AI agents **must not** add `Signed-off-by`, because only a human can certify the DCO |
-| Apache Software Foundation | **`Generated-by:`** | **Confirmed** from ASF's own Generative Tooling Guidance |
-| OpenInfra | **`Generated-by:`** | **Confirmed**, and its policy credits the ASF for the label |
-| OpenTelemetry | `Assisted-by:` style | Secondary only; primary CONTRIBUTING not fetched |
-| Fedora, Rocky Linux | unknown | **Not verified.** Only secondary aggregators seen. Do not cite |
+| Linux kernel | **`Assisted-by: LLM [TOOL1] [TOOL2]`** | Its own `coding-assistants.rst`. Also states AI agents **MUST NOT** add `Signed-off-by` |
+| Fedora | **`Assisted-by:`** | Fedora Council's own AI-Assisted Contributions Policy |
+| Rocky Linux | **`Assisted-by:`** | Rocky Linux's own AI-assisted contribution policy |
+| Zephyr | attribution trailer, voluntary | Its own contribution guidelines. AI agents **must not** add `Signed-off-by`: only a human can certify the DCO |
+| Apache Software Foundation | **`Generated-by:`** | ASF's own Generative Tooling Guidance |
+| OpenInfra | **`Generated-by:`** | OpenInfra's own AI policy, which credits the ASF for the label |
+| OpenTelemetry | **no trailer token** | Its contributing page describes assistance *levels* and requires human-written PR descriptions. It prescribes no trailer |
 
-**So there is no single converged token.** Two of the seven use a different one, and the two named
-foundations that were checked most carefully are the two that diverge. The convergence is on the
-*structure*, disclose without claiming authorship, not on the string.
+**Two independent passes were needed to get this table right, and each found what the other could
+not.** The first established that ASF and OpenInfra diverge and correctly refused to assert Fedora
+and Rocky Linux from aggregators. The second reached all four primary pages the first could not.
+Neither alone would have produced this.
+
+**The picture that emerges is a real split, not a convergence, and it runs along an interesting
+line.** The three Linux distributions and the kernel use **`Assisted-by:`**. The two foundations use
+**`Generated-by:`**. One major project prescribes no token at all. So the original sentence, that
+seven projects converged on one trailer, was wrong in a way that matters: **there are two camps and
+an abstainer.**
+
+What is genuinely converged is the *structure*: disclose the assistance, never in an authorship
+field, and in the kernel's and Zephyr's case never in the field that carries legal certification.
+**Copy the token your ecosystem uses and do not invent a third.**
 
 **"Barring AI from `Co-Authored-By:`" is one project's explicit policy, not a cross-foundation
 rule.** Mesa states it directly. It is the kernel's practical stance. It is not established
@@ -176,10 +194,12 @@ add Results Reproduced or Replicated. Adoption is **per-community rather than ce
 **What a badge is worth, stated bluntly.** A 2025 corpus of 640 papers in this field found **9.8%
 badged**, and treated badges as **associational rather than causal**, noting they often signal that
 an artifact exists without guaranteeing execution fidelity or long-term reproducibility. A separate
-citation study reported a statistically significant citation difference for only a small number of
-venue-year pairs after correcting for multiple comparisons, and null everywhere else. **The study
-itself was not located by the 2026-09-06 verification pass**, so the direction stands and the exact
-count is withdrawn until somebody reaches the primary source.
+citation study found a statistically significant difference for **2 of 64 venue-year pairs** after
+Benjamini-Hochberg correction, and null everywhere else. **Located and confirmed 2026-09-06**: Winter
+et al., "A Retrospective Study of One Decade of Artifact Evaluations", ESEC/FSE 2022, peer-reviewed,
+3,650 articles across 64 venue-years in software engineering and programming languages, controlling
+for page length and open access. Both significant pairs were **short papers without badges**, which
+is the opposite of the direction a badge advocate would predict.
 
 One vendor-neutral asymmetry worth knowing: IEEE-native badging is rare. In that same 640-paper
 corpus, **two papers** used it, both with the weakest badge only.

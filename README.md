@@ -4,7 +4,7 @@ Conventions for AI-assisted software development, where **every claim carries th
 evidence behind it**, and the guidance **adapts to your repository** instead of prescribing one shape
 for all of them.
 
-**Version 0.9.0. External claims last rechecked 2026-09-06.**
+**Version 0.10.0. External claims last rechecked 2026-09-06.**
 
 ---
 

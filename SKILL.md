@@ -5,7 +5,7 @@ description: Evidence-graded conventions for AI-assisted development, covering c
 
 # Development conventions, evidence-graded
 
-**Version 0.9.0. External claims last rechecked 2026-09-06.**
+**Version 0.10.0. External claims last rechecked 2026-09-06.**
 
 ## What this is not
 

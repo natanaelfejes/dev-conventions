@@ -4,6 +4,82 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.10.0, 2026-09-06
+
+**A second independent research pass ran, and the case for running two rather than one is now
+demonstrated rather than argued.** Each pass reached primary sources the other could not, and the
+combined answer is different from either alone.
+
+### The trailer table is now complete, and the answer is a split rather than a convergence
+
+The first pass established that the Apache Software Foundation and OpenInfra use `Generated-by:`,
+and correctly **refused** to assert Fedora and Rocky Linux from aggregators. The second reached all
+four primary pages the first could not. Together:
+
+- **`Assisted-by:`**: the Linux kernel, Fedora, Rocky Linux. The kernel gives the exact form,
+  `Assisted-by: LLM [TOOL1] [TOOL2]`, and states AI agents **MUST NOT** add `Signed-off-by`.
+- **`Generated-by:`**: the Apache Software Foundation, OpenInfra.
+- **No token at all**: OpenTelemetry, which describes assistance levels instead.
+
+So the original claim, seven projects converging on one trailer, was wrong in a way that matters:
+**there are two camps and an abstainer.** What is genuinely converged is the structure, disclose
+without claiming authorship, and never in a field carrying legal certification.
+
+**Neither pass alone produces that table.** One found the divergence, the other found the sources.
+
+### A tier upgrade, and a contradiction adjudicated rather than left standing
+
+**arXiv:2508.21634 is accepted at IEEE ISSRE 2025**, not a preprint. Moved from tier 4 to tier 2,
+where it sat mis-tiered for two days because the first pass did not reach its acceptance line.
+
+Both full texts of the contested security pair were then read, and the disagreement is **real but
+narrower than it looked**. Different populations: prompt-generated functions against AI-generated
+files found in the wild. Different instruments: Pylint, PMD and Semgrep against CodeQL. Different
+normalisation, and the preprint's own cuts do not agree with each other, reporting AI both above and
+below human alert density in different tables.
+
+**Where they agree is the part that matters: both find elevated high-risk patterns in at least one
+cut.** The disagreement is about totals and severity bands, and it dissolves substantially once
+population and instrument are compared. Not entirely.
+
+### Three new gaps, and one of them undercuts a framing this collection has leaned on
+
+- **Gap 9. What fraction of repositories retain a review trail at all.** The collection's most-wanted
+  counter-example was a repository with a retrievable review trail. Several exist: Gerrit corpora
+  with reviewer and approver metadata across roughly 133,000 changes, GitHub pull-request corpora
+  across 37 projects. **So retrievable review trails plainly exist**, which weakens the implicit
+  framing that their absence is normal. What nobody has published is the population figure, and that
+  single number would settle whether four-for-four here is a quirk or a property of git.
+- **Gap 10. Whether human review catches AI-introduced defects at normal rates.** Neither security
+  study measures it. Every recommendation here about reviewing agent output assumes review works on
+  it about as well as on human code, and that is untested in either direction.
+- **Gap 11. Agent memory architecture, where this collection has no entry at all.** A 2026 survey
+  organises five mechanism families and says empirical comparisons for coding agents are sparse.
+  Everything else found was practitioner writing with no measured outcome. **No study shows
+  retrieval-augmented memory beating a flat file for coding-agent task success.** Recorded because a
+  gap with a mature-looking vocabulary is more dangerous than one that is obviously empty.
+
+### Gaps B and C
+
+**Gap B narrowed.** arXiv:2601.16746 reports that **uniform compression hurts more than task-aware
+pruning**, the first direct evidence that which tokens are dropped matters rather than only how many.
+It publishes no ablation by content type, which is what the gap asks for.
+
+**Gap C re-searched and still open**, with the exact strings recorded so the next person does not
+repeat them.
+
+### The citation-difference figure is restored with a real source
+
+Withdrawn in 0.9.0 as unlocatable, now found: **Winter et al., ESEC/FSE 2022, peer-reviewed**, 3,650
+articles across 64 venue-years. Significant citation differences for **2 of 64 pairs** after
+Benjamini-Hochberg correction, and both were **short papers without badges**, which is the opposite
+of what a badge advocate would predict.
+
+### Also
+
+- `REFRESH.md` and the build's staleness check, which were written for 0.9.0 and did not reach the
+  remote before the branch was deleted.
+
 ## 0.9.0, 2026-09-06
 
 **An independent research and verification pass ran, and it contradicted a headline.** One new file,

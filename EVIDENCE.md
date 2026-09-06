@@ -235,6 +235,45 @@ the compression result below, which comes from one of these two papers.
 
 ### Tier 2, Reviewed
 
+**AI-generated code carries more of two specific defect classes, and the aggregate direction is
+contested.** Cotroneo, Improta & Liguori, arXiv:2508.21634. **Accepted at the 36th IEEE International
+Symposium on Software Reliability Engineering (ISSRE) 2025**, confirmed 2026-09-06. **Upgraded from
+tier 4**, where it sat as a preprint for two days because the first verification pass did not reach
+its acceptance line.
+
+Over **500,000 code samples** across Python and Java, comparing human-written GitHub functions with
+output from three model families. Defects via Pylint and PMD mapped to ODC; security via Semgrep
+mapped to CWE. Reports AI-generated code as more prone to **unused constructs and hardcoded debugging
+artefacts**, as triggering **more high-risk CWE categories** including command injection and
+hardcoded secrets, and as **shorter**, using fewer tokens and fewer lines on average.
+
+> **Contested at the aggregate by arXiv:2603.27130**, a large-scale measurement of AI-generated code
+> in real-world repositories, still a preprint. Both full texts were read on 2026-09-06 and the
+> disagreement is **real but narrower than it first looked**:
+>
+> - **They are not measuring the same population.** ISSRE studies prompt-generated functions from a
+>   docstring. The preprint studies AI-generated files **found in the wild**, identified by comment
+>   attribution and a classifier, matched against human files from the same repositories.
+> - **They are not using the same instrument.** Pylint, PMD and Semgrep against CodeQL. Different
+>   rule sets produce different alert profiles before any conclusion is drawn.
+> - **They normalise differently.** The preprint reports per KLOC and gives several cuts that do not
+>   agree with each other: one table has AI at 12.81 alerts per KLOC against human 11.58, another has
+>   AI *lower* at 10.04 against 13.56, and its risk breakdown has AI with **fewer critical** alerts
+>   but **more high-risk**, 0.934 against 0.464.
+>
+> **Where they actually agree, and it is the part that matters: both find elevated high-risk patterns
+> in AI-generated code in at least one cut.** The disagreement is about totals and about which
+> severity band, and it dissolves substantially once population and normalisation are compared. It
+> does not dissolve entirely.
+>
+> **Default, and it is judgment rather than evidence:** keep checking AI-generated code for the two
+> named defect classes. They are cheap to find and cheap to remove, so the asymmetric-burden rule
+> applies. A contested source may raise a doubt about a safeguard and may not retire it.
+>
+> **Neither study measures whether human review catches any of this at normal rates.** Both count
+> analyzer alerts. Confirmed by reading both. That question remains open and is the one a practitioner
+> actually needs answered.
+
 **Self-declaration of AI-generated code.** Kashif, Liang & Tahir, arXiv:2504.16485. Published as
 **ACM Transactions on Software Engineering and Methodology, vol. 35 no. 7, pp. 1-37, July 2026**.
 Confirmed 2026-09-02 against the **Crossref registrar record** for `10.1145/3771937`, which carries
@@ -405,32 +444,6 @@ gap between believed and measured is the finding, and it is the empirical backin
 `OPERATING.md` rule about holding performance opinions loosely. **You cannot introspect your own
 throughput**, and this is the study to cite when somebody reports that an agent made them much
 faster.
-
-**AI-generated code carries more of two specific defect classes.** arXiv:2508.21634, preprint, over
-**500,000 code samples** across Python and Java, comparing human-written code with output from three
-model families. Reports AI-generated code as more prone to **unused constructs and hardcoded
-debugging artefacts**, and as containing **more high-risk security vulnerabilities**. Added
-2026-09-04; per-model breakdowns were not extracted in this pass, so treat the direction as the
-finding and not any single rate.
-
-> **Contradicted at the aggregate on 2026-09-06, and neither figure is now safe to quote.**
-> arXiv:2603.27130, a large-scale measurement of AI-generated code in real-world repositories,
-> reports the opposite direction overall: **fewer static-analyzer alerts and lower defect density**
-> than matched human code, with high-risk alert rates varying by language.
->
-> The two are not trivially reconcilable, and the honest position is that this collection asserted
-> one side of a live disagreement. Per the standing rule, **the disagreement is left standing** and
-> neither paper's numbers are restated until both full texts have been read directly, which the
-> verification pass could not do.
->
-> **Default meanwhile, and it is judgment rather than evidence:** keep reviewing AI-generated code
-> for the two named defect classes. Unused constructs and hardcoded debugging artefacts are cheap to
-> check for and cheap to remove, so the asymmetric-burden rule applies: a contested source may raise
-> a doubt about a safeguard and may not retire it.
->
-> **Both studies count static-analyzer alerts, so neither answers the question that matters**, which
-> is whether ordinary human review catches these at ordinary rates. No study measuring that was
-> found.
 
 ### Tier 3, Under review
 
@@ -849,6 +862,22 @@ No primary source found by any pass. Do not present these as resolved.
    The nondeterminism pair at tier 1 also came out of this line of work, and it partly undercuts
    both compression results, since each rests on single-run comparisons on a benchmark now measured
    to move several points run to run.
+
+   **Narrowed 2026-09-06, and the boundary now has a first shape.** An independent pass found
+   arXiv:2601.16746 (SWE-Pruner, preprint) proposes **task-aware adaptive pruning** and reports that
+   **uniform compression hurts more than task-aware pruning** on repository-level editing. That is
+   the first direct evidence that *which* tokens are dropped matters, not only how many. It stops
+   short of what this gap asks for: it publishes no ablation by content type.
+
+   Two weaker signals, both tier 7, both practitioner analysis rather than measurement, and reported
+   because they name candidates for what to test rather than because they establish anything:
+   summarisation is said to lose **negations and constraints, exact numbers and thresholds, goal
+   refinements, records of what was rejected, and tool-output attribution** first; and compressing an
+   agent's *control* context (system instructions, tool schemas, policies) is said to produce a
+   reliability cliff. **Neither is a controlled ablation and neither should be cited as a finding.**
+
+   **What would close this: an ablation that varies exactly one content class**, exact error strings
+   being the obvious first candidate, and reports the task-success delta. Nobody has run it.
 2. ~~**Whether a reviewing agent seeing the implementer's reasoning causes false consensus**, versus
    diff-only review.~~ **Closed 2026-09-02, tier 2.** arXiv:2608.18167 measures the false-consensus
    failure directly and measures a fix for it, and it also answers a question this document never
@@ -863,6 +892,13 @@ No primary source found by any pass. Do not present these as resolved.
    One group, no replication. Still open for the specific comparisons: ORM against plain queries as
    a controlled variable, monorepo against polyrepo, and file size. **Searched and not found**, as
    opposed to confirmed nonexistent.
+
+   **Re-searched 2026-09-06 by an independent pass and still not found.** Exact strings tried:
+   `"ORM vs hand-written queries" "agent" "task success" controlled`; `"monorepo vs polyrepo" "AI
+   agent" "edit success" controlled experiment`; `"file size" "agent" "code edit" success controlled
+   variable`. The monorepo-versus-polyrepo question has practitioner writing arguing that monorepos
+   simplify context assembly, **with no measured outcome of any kind**, which is tier 7 and does not
+   touch the gap. No replication of the framework-convention result was found either.
 4. **A controlled comparison of defect rates with and without AI assistance. Narrowed on 2026-09-04,
    and the previous wording was closer to overclaiming than it should have been.** This document
    says repeatedly that no practice here has tier-1-or-2 defect-reduction evidence.
@@ -932,9 +968,39 @@ No primary source found by any pass. Do not present these as resolved.
    labelled, and at least one major foundation now says so in its own guidance. Every provenance
    entry in `RESEARCH.md` is framed around voluntary trailers. Announcements, advisories, release
    notes and website copy are a different axis with actual enforcement, and there is no entry for it.
-8. **The aggregate security direction is contested and this collection asserts one side.** Opened
-   2026-09-06, and see the contested-findings section. Not a missing source: two large studies point
-   opposite ways and neither has been read in full.
+8. ~~**The aggregate security direction is contested and this collection asserts one side.**~~
+   **Adjudicated 2026-09-06 rather than closed.** Both full texts were read. The disagreement is real
+   but narrower than it looked: different populations, different analyzers, different normalisation,
+   and **both find elevated high-risk patterns in at least one cut**. Kept visible rather than
+   deleted, because the useful residue is that **neither study measures whether human review catches
+   any of it**, which is gap 10.
+9. **What fraction of repositories retain a review trail at all.** Opened 2026-09-06. The collection's
+   most-wanted counter-example was a repository with a retrievable review trail, and a search found
+   several: Gerrit corpora with reviewer and approver metadata across roughly 133,000 changes in 14
+   projects, GitHub pull-request corpora across 37 projects, and tooling for extracting review
+   metadata at scale. **So retrievable review trails plainly exist**, which weakens the collection's
+   implicit framing that their absence is normal.
+
+   **What nobody has published is the population figure**: what proportion of repositories, overall
+   or by platform, retain any reviewer record. That single number would settle whether this
+   collection's four-for-four observation is a quirk of four small repositories or a property of how
+   git and its hosts are used. Exact string tried and not found: `"fraction of repositories" "review
+   trail" git`.
+10. **Whether human review catches AI-introduced defects at normal rates.** Opened 2026-09-06 out of
+   gap 8. Two large studies count static-analyzer alerts on AI-generated code and **neither measures
+   reviewer catch rate**. Every practical recommendation in this collection about reviewing agent
+   output rests on the assumption that review works on it roughly as well as it works on human code,
+   and that assumption is untested in either direction.
+11. **Agent memory architecture is unmeasured, and this collection has no entry for it at all.**
+   Opened 2026-09-06. A 2026 survey (arXiv:2603.07670) organises the space into five mechanism
+   families and says plainly that empirical comparisons for coding agents are sparse. Everything else
+   found was practitioner architecture writing with **no measured outcome**: three-tier patterns,
+   write-manage-read loops, consolidation and decay, all tier 7.
+
+   **No study was found showing that retrieval-augmented memory beats a flat file for coding-agent
+   task success**, and no controlled study of memory decay or consolidation tied to edit success.
+   Recorded because this is a daily practice for many people running on folklore, and because a gap
+   with a mature-looking vocabulary is more dangerous than one that is obviously empty.
 
 ---
 
