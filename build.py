@@ -47,7 +47,7 @@ EXCLUDE_DIRS = {".git", "dist", ".agents", "__pycache__", ".claude-plugin", ".gi
 ORDER = [
     "README.md", "ADOPTION.md", "SKILL.md", "EVIDENCE.md", "DOCS.md",
     "SECURITY.md", "WORKFLOW.md", "RESEARCH.md", "TOOLING.md",
-    "OBSERVABILITY.md", "VOCABULARY.md", "PROFILE.md", "OPERATING.md",
+    "OBSERVABILITY.md", "VOCABULARY.md", "PROFILE.md", "OPERATING.md", "HANDOFF.md",
     "CHANGELOG.md", "LICENSE",
 ]
 

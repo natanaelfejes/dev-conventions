@@ -4,7 +4,7 @@ Conventions for AI-assisted software development, where **every claim carries th
 evidence behind it**, and the guidance **adapts to your repository** instead of prescribing one shape
 for all of them.
 
-**Version 0.10.1. External claims last rechecked 2026-09-06.**
+**Version 0.11.0. External claims last rechecked 2026-09-06.**
 
 ---
 
@@ -87,6 +87,7 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
 | `ADOPTION.md` | A two-phase prompt that adopts this in one repository | **Start here.** Paste it into an agent session rooted in that repo |
 | `SKILL.md` | Agent-facing rules, in three profile-conditional layers | Always the entry point for an agent |
 | `SPEC.md` | A prompt that specifies a change before it is built, with numbered assumptions and a test-impact map | About to start something large enough that getting it wrong costs a rebuild, or about to delegate one |
+| `HANDOFF.md` | A prompt that closes a session into a record the next one can act on, in any harness | Ending a session whose decisions, dead ends or half-finished work outlive it |
 | `REFRESH.md` | The quarterly re-research pass: what to recheck, in what order, and the rules that do not relax | The build warns that the recheck date is over ninety days old |
 | `EVIDENCE.md` | The tier scale, every source, the disagreements, the open gaps, the errors | A rule is challenged, or you need a claim's provenance |
 | `DOCS.md` | Documentation conventions and an empirical rot taxonomy | Setting up, auditing or pruning documentation |

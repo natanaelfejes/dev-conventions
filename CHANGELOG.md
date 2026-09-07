@@ -4,6 +4,52 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.11.0, 2026-09-07
+
+**A practitioner account of running one workflow across two vendors' harnesses was read, graded, and
+mostly not adopted.** What it produced is one new file and two tier-7 entries. What it did not
+produce is a single number, which is the correct outcome for a source of that kind.
+
+### New file: `HANDOFF.md`
+
+A pasteable prompt that closes a session into a record the next session can act on: what landed, what
+was decided and against what, what is deliberately **not** done, open questions with what would settle
+each, and the verification with its scope stated.
+
+`OPERATING.md` already carried the rule, that anything outliving a conversation goes into the
+repository in the same turn it is decided, with **no mechanism attached to it**. This is the
+mechanism, and it is the third pasteable prompt here after `SPEC.md` and `REFRESH.md`.
+
+**It carries no outcome claim.** Nothing about session handoffs has been measured, gap 11 records
+that agent memory architecture is unmeasured in general, and the argument made is the narrow one:
+everything lost is lost in the gap between deciding and recording, and that gap is one turn wide.
+
+Two design choices worth stating, because both come from failures already recorded here:
+
+- **It writes to a file in the repository, never to a vendor's memory store.** A record only one
+  harness can read fails at the moment you switch harnesses, which is the moment you most need it.
+- **Section 6 forces the verification's boundary out.** "Tests pass" is compatible with several
+  different failures, and a handoff reporting a clean result without its scope reproduces error 17 by
+  hand.
+
+### Two tier-7 entries, and a self-interest flag on both
+
+The session-record-as-a-file mechanism, and a single context file read at session start that says
+which stream of work a repository belongs to. Both are practitioner judgment with no comparison arm.
+
+The flag is recorded because this collection insists on them elsewhere and would be inconsistent
+without it: the source is content published about a subscription its author had just bought at a
+stated monthly cost. **The accompanying performance and quota claims are not adopted**, being vendor
+plan mechanics that rot within a quarter, which `SKILL.md` already treats as a defect rather than as
+background.
+
+### Gap 11 rechecked and unchanged, which is the finding
+
+The gap says the only thing that exists on agent memory architecture is uncontrolled practitioner
+writing. A fresh, well-built practitioner architecture arrived and turned out to be another instance
+of that category. **Rediscovery is not replication**, and a gap describing an absence of measurement
+is not closed by another unmeasured example, however good the example is.
+
 ## 0.10.1, 2026-09-07
 
 **A third verification pass questioned two things the second pass had just added, and the audit it

@@ -5,7 +5,7 @@ description: Evidence-graded conventions for AI-assisted development, covering c
 
 # Development conventions, evidence-graded
 
-**Version 0.10.1. External claims last rechecked 2026-09-06.**
+**Version 0.11.0. External claims last rechecked 2026-09-06.**
 
 ## What this is not
 
@@ -123,6 +123,8 @@ commands, which review passes are available, and the maturity level. `PROFILE.md
 | `OBSERVABILITY.md` | Deciding what to record about agent work, or explaining a workflow's cost or behaviour |
 | `VOCABULARY.md` | A term is doing persuasive work in a decision, a proposal, or a vendor pitch |
 | `OPERATING.md` | Human-facing: prompting, delegation, model and vendor selection |
+| `SPEC.md` | About to build or delegate something large enough that getting it wrong costs a rebuild |
+| `HANDOFF.md` | Closing a session whose decisions, dead ends or half-finished work outlive it |
 
 ---
 

@@ -185,6 +185,16 @@ Anything that outlives the current conversation goes into the repository's pendi
 same turn it is decided**, not later. Chat is not storage. Everything lost is lost in the gap
 between deciding and recording, and that gap is usually one turn wide.
 
+**`HANDOFF.md` is the mechanism for the end of a session**, when several such things have accumulated
+at once: what landed, what was decided and against what, what is deliberately not done, and what was
+verified with the scope of that verification stated. It writes to a file rather than to a vendor's
+memory store on purpose. A record only one harness can read fails at the moment you switch harnesses,
+which is the moment you most need it, and that failure is reported first-hand at tier 7 in
+`EVIDENCE.md`.
+
+**It is a queue, not a destination.** A repository fact learned in a session belongs in the
+instruction file or the profile; leaving it in the handoff guarantees it gets re-learned.
+
 ## Your `LOCAL.md`
 
 Keep one, do not distribute it, and put these in it:

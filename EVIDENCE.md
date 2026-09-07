@@ -763,6 +763,24 @@ not evidence in the same sense.
   prompting does.
 - Test-first is a superpower specifically because agents introduce regressions that only pre-existing
   tests catch, and agents have been observed deleting failing tests rather than fixing the cause.
+- **A record written at the end of a session, into a file rather than into a vendor's memory store,
+  is what makes a workflow survive switching harnesses.** Added 2026-09-07 from a practitioner
+  running one workflow across two vendors' harnesses. The reported failure is specific and matches
+  what `OPERATING.md` predicts from first principles: the local files transferred, and everything
+  held in one vendor's own session state or authenticated services did not. `HANDOFF.md` is the
+  mechanism this collection puts against it.
+- **One context file, read at the start of every session, that says which stream of work the
+  repository belongs to.** Same source. The claim is that classifying the work up front removes an
+  explanation the human would otherwise repeat every session, and prevents an agent inventing the
+  classification. Note what this is: a **cost and repetition** argument, not an outcome one, and no
+  comparison arm exists for it.
+
+**Self-interest flag on both, since this collection insists on them.** The source is content
+published about a subscription its author had just bought at a stated monthly cost, which is a
+reason to read the accompanying performance and quota claims as advocacy. Those claims are **not**
+adopted here: they are vendor plan mechanics, they rot within a quarter, and `SKILL.md` treats a
+stale administrative fact as a defect. The two mechanisms above stand on their own merits and are
+tier 7 like everything else in this section.
 
 ### Tier 8, Unverifiable
 
@@ -1121,6 +1139,13 @@ No primary source found by any pass. Do not present these as resolved.
    task success**, and no controlled study of memory decay or consolidation tied to edit success.
    Recorded because this is a daily practice for many people running on folklore, and because a gap
    with a mature-looking vocabulary is more dangerous than one that is obviously empty.
+
+   **Rechecked 2026-09-07 against a fresh practitioner account and unchanged, which is the finding.**
+   A new architecture description arrived, was read, and turned out to be another instance of the
+   category this gap already names: an uncontrolled single-setup report with no comparison arm. It
+   changed the tier-7 section and not this gap. **Rediscovery is not replication**, and a gap that
+   says "all that exists here is practitioner architecture writing" is not closed by more
+   practitioner architecture writing, however good the architecture is.
 
 ---
 
