@@ -205,6 +205,69 @@ def check_prose(files):
         ok(f"{len(refs)} cross-references examined, all resolve")
 
 
+ARXIV = re.compile(r"arXiv:\d{4}\.\d{4,5}")
+# A DOI that is not the arXiv one. Every preprint has 10.48550/arXiv.NNNN.NNNNN
+# and its existence says only that the preprint exists, so it is excluded here
+# deliberately: treating it as a publisher DOI is how error 20 nearly recurred a
+# third time on a different paper.
+PUBLISHER_DOI = re.compile(r"\b10\.(?!48550)\d{4,9}/[^\s`)\]]+")
+
+
+def check_venue_confirmation():
+    """Error 20: tier 2 was awarded twice on an author-supplied acceptance line.
+
+    Tier 2 means peer-reviewed and accepted, confirmed against the venue or a
+    publisher DOI. An arXiv Comments field is written by the submitting author
+    and checked by nobody, so an entry whose only evidence of acceptance is a
+    named venue in prose is asserting the author's claim, not a venue record.
+
+    This WARNS rather than fails, and the reason is stated so nobody mistakes it
+    for a passing check: several tier-2 entries predate the rule and naming a
+    venue in prose is not by itself proof that no record was consulted. What the
+    check can say honestly is how many tier-2 entries name a preprint and how
+    many of those cite a record you can follow. A build that failed here today
+    would be fixed by deleting the warning, which is the wrong direction.
+    """
+    text = (ROOT / "EVIDENCE.md").read_text(encoding="utf-8")
+    sections = re.split(r"^### Tier (\d)[^\n]*$", text, flags=re.M)
+    # sections: [preamble, "1", body, "2", body, ...]
+    tier2 = "".join(sections[i + 1] for i in range(1, len(sections), 2)
+                    if sections[i] == "2")
+    if not tier2:
+        fail("no Tier 2 section found in EVIDENCE.md, so venue confirmation was NOT checked")
+        return
+
+    # An entry that opens with the relocation marker is a forwarding pointer to a
+    # paper that has been moved OUT of this tier, not a tier-2 claim. The marker is
+    # a fixed opening phrase rather than a guess at intent, and it is documented in
+    # AGENTS.md so a future entry cannot drift out of the check by rewording.
+    entries = [e for e in re.split(r"\n\n(?=\*\*)", tier2)
+               if not e.startswith("**Moved out of this tier")]
+    # Blockquoted lines are asides: contesting sources, adjudications, caveats.
+    # A preprint named in one is being discussed, not tiered, so it must not be
+    # counted against the entry. An entry that names two papers must cite two
+    # records, which is how the second paper in a paired entry was found sitting
+    # behind the first one's DOI.
+    def body(e):
+        return "\n".join(l for l in e.splitlines() if not l.lstrip().startswith(">"))
+
+    checked, short = 0, []
+    for e in entries:
+        ids = set(ARXIV.findall(body(e)))
+        if not ids:
+            continue
+        checked += 1
+        dois = set(PUBLISHER_DOI.findall(body(e)))
+        if len(dois) < len(ids):
+            short.append(f"{sorted(ids)[0]} ({len(ids)} papers, {len(dois)} records)")
+    if short:
+        print(f"  WARN  {len(short)} of {checked} tier-2 entries name more preprints than they "
+              f"cite publisher records: {'; '.join(short)}. "
+              f"A venue named in prose is the author's claim until a record is cited.")
+    else:
+        ok(f"{checked} tier-2 entries name a preprint, each citing a publisher record per paper")
+
+
 def check_metadata():
     """Error 17: the leak lived in commit headers, which no check read.
 
@@ -257,6 +320,7 @@ def main():
     check_frontmatter()
     check_prose(files)
     check_metadata()
+    check_venue_confirmation()
     check_staleness()
 
     if FAILURES:

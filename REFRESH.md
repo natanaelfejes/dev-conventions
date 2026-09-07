@@ -76,6 +76,14 @@ anything currently asserted.
 5. **A tier is a rater's judgment with known disagreement, not a property of the source.** If you
    would tier something differently from how it is tiered, say so and say why. That is a finding, not
    a correction.
+6. **An author-controlled surface cannot confirm a venue.** Added 2026-09-07 after this collection
+   awarded tier 2 twice on an arXiv `Comments` line. That field, an institutional publication page, a
+   lab's replication repository and a ResearchGate entry are all written by the authors. Confirm
+   against a publisher DOI, the venue's own programme or proceedings, or an independent index such as
+   DBLP. **An arXiv DOI (`10.48550/arXiv.…`) is not a publisher DOI** and every preprint has one.
+7. **A figure and its qualifier must come from the same sentence.** Finding the number in the source
+   is not enough. A retelling that keeps the number and borrows the qualifier from a neighbouring
+   claim passes every figure check there is, and it is wrong.
 
 ## `SECURITY.md` moves on a faster clock
 

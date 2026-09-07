@@ -221,9 +221,10 @@ every change is self-merged by its author.
 Observed first-party: 47 of 47 merged changes self-merged, zero human reviews across 51, with both
 of those documents present.
 
-**External corroboration, added 2026-09-03, tier 2.** This was pure inference from one repository
-until a peer-reviewed mining study of agent-authored pull requests found that **most receive no
-review at all**. So the state is common rather than a local quirk, which is the difference between a
+**External corroboration, added 2026-09-03. Tier 4 since 2026-09-07**, down from tier 2 when the
+study's stated venue could not be confirmed against any record its authors do not control. This was
+pure inference from one repository until a mining study of agent-authored pull requests found that
+**most receive no review at all**. So the state is common rather than a local quirk, which is the difference between a
 schema value worth having and a private grievance.
 
 What external work still does **not** cover: whether a declared-but-absent reviewer is *worse* than

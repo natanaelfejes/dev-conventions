@@ -5,7 +5,7 @@ description: Evidence-graded conventions for AI-assisted development, covering c
 
 # Development conventions, evidence-graded
 
-**Version 0.10.0. External claims last rechecked 2026-09-06.**
+**Version 0.10.1. External claims last rechecked 2026-09-06.**
 
 ## What this is not
 
@@ -135,7 +135,7 @@ untagged rule is unaccountable. `EVIDENCE.md` carries the sources.
 |---|---|
 | Verifying a claim | **Mixed.** Run-to-run nondeterminism is **tier 1**, the only replicated finding here. The rest is `first-party` method, demonstrated on external papers: the habits are this collection's own, what they were tested on is public |
 | Instruction files | **Mixed, all external, all weak.** Rule polarity, authorship and repository overviews are each tier 4. Analyzer-beats-prose and the incident rule are `first-party` |
-| Working with agents | **Mixed.** Agent-only review and reviewer disagreement are tier 2; context-beats-procedure is tier 3; multi-agent degradation and context length are tier 5. Worktree collision and the delegation heuristic are `first-party` |
+| Working with agents | **Mixed.** Agent-only review is tier 2; reviewer disagreement was tier 2 and is **tier 4 since 2026-09-07**, when its venue turned out to be author-claimed; context-beats-procedure is tier 3; multi-agent degradation and context length are tier 5. Worktree collision and the delegation heuristic are `first-party` |
 | Measuring whether any of this works | **Mostly tier 7**, vendor and practitioner. Nondeterminism is tier 1, judge bias is tier 4. The absence of any controlled defect study is a recorded search result, not an assumption |
 | `OBSERVABILITY.md` | **Mixed.** The content-off-by-default rule is a standards-body default, the strongest thing in that file. Mix shift and heartbeat monitoring are established practice from outside this field. Alert fatigue transfers by analogy and says so. Cost figures are vendor-adjacent. Two failure modes are `first-party` |
 | `VOCABULARY.md` | **Weaker sourcing than the rest, and it says so at the top.** Verdicts are this collection's judgement; the figures come from one research pass and were not each re-verified to primary sources |
@@ -144,7 +144,7 @@ untagged rule is unaccountable. `EVIDENCE.md` carries the sources.
 | `RESEARCH.md` | **Convergence evidence rather than measurement.** Where a research community independently requires what engineering practice recommends. Also records one open problem nobody has solved |
 | Commands, diffs and change descriptions | **Entirely `first-party`.** Every one is a specific incident. No external source was found for any of it |
 | Layer 2, solo | **Entirely `first-party`** |
-| Layer 3, team | Disclosure and policy prevalence are tier 2; agent-only review is tier 2. The rest is **`first-party`** from two team contexts, neither of them an engineering organisation |
+| Layer 3, team | Disclosure is tier 2 and agent-only review is tier 2, both confirmed against publisher records; policy prevalence dropped to tier 4 on 2026-09-07 when its venue could not be confirmed. The rest is **`first-party`** from two team contexts, neither of them an engineering organisation |
 
 Two things worth knowing before you quote any of this at somebody. **The weakest-backed section is
 the one about how to describe a change**, which is entirely first-party and where a search found no
@@ -232,21 +232,25 @@ measured work on them disagrees with itself.
 - **Do not let an agent review its own work.** The implementing context cannot catch an assumption
   it never questioned. Review from a fresh context, and give the reviewer the diff and the
   requirement, not the implementer's reasoning.
-- **Do not let an agent be the only reviewer.** Two peer-reviewed mining studies of agent-authored
-  pull requests: most receive **no review at all**, and where a code-review agent was the only
-  reviewer, those changes **merged at 45.20% against 68.37% for human-reviewed ones**, with 12 of 13
-  agents averaging a signal-to-noise ratio below 60%. The authors' own conclusion is that review
-  agents should augment rather than replace human reviewers. **Tier 2.** This is the external
-  evidence behind Layer 3's nominal-reviewer rule, which was previously first-party from one
-  repository.
+- **Do not let an agent be the only reviewer.** A mining study of agent-authored pull requests found
+  that where a code-review agent was the only reviewer, those changes **merged at 45.20% against
+  68.37% for human-reviewed ones**, with 12 of 13 agents averaging a signal-to-noise ratio below 60%.
+  The authors' own conclusion is that review agents should augment rather than replace human
+  reviewers. **Tier 2**, confirmed against a publisher record. A second study on the same dataset
+  reporting that most such pull requests receive **no review at all** is **tier 4** since 2026-09-07,
+  when its stated venue could not be confirmed, and it was never independent of the first. This is
+  the external evidence behind Layer 3's nominal-reviewer rule, which was previously first-party from
+  one repository.
 - **Do not stop at isolating the reviewer. Instruct it to disagree.** A fresh context is necessary
   and not sufficient: a reviewer agent given a change without an explicit disagreement instruction
   scored the worst measured result in its comparison by agreeing with the implementer, and the same
-  setup with that instruction added scored the best. Tier 2, and it is the one rule here whose
-  omission actively inverts the outcome rather than merely wasting the pass.
-- **Do not add reviewer agents to buy confidence.** Three outperformed five in the same study. Past
-  a small number the additional reviewers converge rather than diverge, so they cost tokens and
-  return agreement.
+  setup with that instruction added scored the best. **Tier 4 since 2026-09-07**, down from tier 2:
+  the paper's acceptance turned out to rest on a field its authors fill in. Two other tier-4 results
+  on judge agreement point the same way, and it is the one rule here whose omission actively inverts
+  the outcome rather than merely wasting the pass, so the rule stands at the lower tier.
+- **Do not add reviewer agents to buy confidence.** Three outperformed five in the same study, so
+  this inherits the same tier 4. Past a small number the additional reviewers converge rather than
+  diverge, so they cost tokens and return agreement.
 - **Do not prescribe a procedure where you can supply context.** Instructing an agent to follow
   test-driven development without a test-impact map measurably *increased* regressions; supplying
   the map cut them by 70%. Context beats procedure, and this generalises past testing.
@@ -342,8 +346,8 @@ Apply only when the profile says there is no second human reviewer. **These are 
 
 Grounded in two first-party team contexts: a two-person repository with 51 changes of history, and a
 six-person student project with 254 commits, a full chat archive, and two independent audits of the
-repository it produced. Where a claim is first-party it says so; the one external claim here is
-tier 2.
+repository it produced. Where a claim is first-party it says so; the external claims here are tier 2
+and tier 4, and which is which is stated at each one.
 
 **The two teams differ on review, which is the useful part.** One self-merged every change. The other
 split merges roughly evenly between the author and another member. But in both cases the only
@@ -368,7 +372,8 @@ evidence of review. It is evidence of a mixed merge pattern.
   ecosystem is converging on rather than a scheme local to your repository.
 - **Do not assume the project has no position.** A survey of 1,000 repositories found 118 carrying an
   explicit AI policy, and of those, **78% permit AI contributions, 51% require disclosure and 74%
-  require a human in the loop**. Tier 2, accepted at a reviewed venue. So the common case is still no
+  require a human in the loop**. Tier 4: recorded as accepted at a reviewed venue until 2026-09-07,
+  when no venue record could be found for it. So the common case is still no
   stated policy, and where one exists it usually permits the work and requires you to say so. Check
   before contributing rather than after.
 

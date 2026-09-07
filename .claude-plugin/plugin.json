@@ -1,6 +1,6 @@
 {
   "name": "dev-conventions",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Evidence-graded conventions for AI-assisted development. Every claim carries the strength of the evidence behind it, and the guidance adapts to a per-repository profile.",
   "license": "MIT",
   "repository": "https://github.com/natanaelfejes/dev-conventions",

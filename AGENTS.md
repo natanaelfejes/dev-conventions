@@ -31,7 +31,21 @@ credible thing here, and two external reviewers have said so independently. Prot
 - **Do not report an absence without stating what you searched for.** A search for one platform's
   wording, run against a system using another, completes cleanly and returns zero. That is error 10.
 - **Do not trust your own paraphrase of a number.** Verifying provenance and verifying wording are
-  separate passes. Three recorded errors were correct citations restated wrongly.
+  separate passes. Three recorded errors were correct citations restated wrongly. **A number and the
+  words qualifying it must come from the same sentence.** Finding the figure in the source is not
+  enough: a retelling that keeps the number and borrows its qualifier from a neighbouring claim
+  passes every figure check there is. That is error 19.
+- **Do not confirm a venue from a surface the authors control.** Not the arXiv `Comments` field, not
+  a conference banner in the paper's own typesetting, not an institutional publication page, not a
+  lab's replication repository, not a ResearchGate entry. Tier 2 needs a publisher DOI, the venue's
+  own programme or proceedings, or an independent index, and **an arXiv DOI is not a publisher DOI**.
+  Half of this collection's preprint-based tier-2 ratings failed this. That is error 20.
+- **Do not fix only the instance you were shown.** A finding that one entry breaks a rule is a
+  hypothesis about every entry. The pass that found error 20 flagged one paper; auditing the rule
+  instead of the paper found three more.
+- **When you move an entry between tiers, leave a forwarding pointer** in the tier it left, opening
+  with the exact words `**Moved out of this tier`. `build.py` reads that marker to tell a pointer
+  from a claim, so rewording it silently removes the entry from the venue check.
 - **Do not correct a figure in one file only.** When a number changes, **grep the whole collection**
   before calling it done. One unchecked detail once reached five documents. That is error 13.
 - **Do not use em dashes**, anywhere, including commit messages. Use a comma, a colon, or a full

@@ -87,9 +87,10 @@ evidence.
   sequential reasoning, and 17.2x error amplification for independent non-communicating parallel
   agents. Tier 5. So parallelise genuinely independent work, and never split a chain where each step
   depends on the previous step's actual state.
-- **More reviewers is not better.** Three reviewer agents outperformed five in the one accepted study
-  on this. Tier 2. Past a small number they converge rather than diverge, so the marginal reviewer
-  buys agreement rather than coverage.
+- **More reviewers is not better.** Three reviewer agents outperformed five in the only study
+  measuring it. Tier 4: it was tier 2 until 2026-09-07, when its stated acceptance turned out to be
+  author-supplied rather than confirmed against a venue. Past a small number they converge rather
+  than diverge, so the marginal reviewer buys agreement rather than coverage.
 - **A reviewer that is not told to disagree will agree.** Same study: a reviewer agent without an
   explicit disagreement instruction produced the worst measured result in the comparison, and adding
   that instruction produced the best. Isolating the reviewer's context is necessary and not

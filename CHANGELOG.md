@@ -4,6 +4,88 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.10.1, 2026-09-07
+
+**A third verification pass questioned two things the second pass had just added, and the audit it
+triggered found that four of this collection's nine tier-2 ratings did not meet the tier-2
+definition printed at the top of its own document.** Two new errors, four tier downgrades, two
+tier-2 entries citing a publisher record for the first time, a new rule in the scale, and a new check
+that reports the count on every build.
+
+### Four of the nine tier-2 ratings did not meet the tier-2 definition
+
+A third pass pointed out that an arXiv `Comments` line reading "accepted at X" is written by the
+submitting author and verified by nobody, and that two entries here rested on one. **Treating that as
+a question about the rule rather than about those two papers**, all nine papers rated tier 2 were
+audited. Four moved to tier 4.
+
+**Held, and now cite the record rather than the claim:**
+
+- **arXiv:2508.21634**, IEEE Xplore 11229706, DOI 10.1109/ISSRE66568.2025.00035, pages 252-263.
+- **arXiv:2507.00788**, Empirical Software Engineering, DOI 10.1007/s10664-026-10889-1. It is also
+  **the only preregistered study in the collection**, through a Registered Reports track, which this
+  document did not know and which is a stronger guarantee than ordinary review against the failure
+  mode it worries about most.
+- **arXiv:2504.16485** and **arXiv:2604.03196**, both already citing publisher records.
+
+**Moved to tier 4**, in a new subsection for entries moved down from tier 2:
+
+- **arXiv:2608.18167**, acceptance claimed in `Comments`, no reachable venue listing.
+- **arXiv:2605.16706**, recorded as accepted at a named conference, found on arXiv and nowhere else.
+- **arXiv:2605.02273**, recorded as EASE 2026 on the strength of a conference banner in the paper's
+  own typesetting. It was the second paper in a paired entry, sitting behind the other paper's DOI.
+- **arXiv:2507.09089**, which **never claimed a venue at all** and had been tiered on the quality of
+  its randomised design. That is grading by method rather than by review trail, which is the one
+  substitution this scale exists to prevent, committed in the scale's own document.
+
+**Every rule built on the four downgraded papers stands**, at the lower tier, on the asymmetric-burden
+rule: a weak source may raise a doubt about a safeguard and may not retire it. `SKILL.md` and
+`OPERATING.md` carry the new tiers where they state those rules. The clearest case is the developer
+speed-estimate study: the rule it supports is "believe your own speed estimate less", and a lower tier
+is not an argument for believing it more.
+
+New in the scale: **an author-controlled surface cannot confirm a venue.** Not the arXiv `Comments`
+field, not a conference banner the authors typeset, not an institutional page, not a lab's
+replication repository, not a ResearchGate entry. And **an arXiv DOI is not a publisher DOI**, which
+is the specific way this nearly went wrong on a sixth paper.
+
+New check in `build.py`: it reads every tier-2 entry, counts the preprints it names against the
+publisher records it cites, and reports both. It **warns rather than fails**, because a failing build
+here would be fixed by deleting the check. It was made to fail on purpose before being believed, and
+the per-paper count rather than a per-entry one is what surfaced the fourth downgrade.
+
+### A number was taken from one sentence and its qualifier from another
+
+Open gap 6 read "three-run mean exact-badge agreement of 70.56%". The source reports 70.56% as its
+best system's **exact badge agreement**; "three-run mean" belongs to a different sentence, about a
+10.55 to 28.34 percentage-point improvement. Both halves are in the abstract. The join is not.
+
+This is the hardest paraphrase error to catch yet recorded here, because **the number is exactly
+right**: a check that verifies figures against the source passes it, and only reading the two
+sentences together shows the problem. New rule: a figure and the words qualifying it must come from
+the same sentence.
+
+### Errors 19 and 20, and the boundary table gains a fifth row
+
+The pattern behind errors 9 and 17, a check drawing its boundary at the convenient unit, now has a
+fifth instance that has nothing to do with identifier leaks: the check looked at the paper's arXiv
+page, and the venue record was at the publisher. The audit repeated the shape once more before
+escaping it, reading one record per entry while a second paper sat behind the first one's DOI.
+
+### New section: outside checks, and what each one cost
+
+Five of them now, tabulated at the end of `EVIDENCE.md` with what each one found. **The 2026-09-07
+recheck states its own limit**, which is that arXiv, DBLP, IEEE Xplore, OpenReview and the authors'
+pages were all unreachable from the environment it ran in, so its confirmations came through a search
+index of those pages rather than the pages themselves. One step further from the primary source than
+this collection's rules ask for, recorded rather than buried.
+
+### What did not change
+
+**The recheck date stays 2026-09-06.** This was a targeted recheck of two claims, not a pass over
+every external claim, and moving the date would reset the ninety-day staleness warning on the
+strength of work that did not cover it. That is the same boundary error the fifth table row is about.
+
 ## 0.10.0, 2026-09-06
 
 **A second independent research pass ran, and the case for running two rather than one is now

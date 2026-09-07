@@ -4,7 +4,7 @@ Conventions for AI-assisted software development, where **every claim carries th
 evidence behind it**, and the guidance **adapts to your repository** instead of prescribing one shape
 for all of them.
 
-**Version 0.10.0. External claims last rechecked 2026-09-06.**
+**Version 0.10.1. External claims last rechecked 2026-09-06.**
 
 ---
 
@@ -67,16 +67,18 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
 - **Only one finding here is replicated**, and it undercuts the rest: two independent groups measured
   agent evaluation flipping outcomes between identical runs, with temperature zero providing no
   protection. Every single-run number in this collection inherits that caveat.
-- **The collection has been wrong** and keeps a numbered list of its own errors, eighteen of them,
+- **The collection has been wrong** and keeps a numbered list of its own errors, twenty of them,
   including a security figure it inflated nineteenfold and a source it cited as saying the opposite
   of what it found. That list is not humility furniture. It is the argument for the scale, and it is
   the section to read first if you want to know how much to trust the rest.
-- **It has been reviewed from outside twice**, on 2026-09-03 and 2026-09-04. The first found three
-  design flaws, all accepted and fixed the same day. The second fetched every external claim in
-  `EVIDENCE.md` from its primary source and found **a fabricated statistic this collection had been
-  citing**, two figures wrong, and **four items where two independent verification passes disagreed
-  with each other**. All recorded. **Please be the third**: the checking is finding things at a rate
-  that has not slowed.
+- **It has been checked from outside five times**, between 2026-09-03 and 2026-09-07, and every one
+  of them found something. A fabricated statistic this collection had been citing. Two figures wrong.
+  Four items where two independent passes disagreed with each other. A shipped template that
+  misstated the finding it cited. Most recently, and worst: **four of the nine papers this collection
+  had rated tier 2 turned out to rest on an "accepted at" line their own authors wrote**, or on no
+  venue claim at all. All four were moved down. The scale had already forbidden every one of them in
+  writing. All recorded, with what each check cost, at the end of `EVIDENCE.md`. **Please be the
+  sixth**: the rate at which checking finds things has not slowed.
 
 ## What is in here
 
