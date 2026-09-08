@@ -43,7 +43,18 @@ EXCLUDE_FILES = {
 # where anyone comparing two versions will look for it, and README.md points
 # there. The version line in SKILL.md is what a consumer needs, and the citation
 # message already says to cite the version you read.
-EXCLUDE_DIRS = {".git", "dist", ".agents", "__pycache__", ".claude-plugin", ".github"}
+EXCLUDE_DIRS = {".git", "dist", ".agents", "__pycache__", ".claude-plugin", ".github",
+                "evidence"}
+# evidence/ is the split, made 2026-09-08. It holds the apparatus: the tier scale,
+# every source, the disagreements, the open gaps, the errors list, and the
+# reference files that are read once by a human rather than loaded by an agent.
+# It builds as its own artifact, dev-conventions-evidence-<version>.md, and it is
+# the thing that gets a DOI. The skill ships without it.
+#
+# The reason is measured rather than aesthetic: the skill's mandatory first read
+# was three to five times the median independently loadable unit in the two most
+# widely used comparable collections, and the apparatus was 44% of what a
+# consumer installed while telling them nothing about what to do.
 # .github holds this repository's vulnerability-disclosure policy, which is a
 # different document from the root SECURITY.md despite the near-identical name.
 # The root one is skill content and ships. This one governs reporting here.
@@ -54,10 +65,16 @@ EXCLUDE_DIRS = {".git", "dist", ".agents", "__pycache__", ".claude-plugin", ".gi
 
 # Reading order for the JSON bundle, so an unpacked copy reads sensibly.
 ORDER = [
-    "README.md", "ADOPTION.md", "SKILL.md", "EVIDENCE.md", "DOCS.md",
-    "SECURITY.md", "WORKFLOW.md", "RESEARCH.md", "TOOLING.md",
-    "OBSERVABILITY.md", "VOCABULARY.md", "PROFILE.md", "OPERATING.md", "HANDOFF.md",
-    "LICENSE",
+    "README.md", "ADOPTION.md", "SKILL.md", "PROFILE.md", "SECURITY.md",
+    "SPEC.md", "HANDOFF.md", "REFRESH.md", "OPERATING.md", "LICENSE",
+]
+
+# The evidence document, built as one file in this order. Read once by a human,
+# not loaded by an agent. EVIDENCE.md leads because the tier scale has to be read
+# before anything graded by it means anything.
+EVIDENCE_ORDER = [
+    "EVIDENCE.md", "RESEARCH.md", "DOCS.md", "WORKFLOW.md",
+    "OBSERVABILITY.md", "TOOLING.md", "VOCABULARY.md",
 ]
 
 FAILURES = []
@@ -204,6 +221,8 @@ def check_prose(files):
     external = {
         "CLAUDE.md", "GEMINI.md", "skills.md", ".agents/profile.yml",
         "dev-conventions/SKILL.md", "requirements.txt", "ADR-NNN.md",
+        "setup.yml",   # the user's own resolved-stack file, produced by SETUP.md
+                       # and living in their home directory, not in this repository
         "ADR-NNN-kebab-case-title.md", "LOCAL.md", "AGENTS.md", "ROADMAP.md",
     }
     refs = set()
@@ -216,6 +235,7 @@ def check_prose(files):
         and not (ROOT / r).exists()
         and not (ROOT / "templates" / r).exists()
         and not (ROOT / "examples" / r).exists()
+        and not (ROOT / "evidence" / r).exists()
     )
     if missing:
         fail(f"cross-references that do not resolve: {missing}")
@@ -258,7 +278,7 @@ def check_venue_confirmation():
     It WARNS rather than fails, deliberately: a failing build here would be fixed
     by deleting the check.
     """
-    text = (ROOT / "EVIDENCE.md").read_text(encoding="utf-8")
+    text = (ROOT / "evidence" / "EVIDENCE.md").read_text(encoding="utf-8")
     sections = re.split(r"^### Tier (\d)[^\n]*$", text, flags=re.M)
     tier2 = "".join(sections[i + 1] for i in range(1, len(sections), 2)
                     if sections[i] == "2")
@@ -368,9 +388,34 @@ def main():
     json_path = DIST / f"dev-conventions-{version}.json"
     json_path.write_text(json.dumps(bundle, indent=2), encoding="utf-8")
 
+    # Artifact B: the evidence document, one file, for a human to read and cite.
+    ev_parts = [
+        f"# dev-conventions: the evidence\n",
+        f"**Version {version}.** The apparatus behind the `dev-conventions` skill: the tier scale,",
+        "every source, the disagreements left standing, the open gaps, and this document's own",
+        "numbered errors.\n",
+        "**This is not the skill.** The skill is a separate, much smaller artifact that an agent",
+        "loads. This is the record a human reads once, argues with, and cites. They were one",
+        "artifact until 2026-09-08 and splitting them is recorded in `CHANGELOG.md`.\n",
+        "**Cite the version.** A claim corrected between versions is otherwise indistinguishable",
+        "from one that still holds, which is the same reason the skill carries a version line.\n",
+        "---\n",
+    ]
+    for rel in EVIDENCE_ORDER:
+        src = ROOT / "evidence" / rel
+        if not src.exists():
+            fail(f"evidence file missing, so the evidence document was NOT built: {rel}")
+            return 1
+        ev_parts.append(src.read_text(encoding="utf-8").rstrip() + "\n\n---\n")
+    ev_path = DIST / f"dev-conventions-evidence-{version}.md"
+    ev_path.write_text("\n".join(ev_parts), encoding="utf-8")
+
     print(f"\nBuilt version {version}, {len(files)} files.")
     print(f"  {zip_path.relative_to(ROOT)}  {zip_path.stat().st_size / 1024:.1f} KB")
     print(f"  {json_path.relative_to(ROOT)}  {json_path.stat().st_size / 1024:.1f} KB")
+    ev_words = len(ev_path.read_text(encoding="utf-8").split())
+    print(f"  {ev_path.relative_to(ROOT)}  {ev_path.stat().st_size / 1024:.1f} KB, "
+          f"{ev_words:,} words, {len(EVIDENCE_ORDER)} sections")
     excluded = sorted(EXCLUDE_FILES) + sorted(f"{d}/" for d in EXCLUDE_DIRS if d != ".git")
     print("\nExcluded from the distributable: " + ", ".join(excluded))
     return 0

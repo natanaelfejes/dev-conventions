@@ -51,6 +51,12 @@ tools:
 
 maturity: prototype         # prototype | production | published
 secrets: appsettings.Development.json, .env    # gitignored, never committed
+
+setup: ~/.agents/setup.yml  # your resolved stack, installs and delegation policy.
+                            # Added 2026-09-08. It does NOT vary by repository, so
+                            # it does not live here: a value repeated in seven
+                            # profiles is a value that will be wrong in one of them.
+                            # `SETUP.md` is the procedure that produces it, run once.
 ```
 
 ## How the skill uses each field

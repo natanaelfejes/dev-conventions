@@ -80,6 +80,28 @@ reviewers scrutinised the method. Neither implies the other, and for deciding wh
 finding, convergence is usually the more informative of the two. So a tier-1 entry always names its
 review status rather than leaving it inferred from the number 1.
 
+### The nearest published thing to this scale, and how it differs
+
+**Added 2026-09-08 after an external evaluation went looking for prior art.** arXiv:2605.11027, De La
+Cruz, "From Code-Centric to Intent-Centric Software Engineering", PDF read 2026-09-08. A reflexive
+thematic analysis of this field's public discourse and peer-reviewed evidence, organised through a
+corpus register, a codebook, a coding matrix, a theme-to-source traceability table, **a DOI and
+reference audit**, and a stated reproducibility protocol. Its corpus deliberately mixes peer-reviewed
+literature, benchmarks, talks, essays, product announcements and social-media discourse.
+
+**So somebody has stratified this field's sources by kind, in an academic register, and published
+it.** That is worth stating plainly rather than letting the differentiation claim stand unqualified.
+
+**Two differences, and they are real rather than defensive.** It classifies **sources in a corpus** in
+order to derive themes about where the profession is going. This collection grades **claims attached
+to rules an engineer applies**, and the tier travels with the rule to the point of use. And its
+output is a thematic account; this document's output is a prohibition with a tier on it, a stated
+default where sources disagree, and a numbered list of the times it was wrong.
+
+**Where it is ahead of this collection:** it is peer-reviewable, it has an explicit codebook and
+reproducibility protocol, and its DOI audit is a formalised version of what this document only
+started doing at 0.10.1, after awarding tier 2 four times on surfaces the authors controlled.
+
 ### What counts as confirming a venue, and what does not
 
 **Added 2026-09-07.** Tier 2 requires the venue or a publisher DOI. In practice the thing nearest to
@@ -547,6 +569,27 @@ This is the source for "context beats procedure", the most actionable finding in
 
 ### Tier 4, Preprint
 
+**Code health predicts whether an LLM can refactor a file without breaking it.** Borg, Hagatulah,
+Tornhill & Söderberg, arXiv:2601.02200, "Code for Machines, Not Just Humans: Quantifying
+AI-Friendliness with Code Health Metrics". PDF read 2026-09-08. **5,000 Python files** from
+competitive programming, LLM-based refactoring, finding a meaningful association between **Code
+Health**, a maintainability metric calibrated for human comprehension, and **semantic preservation
+after AI refactoring**. The authors' conclusion: human-friendly code is also more compatible with AI
+tooling, and Code Health can indicate where AI intervention is lower risk.
+
+**Tier 4 and not tier 2, and the reason is this document's own rule.** The paper is reported at FORGE
+2026 with an ACM DOI. **The preprint's own ACM reference block carries a placeholder DOI**, not a
+real one, and no venue record was opened here. Under error 20's rule an acceptance is not confirmed
+from a surface the authors control. **Upgrade on sight of the ACM record or the conference
+programme.**
+
+**What it does and does not do for open gap 4.** It is the closest thing found to evidence that a
+code property affects AI outcomes, and it is **not** the controlled defect study gap 4 asks for:
+non-randomised, a competitive-programming corpus rather than fielded software, and the outcome is
+refactoring-preservation rather than defects that reach anyone. Gap 4 stays open and now names this
+paper, because a gap that does not name the nearest thing to an answer misleads about how empty it
+is.
+
 **Rule polarity.** Zhang, Wang, Cui, Qiu, Li, Zhu & He, arXiv:2604.11088, April 2026, revised May
 2026. 679 real rule files, 25,532 rules, 5,000+ agent runs on a frontier model against a standard
 benchmark. Findings: random rule files improved performance as much as expert-curated ones, both
@@ -738,6 +781,39 @@ This is the clearest case in the collection of a finding whose usefulness is ind
 review trail, which is exactly why the two are graded separately.
 
 ### Tier 5, Vendor-disclosed
+
+**A five-run controlled comparison of an instruction file, and it demonstrates this collection's
+tier-1 rule rather than merely citing it.** Griffiths, Agentic AI Foundation blog, 22 July 2026, read
+in full 2026-09-08. Two identical clones of a real VS Code extension, one with a twelve-line
+`AGENTS.md` and one without, same agent, same prompt, same starting commit, **five runs per
+condition**.
+
+**The finding that matters most is the one about method.** The author's first attempt, one run per
+condition, reported the `AGENTS.md` run as **44% slower and 41% more expensive for identical
+output**, and says of it: *"Clean numbers. Wrong conclusion."* Running five and taking the median
+reversed the direction.
+
+The five-run results: on an ambiguous task the file cut wall time **27%**, credits **24%**, and
+produced diffs **26% smaller**. On a multi-file task the median win was **9 to 10%**, and the more
+useful result was in the tail: **two of five runs without the file** wasted time re-orienting or ran
+an unrequested production build, which no run with the file did. **No run in either condition touched
+the protected files**, so the win was context rather than guardrails.
+
+**Why this is here rather than higher.** It is a single repository, a single agent, one author, and
+no released data or scripts, which is tier 5 and not tier 4. **Self-interest flag, since this
+collection insists on them:** the Agentic AI Foundation stewards `AGENTS.md`, and this is the
+steward measuring its own standard and finding it works. That does not make it wrong. It means the
+direction of the result is the flattering one for the publisher and should be read that way.
+
+**What it corroborates, and it arrives from a direction this collection did not look.** The tier-1
+nondeterminism finding is four academic groups measuring run-to-run variance on benchmarks. This is a
+Linux Foundation project independently hitting the same wall on ordinary engineering work, publishing
+the wrong single-run answer alongside the corrected five-run one. **It is the most legible
+demonstration available that the rule is operational rather than academic**, and it lands on
+instruction files, which is this collection's weakest-sourced topic.
+
+**It does not close open gap 1.** It varies the whole file, not one content class, and its outcomes
+are time, cost and diff size rather than task success or defects.
 
 - **Agent skill supply chain.** A security vendor's study of agent skills found **36.8%, or 1,467
   of them, carrying at least one security flaw, and 76 carrying a confirmed malicious payload**
@@ -1156,6 +1232,12 @@ No primary source found by any pass. Do not present these as resolved.
    **This is a "could not confirm", not a "confirmed absent".** The distinction matters here more
    than anywhere: the whole collection leans on this gap, so anyone who finds a qualifying study
    should assume this entry is out of date rather than that the study does not exist.
+
+   **The nearest thing found, named 2026-09-08 so the gap does not overstate how empty it is.**
+   arXiv:2601.02200 associates Code Health with semantic preservation after LLM refactoring across
+   5,000 files. It is not randomised, the corpus is competitive programming rather than fielded
+   software, and the outcome is refactoring preservation rather than defects that reach anyone. **So
+   it does not close this gap and it is the closest anyone has come.**
 5. **Nobody is instrumenting defects on the trials that could carry it.** Opened 2026-09-06 out of
    gap 4. The field's largest randomised platform had 4,867 subjects, preregistration, and no defect
    outcome. This is a gap in *research design*, not in the literature: the studies exist and collect

@@ -5,59 +5,42 @@ description: Evidence-graded conventions for AI-assisted development, where ever
 
 # Development conventions, evidence-graded
 
-**Version 0.13.0. External claims last rechecked 2026-09-08.**
+**Version 0.14.0. External claims last rechecked 2026-09-08.**
 
-## What this is not
+## What this is and is not
 
-Not a guide to writing an instruction file or a skill. That ground is taken, and by the people best
-placed to hold it: **all three major model vendors now publish their own first-party authoring
-guidance**, and the community collections around it run to tens of thousands of stars. If you want
-to know how to structure a `SKILL.md` or what belongs in an `AGENTS.md`, read the vendor
-documentation first. This is not competing with it.
+**This is the rules half.** The evidence behind every claim, the sources, the disagreements, the open
+gaps and this collection's own numbered errors are a separate document, `evidence/EVIDENCE.md`, built
+as its own artifact. They were one thing until 2026-09-08. Splitting them is why this file is a third
+of its former size: an agent applying a rule does not need the apparatus, and a human evaluating the
+claims should not have to install a skill to read it.
 
-Not a portability layer either. The skill format is itself a cross-tool standard now, supported
-natively well beyond one vendor, so a collection like this travels without needing a translation
-story. That used to be a selling point. It is now just how things work.
+**Not a guide to writing an instruction file or a skill, and not a competitor to your vendor's
+workflow advice.** As of 2026-09-08 first-party guidance also covers fresh-context review, subagent
+delegation, worktree isolation, context degradation and converting a prose rule into a hook. Read
+your harness's page for those. **What is here is what a vendor does not say, will not say, or says
+without evidence:** the strength marking, the profile conditioning, the disagreements left standing,
+and the rules whose evidence points against a vendor's incentive.
 
-Not a set of practices to adopt wholesale. Several of these are covered elsewhere, some of it
-better, and the good published collections are credited where they apply.
+**Every claim carries a tier.** Nothing here is asserted flat. Where sources disagree the
+disagreement is left standing with a stated default, and the things nobody has measured are named as
+such.
 
-**What this does that those do not: it grades the evidence behind each claim by review trail, and it
-adapts to your repository instead of prescribing one.** Most advice in circulation asserts practices
-without saying how strongly they are supported, which is how unmeasured line-count targets became
-widely repeated facts and how a vendor security study's flaw count became a nineteen-times-larger
-malicious-payload count in this very document. So every claim here carries a tier, disagreements
-between sources are left standing rather than averaged, and the things nobody has measured are named
-as such, including several this document would rather were settled.
+**Read the version line and distrust this file if it is old.** Vendor coverage, adoption figures and
+tool lists go stale in months. A stale dated claim counts as a defect here, not as background.
 
-**Read the version line, and distrust this file if it is old.** The field moves fast enough that
-adoption figures, vendor coverage and the supported-tool lists go stale in months. Every dated claim
-records the date it was checked, `EVIDENCE.md` keeps its administrative facts in one section
-precisely so they can be rechecked as a unit, and a stale entry there counts as a defect rather than
-as background. A document that grades its research carefully and then asserts an ecosystem fact as
-timeless has hidden its weakest claim where nobody is looking.
+Four warnings that bound how much you should trust it:
 
-Four warnings, up front, because they bound how much you should trust it:
-
-- **A large share of this rests on first-party observation** of four repositories, all small, one or
-  two people each. That is a real confound and it is this collection's central weakness: **a pattern
-  in all four may be a pattern in how one person works.** Nothing here is observed at organisational
-  scale. All of it is labelled `first-party`, which is a warning rather than a boast.
-- **Absence of a recorded signal is not absence of the practice.** Most first-party findings here are
-  read out of git history, and git proves only what was written down. A team that reviews by
-  screen-share, chat or an external tracker leaves the same trace as a team that does not review at
-  all. Every claim below about what a repository "did not do" should be read as what it **did not
-  record**, and that distinction is load-bearing.
-- **Nothing here has been measured against a control.** No A/B test, no before-and-after on defect
-  rates. Where a number appears it is either cited to an external source with a tier, or it is a
-  direct measurement of something mechanical like token counts.
-- **The documentation rot taxonomy has a known bias and one external contradiction**, both stated at
-  the top of `DOCS.md`. It ranks by *recorded* corrections, so it under-weights repositories that
-  never audit their own documents, which are the ones whose documentation is worst. And a study of
-  2,303 agent context files across 1,925 repositories found those files behave as living
-  configuration rather than as documents that decay, which is a direct hit on the part of the
-  taxonomy covering instruction files. The taxonomy now claims only what it can: documents nobody
-  has a reason to open.
+- **A large share rests on first-party observation** of four small repositories, one or two people
+  each, all observed by one person. **A pattern across all four may be a pattern in how one person
+  works.**
+- **Absence of a recorded signal is not absence of the practice.** Most first-party findings are read
+  out of git history, which proves only what was written down.
+- **Nothing here has been measured against a control.** Where a number appears it is cited with a
+  tier, or it is a direct measurement of something mechanical like token counts.
+- **One finding is replicated and it undercuts the rest.** Four independent groups measured agent
+  evaluation flipping outcomes between identical runs, with temperature zero providing no protection.
+  Every single-run number here inherits that.
 
 ### What is deliberately not covered
 
@@ -106,6 +89,9 @@ commands, which review passes are available, and the maturity level. `PROFILE.md
 
 - **Do not assume a documentation slot exists.** Check the profile.
 - **Do not apply the solo rules to a team repository, or vice versa.** The profile decides.
+- **Do not re-decide what `setup.yml` already decided.** If the profile names a `setup` file, read
+  it: it carries the resolved tool categories, what is installed and when it was vetted, and the
+  delegation policy. Re-deciding per repository is the friction this collection exists to remove.
 - **Do not proceed silently when no profile exists.** State the inferences you are making, then
   offer to write one.
 
@@ -113,25 +99,26 @@ commands, which review passes are available, and the maturity level. `PROFILE.md
 
 | File | Load it when |
 |---|---|
-| `PROFILE.md` | Writing or reading a repo profile |
-| `EVIDENCE.md` | A rule here is challenged, or you need a claim's tier and source |
-| `DOCS.md` | Setting up, auditing, or pruning a repository's documentation |
+| `PROFILE.md` | Writing or reading a repo profile, including the resolved-stack block |
 | `SECURITY.md` | Touching auth, secrets, CI, untrusted input, or installing a skill or MCP server |
-| `WORKFLOW.md` | Setting up branching, merging, pull request or pre-merge gate conventions |
-| `RESEARCH.md` | You need support from outside engineering, are writing for a research audience, or want this citable |
-| `TOOLING.md` | Choosing what to put around an agent, or checking whether you are missing a category |
-| `OBSERVABILITY.md` | Deciding what to record about agent work, or explaining a workflow's cost or behaviour |
-| `VOCABULARY.md` | A term is doing persuasive work in a decision, a proposal, or a vendor pitch |
-| `OPERATING.md` | Human-facing: prompting, delegation, model and vendor selection |
 | `SPEC.md` | About to build or delegate something large enough that getting it wrong costs a rebuild |
 | `HANDOFF.md` | Closing a session whose decisions, dead ends or half-finished work outlive it |
+| `OPERATING.md` | Human-facing: prompting, delegation, model and vendor selection |
+| `SETUP.md` | Once, per machine rather than per repository: resolving tool categories, recording what you installed and when you vetted it, and writing the delegation policy down |
+| `SOLO.md` / `TEAM.md` | Load exactly one, whichever the profile's `team` field selects |
+| `MEASURING.md` | About to compare two configurations, models or prompts, or decide whether a practice earns its cost |
+| `REFRESH.md` | The build warns the recheck date is over ninety days old |
 
----
+**`evidence/EVIDENCE.md` is not in this list and that is deliberate.** It is roughly 35,000 words and
+no agent should be loading it. Open it when a rule here is challenged, when you need a claim's
+provenance, or when you want to know how often this collection has been wrong. It ships as its own
+artifact and carries the tier scale, every source, the disagreements, the gaps, the errors list, and
+the documentation, workflow, tooling, observability and vocabulary references that used to sit in
+this skill.
 
 ## Where each layer's rules come from
 
-Stated once here rather than tagged on every line, because a tag on every line is unreadable and an
-untagged rule is unaccountable. `EVIDENCE.md` carries the sources.
+Stated once rather than tagged on every line. `evidence/EVIDENCE.md` carries the sources.
 
 | Section | Provenance |
 |---|---|
@@ -147,14 +134,6 @@ untagged rule is unaccountable. `EVIDENCE.md` carries the sources.
 | Commands, diffs and change descriptions | **Entirely `first-party`.** Every one is a specific incident. No external source was found for any of it |
 | Layer 2, solo | **Entirely `first-party`** |
 | Layer 3, team | Disclosure is tier 2 and agent-only review is tier 2, both confirmed against publisher records; policy prevalence dropped to tier 4 on 2026-09-07 when its venue could not be confirmed. The rest is **`first-party`** from two team contexts, neither of them an engineering organisation |
-
-Two things worth knowing before you quote any of this at somebody. **The weakest-backed section is
-the one about how to describe a change**, which is entirely first-party and where a search found no
-external work at all. And **the section on instruction files is uniformly tier 4**, which is
-awkward, because instruction files are the single most written-about topic in this space and the
-measured work on them disagrees with itself.
-
----
 
 ## Layer 1: applies everywhere
 
@@ -237,86 +216,49 @@ measured work on them disagrees with itself.
 
 ### Working with agents
 
-- **Do not let an agent review its own work.** The implementing context cannot catch an assumption
-  it never questioned. Review from a fresh context, and give the reviewer the diff and the
-  requirement, not the implementer's reasoning.
+**Six rules that used to be here now live in first-party vendor guidance**, checked 2026-09-08, and
+carrying them here meant maintaining and rechecking advice that a vendor ships to every user of the
+harness, continuously and for free. They are named rather than deleted silently, because a reader
+cannot tell an omission from an oversight:
+
+> Review from a fresh context rather than the implementing one. Use subagents to keep research out of
+> your context. Run parallel sessions in isolated git worktrees. Expect performance to degrade as
+> context fills. Convert a rule the agent already follows into a hook. Keep the instruction file
+> short and prune it.
+
+**Read your harness's own best-practices page for those.** What stays below is what a vendor does not
+say, will not say, or says without evidence.
+
 - **Do not let an agent be the only reviewer.** A mining study of agent-authored pull requests found
   that where a code-review agent was the only reviewer, those changes **merged at 45.20% against
   68.37% for human-reviewed ones**, with 12 of 13 agents averaging a signal-to-noise ratio below 60%.
   The authors' own conclusion is that review agents should augment rather than replace human
-  reviewers. **Tier 2**, confirmed against a publisher record. A second study on the same dataset
-  reporting that most such pull requests receive **no review at all** is **tier 4** since 2026-09-07,
-  when its stated venue could not be confirmed, and it was never independent of the first. This is
-  the external evidence behind Layer 3's nominal-reviewer rule, which was previously first-party from
-  one repository.
-- **Do not stop at isolating the reviewer. Instruct it to disagree.** A fresh context is necessary
-  and not sufficient: a reviewer agent given a change without an explicit disagreement instruction
-  scored the worst measured result in its comparison by agreeing with the implementer, and the same
-  setup with that instruction added scored the best. **Tier 4 since 2026-09-07**, down from tier 2:
-  the paper's acceptance turned out to rest on a field its authors fill in. Two other tier-4 results
-  on judge agreement point the same way, and it is the one rule here whose omission actively inverts
-  the outcome rather than merely wasting the pass, so the rule stands at the lower tier.
-- **Do not add reviewer agents to buy confidence.** Three outperformed five in the same study, so
-  this inherits the same tier 4. Past a small number the additional reviewers converge rather than
-  diverge, so they cost tokens and return agreement.
+  reviewers. **Tier 2**, confirmed against a publisher record. No vendor says this, and the incentive
+  runs the other way.
+- **Do not stop at isolating the reviewer. Instruct it to disagree, and bound what it reports.** A
+  reviewer agent given a change without an explicit disagreement instruction scored the worst
+  measured result in its comparison by agreeing with the implementer; the same setup with the
+  instruction scored the best. **Tier 2**, ICML 2026 DL4C poster.
+
+  **This one has a live first-party caution against it**, and both are true. Anthropic's
+  best-practices page warns that "a reviewer prompted to find gaps will usually report some, even
+  when the work is sound", leading to over-engineering. The study measures under-reporting; the
+  vendor warns about over-reporting. **Do both: tell the reviewer to disagree, and to flag only gaps
+  affecting correctness or the stated requirements.** Judgment, not evidence.
+- **Do not add reviewer agents to buy confidence.** Three outperformed five in the same study. Past a
+  small number the additional reviewers converge rather than diverge, so they cost tokens and return
+  agreement.
 - **Do not prescribe a procedure where you can supply context.** Instructing an agent to follow
   test-driven development without a test-impact map measurably *increased* regressions; supplying
-  the map cut them by 70%. Context beats procedure, and this generalises past testing.
+  the map cut them by 70%. **Tier 3.** Context beats procedure, and this generalises past testing.
 - **Do not claim a practice reduces defects without tier-1-or-2 evidence.** Specification writing,
   test-first ordering and instruction files are all worth doing for other reasons. None has that
-  evidence. Justify them as scoping, accountability and cost tools, and say so plainly.
+  evidence. Justify them as scoping, accountability and cost tools, and say so plainly. This is the
+  rule the rest of this collection exists to support.
 - **Do not touch adjacent code.** Change the lines the task requires. Leave pre-existing dead code
   alone. A repository-wide cleanup is its own change with its own review, because a large incidental
   diff in a correctness-critical file is where a hard-won invariant gets deleted by accident.
-- **Do not delegate work whose intermediate results you need.** Delegate work whose *process* is
-  large and whose *output* is small: research sweeps, verification passes, mechanical fixes. That is
-  a context win, not only a cost win.
-- **Do not run a worker agent in your own working tree.** Without isolation it moves `HEAD`,
-  switches branches and edits files underneath you.
-- **Do not stack many workers on one orchestrator.** The orchestrator accumulates every worker's
-  output, and degradation with input length is measured and non-uniform.
-
-### Measuring whether any of this works
-
-This collection says repeatedly that a practice has no measured defect-reduction evidence. That is
-an honest position and it is also an unsatisfying one, so here is how to generate the evidence for
-your own repository. **Mostly tier 7**, because the working knowledge on this lives in vendor and
-practitioner writing rather than in the literature, with two exceptions noted.
-
-**Nobody has measured this properly, and that is a finding rather than an excuse.** A deliberate
-search for a controlled comparison of defect rates with and without AI assistance found nothing
-meeting all three of random assignment, a real defect outcome rather than a proxy, and adequate
-power. The near misses each fail a different axis: a randomised trial measuring test-pass rate
-instead of defects, a larger study measuring real bugs but not randomised and conflating access with
-use, another randomised trial measuring only time on task. `EVIDENCE.md` records the search terms so
-the next person can do better rather than repeat it.
-
-- **Do not compare two configurations on one run each.** The single most important rule here, and the
-  only tier-1 finding in the collection: outcomes flip between byte-identical runs, and temperature
-  zero does not fix it. **Run each candidate five to ten times per task.**
-- **Do not report pass@k when you care about reliability.** pass@k, meaning at least one success in
-  k attempts, flatters an agent. What production needs is closer to pass^k, meaning it works every
-  time. **Measured across 500 tasks and six configurations: the gap between pass@1 and pass@5 reaches
-  24.9 percentage points, and between pass@1 and pass^5 reaches 18.9 percentage points.** That is the
-  distance between the number you would report and the number you could rely on.
-- **Do not build your task set out of a public benchmark's tasks.** Build a small expert-labelled
-  set, ten to twenty real tasks from your own repository, and decide up front what counts as
-  success, as an acceptable alternative, and as a meaningful failure. Those three categories are the
-  harness. Benchmark critiques exist in reviewed venues, and one major vendor has stopped using the
-  best-known coding benchmark as a frontier evaluation, which tells you how much a score on it says
-  about your codebase.
-- **Do not only test the happy path.** Include tool failure, context overflow, and the fiftieth tool
-  call in a long run. A harness of clean tasks measures something, and it is not the thing that
-  breaks.
-- **Do not grade only the final answer where many paths are valid.** Capture the trajectory. A right
-  answer reached by luck and a right answer reached by a sound route are the same row in your
-  results table and very different things in your repository.
-- **Do not use a model as a judge without knowing its bias.** Measured: LLM judges at a true
-  positive rate above 96% against a true negative rate below 25% on validity judgments, which is a
-  grader that mostly approves. Across 13 studies in one domain, judge-to-expert concordance ranged
-  0.66 to 0.96 with a median of 0.83, worst on fine-grained tasks. A rubric-anchored ensemble of
-  three reached 0.90. So anchor the rubric, use more than one judge, and never let a model judge be
-  the whole gate on a fine-grained property.
+  `first-party`, from a specific incident.
 
 ### Commands, diffs and change descriptions
 
@@ -337,144 +279,18 @@ the next person can do better rather than repeat it.
 
 ---
 
-## Layer 2: solo repositories
+## Layer 2 and Layer 3: load the one the profile selects
 
-Apply only when the profile says there is no second human reviewer. **These are wrong on a team.**
+**These are mutually exclusive and neither is loaded by default.**
 
-- The change description **is** the review record, because nobody else will read the diff. On a team
-  a human reads the diff, so the description is a summary and not the record.
-- Self-merging is acceptable only if the description states which review passes ran and what they
-  found. That record is the compensating control for the missing reviewer.
-- A repository-wide sweep can be scheduled at your own convenience, because no one else's branch is
-  in flight.
+- **`team: 1` in the profile, load `SOLO.md`.** What replaces a reviewer when there is none, what a
+  solo repository records instead of a process, and the failure modes of working alone with an agent.
+- **`team: 2` or more, load `TEAM.md`.** Disclosure, review that exists on paper only, process that
+  exists only as an agreement, decision records, and ownership.
 
----
-
-## Layer 3: team repositories
-
-Grounded in two first-party team contexts: a two-person repository with 51 changes of history, and a
-six-person student project with 254 commits, a full chat archive, and two independent audits of the
-repository it produced. Where a claim is first-party it says so; the external claims here are tier 2
-and tier 4, and which is which is stated at each one.
-
-**The two teams differ on review, which is the useful part.** One self-merged every change. The other
-split merges roughly evenly between the author and another member. But in both cases the only
-available signal is **who clicked merge, not who reviewed** - the second repository's audit says so
-explicitly, and neither had retrievable review comments. So do not read a mixed merge pattern as
-evidence of review. It is evidence of a mixed merge pattern.
-
-### Disclosure
-
-- **Do not leave AI authorship undeclared because you modified the output heavily.** In a study of
-  613 mined code snippets and 111 practitioners, 76.6% declare AI-generated code always or
-  sometimes, and the most common reason given for *not* declaring is that extensive modification
-  made the code feel distinct. That is exactly the case where a reviewer most needs to know, because
-  heavy modification is where an agent's assumption gets half-corrected. **Tier 2**, and the
-  best-evidenced *practice* claim here, though the replicated nondeterminism finding above now
-  outranks it on the scale.
-- **Do not invent your own disclosure convention, and do not assume there is one to copy.** There
-  are **two camps and an abstainer**, verified project by project against each project's own page:
-  the Linux kernel, Fedora, Rocky Linux and Zephyr use **`Assisted-by:`**; the Apache Software
-  Foundation and OpenInfra use **`Generated-by:`**; OpenTelemetry prescribes **no trailer at all**
-  and describes assistance levels instead. **Tier 5, vendor and project self-reported**, each
-  confirmed against a primary page. `RESEARCH.md` carries the table and the verification status of
-  every row.
-
-  What is genuinely converged is the **structure**, not the token: disclose the assistance, and never
-  in a field that certifies authorship. The kernel states that AI agents **MUST NOT** add
-  `Signed-off-by`, and Zephyr gives the reason, that only a human can certify the DCO.
-
-  **So copy your own ecosystem's convention and check which camp it is in.** An earlier version of
-  this rule said seven projects had converged on `Assisted-by:`. That was wrong about the Apache
-  Software Foundation and wrong about OpenTelemetry, and it named two projects nobody here had
-  verified. See error 21.
-- **Do not assume the project has no position.** A survey of 1,000 repositories found 118 carrying an
-  explicit AI policy, and of those, **78% permit AI contributions, 51% require disclosure and 74%
-  require a human in the loop**. Tier 4: recorded as accepted at a reviewed venue until 2026-09-07,
-  when no venue record could be found for it. So the common case is still no
-  stated policy, and where one exists it usually permits the work and requires you to say so. Check
-  before contributing rather than after.
-
-### Review that exists on paper only
-
-**First-party, and the most consequential finding in this layer.** One two-person repository
-self-merged **47 of 47** changes, each by its own author, with zero human reviews across 51 - while
-carrying a change template whose reviewer checklist names both contributors, and a contributing
-document binding both to rules only one of them has ever edited.
-
-- **Do not record a reviewer you do not have.** A declared-but-absent reviewer is worse than an
-  acknowledged absence, because the solo compensating control in Layer 2 never gets applied: nobody
-  writes the review-passes record, on the grounds that a reviewer will catch it.
-- **Do not treat a checklist as a control.** An undocumented environment variable shipped through the
-  exact checklist item written to catch it. A checklist nobody fills in is a record of intent.
-- **Do not record an agent as the reviewer either.** Set `reviewers: agent` when a review agent
-  reviews and no human reads the diff, and keep applying the Layer 2 solo discipline, because an
-  agent's comment thread is not a review record. Neither `nominal` nor `agent` discharges the
-  obligation to write down what was checked; only a human who actually read the diff does.
-- Set `reviewers: nominal` in the profile when this is the situation. It is a real state with its own
-  failure mode, not a rounding error toward `none` or `one`.
-
-### Process that exists only as an agreement
-
-**First-party.** A six-person team named unequal task distribution in two retrospectives a month
-apart, with nothing between them but a restated intention. Then, days before final submission, the
-retrospective itself was skipped and its content invented for the report.
-
-- **Do not rely on a recurring meeting to enforce anything.** The mechanism meant to catch the
-  problem was the first thing dropped once deadline pressure arrived. **A process that exists only
-  as a verbal agreement in a recurring meeting is not a control.**
-- **Do not let a decision needing absent members' approval proceed on the assumption of it.** One
-  sprint-length change was made and then awaited after-the-fact ratification, which is a decision
-  with no owner.
-- **Do not schedule in free text.** Meeting times posted as inconsistently formatted chat messages,
-  with no timezone and no confirmations, produced a real missed meeting from format ambiguity alone.
-
-### Decisions defending themselves
-
-**First-party.** External reviewers advised against an architecture; the team continued because
-reversing was expensive, and recorded that reasoning in the meeting log. Nobody missed the feedback.
-
-- **Do not write a decision without its reconsider-if trigger.** See `DOCS.md`. A trigger written
-  when the decision is cheap costs one line; reconsidering after months costs the argument.
-
-### Tests that certify a build nobody ran
-
-**First-party, and the only pattern in this skill observed independently in three separate
-repositories.** A team repository had a broken endpoint discovered late despite green tests, because
-the tests mocked the API and never exercised the real stack. A second has no test project at all for
-its orchestration layer. A third documents a negative benchmark result rather than a passing one.
-
-- **Do not accept a green suite as evidence the system runs.** Name what the tests mock, and keep at
-  least one check that exercises the assembled thing. This is not "write more tests"; more mocked
-  tests make the problem worse by raising confidence without raising coverage of reality.
-
-### Ownership and onboarding
-
-- **Do not assume the shared instruction file has an owner.** Decide who may add rules and where
-  disagreements are settled, before it becomes a battleground. Observed: eight commits to one such
-  file, all by the same person, in a repository whose contributing document binds two.
-- **Do not let one person's conventions become implicit house rules.** Onboarding someone onto a
-  workflow they did not design is a documentation task, not an announcement.
-- **Do not skip the diff because an agent wrote a good description.** The description was written to
-  persuade you; the diff was not.
-- **Do not add a platform without retiring one.** One team ran nine tools at once and consolidated
-  only after external feedback, and then only by one.
-- **Do not let one person's snapshot become shared state by default.** A readme progress section
-  written by one member in one week was never revisited by any of the other five, and silently
-  described a finished pipeline as in progress through 200 further commits. Solo, a stale snapshot
-  misleads its author. With six people it misleads five who never knew it was one person's note.
-- **Do not leave git identity to per-machine config.** Three of six contributors each committed under
-  two distinct name and email pairs. Harmless alone; on a team it fragments authorship badly enough
-  that reasoning about who owns what stops working.
-- **Do not let a convention exist only as a pattern in branch names.** One team's branch scheme was
-  real, followed by most, and written nowhere - so the members who omitted it were not breaking a
-  rule, because there wasn't one.
-- **Do not keep a requirements document with no traceability to what shipped.** One listed user
-  authentication as a requirement; the codebase has no authentication of any kind, and nothing
-  anywhere records that the requirement was dropped or why. A requirements list that outlives its
-  requirements is worse than none, because it reads as a commitment.
-
----
+**Do not load both, and do not apply one to the other's repository.** Until 2026-09-08 both were
+inline here, which meant every session in every repository read roughly a hundred lines that applied
+to at most half of them.
 
 ## When a rule here conflicts with published advice
 
@@ -505,39 +321,10 @@ agent-facing file while the recheck date read zero days old. Error 25.
 
 ## Keeping this current
 
-A collection that grades other people's evidence and then lets its own go stale has failed on its
-own terms. So the maintenance schedule is part of the artifact rather than an afterthought.
+**The cadence is enforced, not promised.** `build.py` reads the recheck date from this file's header,
+warns at 90 days and fails the build at 180. `REFRESH.md` is the pass itself: what to recheck, in
+what order, which vendor pages to open by URL, and the rules that do not relax because it is routine.
 
-**Every quarter, and the whole point is that these are different jobs:**
-
-- **Recheck the administrative facts as a unit.** `EVIDENCE.md` keeps adoption figures, governance
-  status and supported-tool lists in one section for exactly this reason. They rot fastest and
-  matter least individually, which is why they get checked together and cheaply.
-- **Re-search the open gaps.** Not the sources, the gaps. One gap in this collection stood as
-  sourceless while an accepted paper answering it already existed, missed by four separate research
-  passes. **The gap list records what searching failed to find, not what does not exist**, and it
-  should be read that way every time.
-- **Recheck the tier of anything at tier 3.** Tier 3 means a decision was pending. Pending decisions
-  resolve, in both directions, and nobody sends you a notification.
-
-**The cadence is now enforced rather than promised.** `build.py` reads the recheck date from this
-file's header, **warns at 90 days and fails the build at 180**. `REFRESH.md` is the pass itself: what
-to recheck, in what order, and the rules that do not relax because it is routine. Before those two
-existed this section was a promise, and a collection that grades other people's evidence while
-letting its own cadence run on good intentions has failed on its own terms.
-
-**On every edit, not quarterly:**
-
-- **Trace any number you add back to the source's own words.** Separate pass from tiering it. Three
-  of this document's own recorded errors were paraphrase drift with correct provenance, so the
-  citation check does not catch them.
-- **Bump the version and the recheck date** in the header. A reader's only defence against a stale
-  document is knowing how stale it is.
-
-**On the security file, faster than quarterly.** `SECURITY.md` cites CVEs, an OWASP ranking and
-active supply-chain campaigns. Those move on a different clock from the research, and a security
-document that is a year behind is worse than absent because it reads as current.
-
-**When consuming this in a repository**, pin the version you read rather than tracking the tip
-silently, and record which version a convention came from. A convention whose source has since been
-retracted is otherwise indistinguishable from one that still holds.
+**On every edit:** trace any number you add back to the source's own words as a pass separate from
+tiering it, and bump the version and the recheck date. Three of this collection's recorded errors
+were paraphrase drift with correct provenance, so the citation check does not catch them.

@@ -6,7 +6,7 @@ authors:
   - family-names: "Fejes"
     given-names: "Natanael"
     orcid: "https://orcid.org/0009-0007-8674-0411"
-version: 0.13.0
+version: 0.14.0
 date-released: "2026-09-08"
 license:
   - MIT

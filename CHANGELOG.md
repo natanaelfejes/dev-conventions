@@ -4,6 +4,84 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.14.0, 2026-09-08
+
+**The split, and the friction fix the split was blocking.** The rules and the evidence behind them
+are now two artifacts. The skill's distributable dropped from 150 KB to 69 KB and `SKILL.md` from
+6,430 words to 3,810. The three sources that were unreachable from every agent environment were
+obtained by hand and read.
+
+### Two artifacts
+
+`evidence/` now holds `EVIDENCE.md`, `RESEARCH.md`, `DOCS.md`, `WORKFLOW.md`, `OBSERVABILITY.md`,
+`TOOLING.md` and `VOCABULARY.md`, and `build.py` emits it as a single **35,865-word document** that
+is not part of the skill. It is what gets the DOI and what a human reads once.
+
+**Why, and the reason is structural rather than aesthetic.** The two halves have opposite optimal
+sizes: the skill wants to be small because loading it costs tokens every session, the evidence wants
+to be complete because that is its value. They also have opposite cadences. And sharing a repository,
+a version and a build is why seven verification passes produced evidence entries, changelog entries
+and error entries, and **not one produced a rule**: the apparatus is where work is legible, so the
+apparatus got the work.
+
+Measured against comparables on the same day: this collection had the **largest mandatory first read**
+of the three, three to five times the median independently loadable unit in the two most widely used
+alternatives, while being the smallest by total corpus.
+
+### `SKILL.md` cut by 41%
+
+- **Six rules moved out because a vendor now publishes them**, checked against the page rather than
+  assumed: fresh-context review, subagents for context economy, worktree isolation, context
+  degradation, converting a rule into a hook, and pruning the instruction file. They are **named
+  rather than deleted silently**, with a pointer, because a reader cannot tell an omission from an
+  oversight.
+- **`SOLO.md` and `TEAM.md`**: the two layers are mutually exclusive by the profile's own rule and
+  both were loading every session, so roughly a hundred lines applied to at most half of
+  repositories.
+- **`MEASURING.md`**: self-contained, relevant to a subset of tasks, was loading always.
+- The preamble, the maintenance schedule and the provenance table were compressed.
+
+### `SETUP.md`, and this is the friction fix
+
+The recurring cost was never "what are the tool categories", it was **"what did I already decide, why,
+and when did I last check it"**. Nothing answered that, so every repository re-decided.
+
+`SETUP.md` is run **once per machine, not per repository**. It produces `~/.agents/setup.yml`: the
+resolved choice per tool category with a date and a reason, every installed skill, plugin and MCP
+server with the date its five security facts were last established, and the delegation policy
+including which **lab trained** each model rather than who bills you. Profiles point at it. Adoption
+number seven becomes a reference rather than a decision.
+
+**It still names no products, and that refusal is now load-bearing rather than stubborn.** A
+recommendation list would rot in a quarter and would contradict `SECURITY.md`, which records a
+security flaw in 36.8% of published agent skills. What the collection ships is the procedure and the
+schema. What you own is the answers.
+
+### Three sources obtained by hand and read
+
+- **A five-run controlled `AGENTS.md` comparison**, Agentic AI Foundation, tier 5 with a self-interest
+  flag because the foundation stewards the standard it measured. Its first attempt, **one run per
+  condition, reported the file as 44% slower and 41% more expensive**, and the author's own words are
+  *"Clean numbers. Wrong conclusion."* Five runs reversed it: 27% less wall time, 24% fewer credits,
+  26% smaller diffs on an ambiguous task. **Independent institutional corroboration of the tier-1
+  nondeterminism rule, arriving on this collection's weakest-sourced topic, from a direction it did
+  not look.**
+- **arXiv:2601.02200**, Borg et al., Code Health against semantic preservation after LLM refactoring
+  across 5,000 files. **Tier 4, not tier 2**, because the preprint's ACM reference block carries a
+  placeholder DOI and no venue record was opened. Open gap 4 now **names it as the nearest thing to
+  an answer**, so the gap stops overstating how empty it is.
+- **arXiv:2605.11027**, De La Cruz, a reflexive thematic analysis with a corpus register, a codebook
+  and a DOI audit. **The nearest published prior art for the thesis**, now stated in the tier scale
+  rather than left as an unqualified differentiation claim. It grades sources in a corpus to derive
+  themes; this grades claims attached to rules. And it is ahead on formality: its DOI audit is what
+  this document only started doing at 0.10.1, after four bad tier-2 ratings.
+
+### What did not change
+
+**The 1.0 gate.** Still nobody but the author has run `ADOPTION.md`. Seven passes, zero adoptions,
+and this version is the eighth thing that is not an adoption. The gate is correct and it is the only
+item on the roadmap that matters.
+
 ## 0.13.0, 2026-09-08
 
 **Two outside evaluations ran in parallel: one on skill craft, one on whether this deserves to exist

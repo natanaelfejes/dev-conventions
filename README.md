@@ -4,7 +4,7 @@ Conventions for AI-assisted software development, where **every claim carries th
 evidence behind it**, and the guidance **adapts to your repository** instead of prescribing one shape
 for all of them.
 
-**Version 0.13.0. External claims last rechecked 2026-09-08.**
+**Version 0.14.0. External claims last rechecked 2026-09-08.**
 
 ---
 
@@ -91,27 +91,39 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   each check cost, at the end of `EVIDENCE.md`. **Please be the seventh**: the rate at which checking
   finds things has not slowed.
 
-## What is in here
+## What is in here, and it is two artifacts now
+
+**Split on 2026-09-08.** The rules and the evidence behind them were one thing and were fighting: the
+rules want to be small because loading them costs tokens on every session, and the evidence wants to
+be complete because that is its whole value. Bundled, every adoption paid for the apparatus and every
+reader of the apparatus was handed a skill they did not want.
+
+### Artifact A: the skill, which an agent loads
 
 | File | What it is | Load it when |
 |---|---|---|
 | `ADOPTION.md` | A two-phase prompt that adopts this in one repository | **Start here.** Paste it into an agent session rooted in that repo |
-| `SKILL.md` | Agent-facing rules, in three profile-conditional layers | Always the entry point for an agent |
-| `SPEC.md` | A prompt that specifies a change before it is built, with numbered assumptions and a test-impact map | About to start something large enough that getting it wrong costs a rebuild, or about to delegate one |
-| `HANDOFF.md` | A prompt that closes a session into a record the next one can act on, in any harness | Ending a session whose decisions, dead ends or half-finished work outlive it |
-| `REFRESH.md` | The quarterly re-research pass: what to recheck, in what order, and the rules that do not relax | The build warns that the recheck date is over ninety days old |
-| `EVIDENCE.md` | The tier scale, every source, the disagreements, the open gaps, the errors | A rule is challenged, or you need a claim's provenance |
-| `DOCS.md` | Documentation conventions and an empirical rot taxonomy | Setting up, auditing or pruning documentation |
-| `SECURITY.md` | Agentic security obligations, grounded in 2026 incidents | Touching auth, secrets, CI, untrusted input, or installing a third-party skill or MCP server |
-| `WORKFLOW.md` | Branch, merge, PR and gate conventions, and how little of it is measured | Setting up how changes move through a repo |
-| `RESEARCH.md` | Where research-community standards and engineering practice converge, and one open problem | Writing for a research audience, or making this citable |
-| `TOOLING.md` | A functional map of what goes around an agent, by category | Checking whether you are missing a category |
-| `OBSERVABILITY.md` | What to record about agent work, what to leave off, and four failure modes | Instrumenting a workflow, or explaining its cost |
-| `VOCABULARY.md` | The field's own terms graded operational, over-claimed, or vacuous | A term is doing persuasive work in a decision |
+| `SETUP.md` | Deciding your tool categories, installs and delegation policy **once per machine**, not per repository | Before your second adoption. It is what stops you re-deciding |
+| `SKILL.md` | The rules, in profile-conditional layers | Always the entry point for an agent |
 | `PROFILE.md` | The profile schema, its defaults, and a cold-start path | Writing or reading a repository profile |
-| `OPERATING.md` | Human-facing: delegation, model tiering, prompting habits | You are deciding how to drive the system, not what it should do |
-| `templates/` | Drop-in files: instruction-file skeleton, profile, ADR, PR description, pre-push hook, editorconfig | Setting up a new repository |
-| `examples/` | Filled profiles for three repository shapes | Writing your first profile |
+| `SOLO.md` / `TEAM.md` | The two mutually exclusive rule sets | Load exactly one, whichever the profile's `team` field selects |
+| `SECURITY.md` | Agentic security obligations, grounded in 2026 incidents | Touching auth, secrets, CI, untrusted input, or installing a third-party skill or MCP server |
+| `SPEC.md` | Specifying a change before it is built | About to start or delegate something large enough that getting it wrong costs a rebuild |
+| `HANDOFF.md` | Closing a session into a record the next one can act on | Ending a session whose decisions or half-finished work outlive it |
+| `MEASURING.md` | How to actually test whether a practice helps | Comparing two configurations, or deciding whether a practice earns its cost |
+| `OPERATING.md` | Human-facing: delegation, model tiering, prompting habits | Deciding how to drive the system, not what it should do |
+| `REFRESH.md` | The quarterly re-research pass | The build warns the recheck date is over ninety days old |
+| `templates/`, `examples/` | Drop-in files and three filled profiles | Setting up a new repository |
+
+### Artifact B: the evidence, which a human reads
+
+`evidence/` builds into a single document, roughly 35,000 words, and **it is not part of the skill.**
+It holds the tier scale, every source, the disagreements left standing, the open gaps, the numbered
+errors, and the reference material on documentation rot, workflow, tooling categories, observability
+and vocabulary.
+
+Read it when a rule is challenged, when you need a claim's provenance, or when you want to know how
+often this has been wrong. **Do not load it in a session.** Nothing in `ADOPTION.md` requires it.
 
 **`CHANGELOG.md` is in the repository and not in the distributable.** It records what changed
 between versions and what was checked and did not change, which matters when you are deciding whether

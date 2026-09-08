@@ -73,6 +73,18 @@ contested and what nobody has measured, refreshed on a cadence.** `REFRESH.md` i
 the build warns when it lapses. Anything promising more than that is the failure mode this collection
 was built to avoid.
 
+### The structure, since 2026-09-08
+
+**Two artifacts, deliberately.** `SKILL.md` and its companions are the rules an agent loads.
+`evidence/` is the apparatus a human reads and cites, built as one document by `build.py` and
+excluded from the skill.
+
+They were one thing until an external evaluation pointed out that they have opposite optimal sizes
+and opposite cadences, and that sharing a repository, a version and a build is **why seven
+verification passes produced evidence entries and no rules**: the apparatus is where work is legible,
+so the apparatus got the work. **Do not put apparatus back in the skill.** A source, a gap, a
+disagreement or an error entry goes in `evidence/`.
+
 ### The test to apply to any proposed change
 
 **Does it make a rule an engineer can act on, or does it make the apparatus larger?** Seven
