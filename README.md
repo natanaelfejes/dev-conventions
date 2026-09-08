@@ -4,7 +4,7 @@ Conventions for AI-assisted software development, where **every claim carries th
 evidence behind it**, and the guidance **adapts to your repository** instead of prescribing one shape
 for all of them.
 
-**Version 0.12.0. External claims last rechecked 2026-09-08.**
+**Version 0.13.0. External claims last rechecked 2026-09-08.**
 
 ---
 
@@ -40,7 +40,15 @@ conditional on it, so no rule assumes a file, a reviewer or a team that is not t
 
 Not a guide to writing an instruction file or a skill. All three major model vendors publish their
 own first-party authoring guidance and the community collections around it run to tens of thousands
-of stars. Read those first; this is not competing with them.
+of stars. Read those first.
+
+**And be clear about the overlap, because an earlier version of this sentence understated it.** The
+vendors now publish most of the workflow advice too, better maintained than this can be: fresh-context
+review, subagent delegation for context economy, worktree isolation, context degradation, and
+converting a prose rule into a hook all appear in first-party guidance as of 2026-09-08. **What
+remains here is the strength marking, the profile conditioning, the disagreements, and the things a
+vendor has no incentive to say.** That is a narrower claim than "not competing" and it is the true
+one.
 
 Not a compliance framework, not audited by anyone, and not a set of practices to adopt wholesale.
 
@@ -68,7 +76,7 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   measured agent evaluation flipping outcomes between identical runs, with temperature zero providing
   no protection, and two of them name the causes. Every single-run number in this collection inherits
   that caveat, including the ones these four papers report.
-- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-three of
+- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-five of
   them, including a security figure it inflated nineteenfold, a source it cited as saying the
   opposite of what it found, and **two figures that are not in the paper they were attributed to,
   published under a claim that the paper had been read in full**. That list is not humility

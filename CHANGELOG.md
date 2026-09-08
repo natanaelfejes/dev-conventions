@@ -4,6 +4,83 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.13.0, 2026-09-08
+
+**Two outside evaluations ran in parallel: one on skill craft, one on whether this deserves to exist
+alongside comparable published work.** Both found defects that a self-audit structurally could not,
+because both were about the collection's relationship to things outside it.
+
+### The description was written to a limit that does not exist
+
+`AGENTS.md` asserted, with no source, that the frontmatter `description` is capped at **200
+characters** "by the upload surface". `build.py` enforced it. The documented limit is **1,024**.
+
+The consequence is functional. The description is the only signal a model gets when deciding whether
+to load a skill, and this one named five of about twelve covered areas. Requests about reviewing
+agent-authored code, disclosure trailers, merge gates, benchmarking, spec-writing and session handoff
+would very likely not have loaded it, though the body has dedicated rules and whole companion files
+for each. **Every build printed `ok description is 198 characters` while the field that routes the
+skill was starved.** Error 24.
+
+Fixed: the cap now cites the documentation and its read date, the check **warns below 400
+characters** because a cap cannot catch under-use, and the description is rewritten to 921 characters
+naming the contexts rather than the topics.
+
+### A conflict claim about a vendor had expired, and a live one was unrecorded
+
+`SKILL.md` said, in the present tense and in two places, that repository overviews are "recommended
+by model vendors" and were measured as not helping. It was the flagship example of independent
+measurement beating vendor advice.
+
+**Anthropic's current best-practices page lists "File-by-file descriptions of the codebase" and
+"Anything Claude can figure out by reading code" in its exclude column.** The vendor agrees with the
+measurement. There is no conflict left to cite. The rule is unaffected; the claim about who disagreed
+expired. Error 25.
+
+**And a real conflict existed at the same moment.** The same page cautions that "a reviewer prompted
+to find gaps will usually report some, even when the work is sound", which cuts against this
+collection's instruct-the-reviewer-to-disagree rule. Both are true and they measure opposite ends of
+one dial: the paper measured under-reporting, the vendor warns about over-reporting. Now recorded
+under disagreements with a stated default: keep the instruction and bound its output.
+
+So the document carried two expired conflicts and zero live ones. `REFRESH.md` now **names the vendor
+pages by URL** rather than treating them as a category, because a recheck that never opened them is
+not a recheck of them.
+
+### The overlap with vendor guidance was understated
+
+`README.md` said this is "not competing" with vendor guidance, scoped to authoring. As of 2026-09-08
+first-party guidance also covers fresh-context review, subagent delegation for context economy,
+worktree isolation, context degradation, and converting a prose rule into a hook. **Roughly eight
+Layer 1 rules now have a free, continuously updated first-party equivalent.**
+
+The honest sentence, now in `README.md`: the vendors publish most of the workflow advice too, better
+maintained than this can be, and what remains here is the strength marking, the profile conditioning,
+the disagreements, and the things a vendor has no incentive to say.
+
+### What the competitive evaluation established, and what it did not change yet
+
+Two comparables were cloned and measured: `obra/superpowers` and `addyosmani/agent-skills`. Across
+189 markdown files there is **one informal academic citation between them**, no confidence marking of
+any kind, and no repository-profile mechanism. **So both differentiators hold.** Star counts were
+verified independently against the GitHub API on the same day.
+
+The evaluation recommends splitting the collection into a small skill and a standalone citable
+evidence document, and cutting `SKILL.md` by roughly two thirds. **That decision is not taken in this
+version.** It is a direction change and it belongs to the author, not to a verification pass. The
+report is at `.agents/external-eval-2026-09-08.md` and the argument against its own recommendation is
+stated there too.
+
+### Also
+
+- Three sources named that the collection should hold and does not: a FORGE 2026 code-health paper
+  with an ACM DOI on the exact question the collection says nobody has answered, a Linux Foundation
+  five-run `AGENTS.md` benchmark that independently corroborates the tier-1 rule, and arXiv:2605.11027
+  as candidate prior art for the thesis itself. All three were unreachable from the evaluating
+  environment. **A blocked network is not a finding**, so none is cited yet.
+- `SKILL.md` is 525 lines against the vendor's published guidance of under 500. The evaluation
+  reported 605, which is wrong; the finding stands at the corrected number.
+
 ## 0.12.0, 2026-09-08
 
 **An external audit at 0.11.0 found three corrections that had never reached the files an agent

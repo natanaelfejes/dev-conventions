@@ -938,6 +938,30 @@ certainty from checking is not checking.
 
 ## Disagreements, left standing
 
+**The reviewer's disagreement instruction, against the vendor's caution about it.** Added 2026-09-08.
+
+- **This collection says**, on arXiv:2608.18167 (tier 2, ICML 2026 DL4C poster): a reviewer agent
+  without an explicit disagreement instruction produced the worst measured F1 in its comparison by
+  agreeing with the implementer, and adding the instruction produced the best.
+- **Anthropic's best-practices page says**, verbatim, read 2026-09-08: *"A reviewer prompted to find
+  gaps will usually report some, even when the work is sound, because that is what it was asked to
+  do. Chasing every finding leads to over-engineering: extra abstraction layers, defensive code, and
+  tests for cases that can't happen. Tell the reviewer to flag only gaps that affect correctness or
+  the stated requirements, and treat the rest as optional."*
+
+**They are not measuring the same failure.** The paper measures under-reporting, a reviewer that
+converges on the implementer's conclusion. The vendor warns about over-reporting, a reviewer that
+manufactures findings because it was asked for findings. Both are real and they are opposite ends of
+the same dial.
+
+**Default, and it is judgment rather than evidence:** keep the disagreement instruction and bound its
+output. Tell the reviewer to disagree, and to flag only gaps affecting correctness or the stated
+requirements. That is cheaper to reverse than either extreme, and it is what both sources would
+predict works.
+
+**Recorded because the collection had two expired vendor-conflict claims and zero live ones**, which
+is the wrong ratio for a document whose conflict section is one of its selling points.
+
 Not averaged into a consensus that does not exist.
 
 **And each one now names what to do anyway, because "the evidence is split" is not an answer to a
@@ -1696,6 +1720,65 @@ Kept deliberately, because they are the argument for the scale.
     reports having read a full text, the document records that the *pass* reported it, not that it
     happened. Provenance of a verification is itself a claim and takes a tier like any other.
 
+24. **A platform limit was invented, asserted with no source, encoded into a check, and starved the
+    one field that decides whether the skill loads at all.** Found 2026-09-08.
+
+    `AGENTS.md` stated that the `SKILL.md` frontmatter description is "capped at **200 characters** by
+    the upload surface". `build.py` enforced it. The description was written to 198.
+
+    **Anthropic's own skill-authoring documentation gives the limit as 1,024 characters**, read
+    2026-09-08. The figure was wrong by a factor of five and had no source attached in the file that
+    asserted it.
+
+    Why it earns a number:
+
+    - **The consequence is functional, not editorial.** The description is the only signal a model
+      gets when deciding whether to load a skill. Written to a fifth of its budget, this one names
+      five of about twelve covered areas, and a skill-craft audit found that requests about reviewing
+      agent-authored code, disclosure trailers, merge gates, benchmarking, spec-writing and session
+      handoff would very likely not load it, though the body has dedicated rules and whole companion
+      files for each. **A collection that nothing triggers is worth nothing regardless of its
+      contents.**
+    - **The check made the error invisible rather than catching it.** Every build printed
+      `ok description is 198 characters`. An instrument reporting success against a fabricated
+      constraint is worse than no instrument, because it converts a fixable oversight into a
+      maintained invariant.
+    - **It is a new category on this list.** Every previous entry is a wrong claim about a *source*.
+      This is a wrong claim about **the platform the collection runs on**, in the file that instructs
+      contributors, enforced by the build. The collection grades external research carefully and
+      asserted its own operating environment from memory.
+
+    New rule: **a constraint encoded in a check needs a citation like any other claim.** The cap now
+    names the documentation and the date it was read. `build.py` additionally **warns when the
+    description is under 400 characters**, because a cap cannot catch under-use, and under-use is the
+    failure that actually happened.
+
+25. **A claim about what a third party recommends went stale in the agent-facing file, on a day the
+    recheck date read zero days old.** Found 2026-09-08 by an external evaluation.
+
+    `SKILL.md` asserted, in the present tense and in two places, that repository overviews are
+    "recommended by model vendors" and were measured as not helping. It was the collection's flagship
+    example of independent measurement beating vendor advice.
+
+    **Anthropic's current best-practices page lists, in its exclude column, "File-by-file descriptions
+    of the codebase" and "Anything Claude can figure out by reading code"**, read in full 2026-09-08.
+    The vendor's published position agrees with the measurement. There is no conflict to cite.
+
+    - **The rule is unaffected and that is what makes this instructive.** Overviews still do not help.
+      What expired is the claim about who disagreed, which was doing rhetorical work the finding did
+      not need.
+    - **The recheck that should have caught it had just run.** The date on the file read zero days
+      old and the build passed. **A recheck that never opened the vendor's page is not a recheck of
+      the vendor claims**, and `REFRESH.md` named "administrative facts" as a category rather than
+      naming pages by URL.
+    - **A live conflict existed at the same moment and was unrecorded.** The same page cautions that
+      "a reviewer prompted to find gaps will usually report some, even when the work is sound", which
+      cuts against this collection's tier-4 instruct-the-reviewer-to-disagree rule. So the document
+      carried two expired conflicts and zero live ones. Now recorded under disagreements.
+
+    New rule: **a claim about what somebody else recommends is a dated claim about a page, and the
+    page goes in the refresh list by URL.** `REFRESH.md` now names them.
+
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
 the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
@@ -1784,6 +1867,7 @@ things has not slowed**, which is the honest argument for a sixth rather than fo
 | 2026-09-04 | Claim verification, every external claim | A fabricated statistic, two wrong figures, four items where two passes disagreed with each other |
 | 2026-09-06 | Two independent research passes, run in parallel | Each reached primary sources the other could not. One tier upgrade, a contradiction adjudicated, seven new gaps, one shipped template found misstating its own source |
 | 2026-09-07 | Figure and venue recheck | Error 20: an audit that moved **four of the nine tier-2 ratings down to tier 4**, one of which had never claimed a venue at all. Also produced error 19, a correct figure withdrawn on a secondhand read |
+| 2026-09-08 | Competitive evaluation against comparable published work, and a skill-craft audit | Errors 24 and 25. **A platform limit this collection invented and enforced in its own build**, which starved the field that decides whether the skill loads. **A conflict claim about a vendor that had gone stale** while the recheck date read zero days old, with a live conflict unrecorded at the same moment. Also: the overlap with first-party vendor guidance is materially larger than this collection claimed |
 | 2026-09-08 | Full external audit at 0.11.0, plus primary sources obtained on paper | Errors 21, 22 and 23. **Three corrections that never reached the agent-facing files**, one of them false about a named third party. An audit scoped to the section rather than the rule. And **two figures that are not in the paper they were attributed to, published under a claim that the paper had been read in full** |
 
 **What the 2026-09-06 pair demonstrated is worth separating from what it found.** Neither pass alone

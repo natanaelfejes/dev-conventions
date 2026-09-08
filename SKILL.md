@@ -1,11 +1,11 @@
 ---
 name: dev-conventions
-description: Evidence-graded conventions for AI-assisted development, covering claim verification, instruction files, delegation, docs and security. Adapts per repo. Load when setting up or auditing conventions.
+description: Evidence-graded conventions for AI-assisted development, where every claim is tiered by how much review it has survived and rules adapt to a per-repository profile. Covers what belongs in an instruction file versus a linter, how many reviewers agent-authored code needs and whether an agent may review its own diff, disclosing AI authorship in a commit trailer, branch and merge-gate conventions, writing commit and PR descriptions for a partly agent-written diff, documentation rot, agentic security obligations, specifying a change before delegating it, closing a session into a handoff record, and how to measure whether any of it works. Use when setting up or auditing a repository's conventions, reviewing or merging agent-authored code, deciding review or disclosure policy, writing a commit or PR description, delegating to a subagent, or checking whether a claimed best practice is actually supported by evidence.
 ---
 
 # Development conventions, evidence-graded
 
-**Version 0.12.0. External claims last rechecked 2026-09-08.**
+**Version 0.13.0. External claims last rechecked 2026-09-08.**
 
 ## What this is not
 
@@ -214,7 +214,10 @@ measured work on them disagrees with itself.
   them immediately failed the build on five violations, one of which a careful manual sweep had
   missed.
 - **Do not include a repository or directory overview.** Measured as providing no benefit for file
-  discovery, despite being recommended by model vendors.
+  discovery. **The vendors now agree**: Anthropic's current best-practices page lists "File-by-file
+  descriptions of the codebase" and "Anything Claude can figure out by reading code" in its exclude
+  column, read 2026-09-08. Until that date this rule said "despite being recommended by model
+  vendors", which had stopped being true. See error 25.
 - **Do not let a model write your instruction file over the top of existing documentation.** The one
   study that separated authorship found generated context files *hurt* task success by 0.5 and 2
   percentage points in two settings, while developer-written ones helped slightly. **The scoping
@@ -477,9 +480,24 @@ its orchestration layer. A third documents a negative benchmark result rather th
 
 Check the tier before changing the rule. Vendor documentation and independently measured outcomes
 are not guaranteed to agree, and where they diverge the independent measurement carries more weight
-for a production workflow. One documented instance: repository overviews are recommended by model
-vendors and were measured as not helping. Another: practitioner guides advise writing constraints as
-positive directives, and the largest study of real rule files measured the opposite.
+for a production workflow.
+
+**One live instance, added 2026-09-08.** Anthropic's best-practices page cautions, verbatim: *"A
+reviewer prompted to find gaps will usually report some, even when the work is sound, because that is
+what it was asked to do. Chasing every finding leads to over-engineering."* This document says
+**instruct the reviewer to disagree**, on a tier-4 source. Both can be true: the vendor is warning
+about over-reporting, the study measured under-reporting. **Default: keep the disagreement
+instruction and bound it.** Tell the reviewer to disagree, and to flag only gaps affecting
+correctness or the stated requirements. Judgment, not evidence, and it is recorded in `EVIDENCE.md`
+under disagreements left standing.
+
+**One standing instance:** practitioner guides advise writing constraints as positive directives, and
+the largest study of real rule files measured the opposite.
+
+**And one that expired.** This section used to cite repository overviews as a case of vendors
+recommending what measurement contradicts. The vendor's published position now agrees with the
+measurement. A conflict claim about a third party is a dated claim, and this one went stale in the
+agent-facing file while the recheck date read zero days old. Error 25.
 
 `EVIDENCE.md` carries the tier scale, every source, and what remains unverified.
 

@@ -85,6 +85,24 @@ anything currently asserted.
    is not enough. A retelling that keeps the number and borrows the qualifier from a neighbouring
    claim passes every figure check there is, and it is wrong.
 
+## Open these pages by URL, every pass
+
+**Added 2026-09-08 after error 25.** This collection makes claims about what model vendors recommend.
+Those are dated claims about specific pages, and a pass that rechecks "administrative facts" as a
+category without opening them is not rechecking them. One such claim went stale for an unknown period
+and was found by an outside reader rather than by a refresh.
+
+- `code.claude.com/docs/en/best-practices`
+- `platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices`, which carries the
+  frontmatter limits this repository's build enforces
+- The equivalent first-party pages for the other major harnesses
+- The `AGENTS.md` specification and its steward's site
+
+**For each: has the vendor's position moved toward or away from what this collection says?** Both
+directions are findings. A vendor that now agrees with a measurement retires a conflict claim, which
+is what happened, and a vendor that publishes a caution against one of these rules creates a
+disagreement that belongs in the standing list.
+
 ## `SECURITY.md` moves on a faster clock
 
 It cites CVEs, an OWASP ranking and active supply-chain campaigns. **Recheck it more often than
