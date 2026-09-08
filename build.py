@@ -131,10 +131,21 @@ def check_frontmatter():
         fail("description contains a colon followed by a space, which a YAML plain scalar cannot hold")
     else:
         ok("description is a valid plain scalar")
-    if len(desc) > 200:
-        fail(f"description is {len(desc)} characters, cap is 200")
+    # 1,024 is the documented limit, from Anthropic's skill-authoring guidance,
+    # read 2026-09-08. This check enforced 200 for a week, on a figure asserted in
+    # AGENTS.md with no source. It was wrong by a factor of five and it starved the
+    # only field that decides whether the skill loads. Error 24. The check now also
+    # warns when the description is short, because under-using the budget is the
+    # failure that actually happened and a cap alone cannot catch it.
+    CAP, THIN = 1024, 400
+    if len(desc) > CAP:
+        fail(f"description is {len(desc)} characters, documented cap is {CAP}")
+    elif len(desc) < THIN:
+        print(f"  WARN  description is {len(desc)} of {CAP} characters. It is the only "
+              f"triggering signal the model gets, and this field was starved for a week "
+              f"by a cap that was never true. Name the contexts, not just the topics.")
     else:
-        ok(f"description is {len(desc)} characters")
+        ok(f"description is {len(desc)} of {CAP} characters")
     allowed = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
     extra = set(fields) - allowed
     if extra:

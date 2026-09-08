@@ -164,9 +164,15 @@ carry retracted phrasings.
 
 - **Patch** for a correction, a clarification, or a packaging fix where no claim changes.
 - **Minor** for a new file, a new source that changes a rule, or a scale change.
-- The `description` field in `SKILL.md` frontmatter is capped at **200 characters** by the upload
-  surface and **must not contain a colon followed by a space**, which YAML plain scalars cannot hold.
-  That is error 11: it broke the field that routes the skill while every other check passed.
+- The `description` field in `SKILL.md` frontmatter is capped at **1,024 characters**, per Anthropic's
+  own skill-authoring documentation, read 2026-09-08. `name` is capped at 64 and must be lowercase
+  letters, numbers and hyphens with no reserved words. The description **must not contain a colon
+  followed by a space**, which YAML plain scalars cannot hold. That is error 11: it broke the field
+  that routes the skill while every other check passed.
+- **This file said 200 characters until 2026-09-08 and `build.py` enforced it.** The figure was
+  asserted with no source, was wrong by a factor of five, and starved the one field that decides
+  whether the skill loads at all. That is error 24. **Write the description to the real budget**: it
+  is the only signal the model has, and unused characters buy nothing.
 - Bump the version and the recheck date in **both** `SKILL.md` and `README.md`.
 
 ## Checks to run before committing
