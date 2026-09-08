@@ -27,6 +27,7 @@ DIST = ROOT / "dist"
 EXCLUDE_FILES = {
     "LOCAL.md",       # machine paths and personal toolchain, never distributed
     "AGENTS.md",      # how to edit the collection, not part of it
+    "CLAUDE.md",      # a pointer to AGENTS.md for harnesses that look for this name
     "ROADMAP.md",     # what is open here, not a convention
     "build.py",
     "CITATION.cff",   # belongs to the repository, not the skill

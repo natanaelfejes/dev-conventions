@@ -18,6 +18,68 @@ retire a safeguard, leaves genuine disagreements standing with a stated default,
 numbered list of its own errors**. That errors list is not humility furniture. It is the single most
 credible thing here, and two external reviewers have said so independently. Protect it.
 
+## The target, and the scope it implies
+
+**Read this before proposing work.** It is the author's stated goal, extracted from the full session
+transcript and quoted at `.agents/goals.md`. Every session so far has re-derived the goal from the
+artifact, and the derivation drifted each time.
+
+### The goal, in the author's own words
+
+> **"SOTA/MOAT that's still the target focus, but I want to reduce the friction. That's the target
+> task: friction in always having to research the development conventions and development workflows
+> that are the best currently."**
+
+> "what I want to adopt across all of my repositories: the best scientifically proven or
+> engineeringly proven or used by all of the developers proven AI accelerated development... all of
+> my projects will have quality output quality code but at the same time will be accelerated... with
+> as less friction as possible **so I don't have to constantly research this**."
+
+Three ordered outcomes, and the order is load-bearing:
+
+1. **Adopt it in every repository the author works in**, and have it be worth adopting.
+2. **Improve the author's own prompting, delegation and workflow habits.**
+3. **Publish it, with credit**, and build a reputation and eventually business visibility on it.
+
+Publication is gated on 1, deliberately and from the first message: *"first ofc finishing the testing
+run"*. `ROADMAP.md`'s 1.0 gate is the operational form of that gate.
+
+### What is in scope
+
+- Conventions an agent applies per repository, conditional on a profile.
+- Workflow: delegation, orchestrator and worker tiering, cross-vendor structure, review discipline.
+- The author's own habits, in `OPERATING.md`, which is the human-facing half.
+- **Functional categories** of tooling, and what to establish before granting a tool access.
+- The evidence apparatus, because it is the only thing distinguishing this from an opinion list.
+
+### What is out of scope, permanently, and will keep being proposed
+
+Each of these has been asked for directly. Saying no is not a gap.
+
+- **Named tool, skill, plugin or model recommendations.** `ROADMAP.md` forbids curated lists;
+  `SECURITY.md` is the reason. The most this artifact will ever give is nine categories and five
+  vetting facts. Advice of that kind belongs in the author's `LOCAL.md`, never here.
+- **Product rankings** of harnesses, models or subscriptions.
+- **Vendor mechanics**: hook syntax, command file formats, subagent frontmatter.
+- **Any observation from a repository the author does not own.** Withdrawn at 0.8.0 and not
+  recoverable.
+
+### The one want this artifact cannot meet as stated, and it should be said rather than quietly missed
+
+The author asked for something that means **never having to research this again**, self-updating. In
+a field where six outside checks each found something and the rate has not slowed, a
+never-stale digest is not available. **What is available is an honest map of what is known, what is
+contested and what nobody has measured, refreshed on a cadence.** `REFRESH.md` is that cadence and
+the build warns when it lapses. Anything promising more than that is the failure mode this collection
+was built to avoid.
+
+### The test to apply to any proposed change
+
+**Does it make a rule an engineer can act on, or does it make the apparatus larger?** Seven
+verification passes have run and zero adoptions. Every one of those passes generated evidence,
+changelog and error entries. **None of them generated a rule.** The apparatus is not the deliverable
+and it has been growing faster than the thing it supports.
+
 ## The rules that are not negotiable
 
 - **Do not add a claim without a tier, a `first-party` label, or an explicit convention marker.**
