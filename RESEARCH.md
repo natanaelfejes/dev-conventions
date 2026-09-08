@@ -60,7 +60,7 @@ were overstated**. What each project actually does, with its verification status
 |---|---|---|
 | Linux kernel | **`Assisted-by: LLM [TOOL1] [TOOL2]`** | Its own `coding-assistants.rst`. Also states AI agents **MUST NOT** add `Signed-off-by` |
 | Fedora | **`Assisted-by:`** | Fedora Council's own AI-Assisted Contributions Policy |
-| Rocky Linux | **`Assisted-by:`** | Rocky Linux's own AI-assisted contribution policy |
+| Rocky Linux | **`Assisted-by:`**, *recommended* rather than required | Its own AI-assisted contribution policy, read in full 2026-09-08. Two channels, not one: the trailer for git, and an `ai-contributors:` field naming tool and model version in the document preamble for prose. Disclosure is a SHOULD, and routine grammar and spelling assistance is exempt |
 | Zephyr | attribution trailer, voluntary | Its own contribution guidelines. AI agents **must not** add `Signed-off-by`: only a human can certify the DCO |
 | Apache Software Foundation | **`Generated-by:`** | ASF's own Generative Tooling Guidance |
 | OpenInfra | **`Generated-by:`** | OpenInfra's own AI policy, which credits the ASF for the label |
