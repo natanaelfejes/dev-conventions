@@ -4,7 +4,7 @@ Conventions for AI-assisted software development, where **every claim carries th
 evidence behind it**, and the guidance **adapts to your repository** instead of prescribing one shape
 for all of them.
 
-**Version 0.11.0. External claims last rechecked 2026-09-06.**
+**Version 0.12.0. External claims last rechecked 2026-09-08.**
 
 ---
 
@@ -64,21 +64,24 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   are the ones whose documentation is worst. And a study of 2,303 agent context files across 1,925
   repositories found those behave as living configuration rather than decaying documents, which
   contradicts part of the taxonomy directly. Both are stated where the taxonomy appears.
-- **Only one finding here is replicated**, and it undercuts the rest: two independent groups measured
-  agent evaluation flipping outcomes between identical runs, with temperature zero providing no
-  protection. Every single-run number in this collection inherits that caveat.
-- **The collection has been wrong** and keeps a numbered list of its own errors, twenty of them,
-  including a security figure it inflated nineteenfold and a source it cited as saying the opposite
-  of what it found. That list is not humility furniture. It is the argument for the scale, and it is
-  the section to read first if you want to know how much to trust the rest.
-- **It has been checked from outside five times**, between 2026-09-03 and 2026-09-07, and every one
-  of them found something. A fabricated statistic this collection had been citing. Two figures wrong.
-  Four items where two independent passes disagreed with each other. A shipped template that
-  misstated the finding it cited. Most recently, and worst: **four of the nine papers this collection
-  had rated tier 2 turned out to rest on an "accepted at" line their own authors wrote**, or on no
-  venue claim at all. All four were moved down. The scale had already forbidden every one of them in
-  writing. All recorded, with what each check cost, at the end of `EVIDENCE.md`. **Please be the
-  sixth**: the rate at which checking finds things has not slowed.
+- **Only one finding here is replicated**, and it undercuts the rest: **four independent groups**
+  measured agent evaluation flipping outcomes between identical runs, with temperature zero providing
+  no protection, and two of them name the causes. Every single-run number in this collection inherits
+  that caveat, including the ones these four papers report.
+- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-three of
+  them, including a security figure it inflated nineteenfold, a source it cited as saying the
+  opposite of what it found, and **two figures that are not in the paper they were attributed to,
+  published under a claim that the paper had been read in full**. That list is not humility
+  furniture. It is the argument for the scale, and it is the section to read first if you want to
+  know how much to trust the rest.
+- **It has been checked from outside six times**, between 2026-09-03 and 2026-09-08, and every one
+  of them found something. A fabricated statistic. Two figures wrong. Four items where two
+  independent passes disagreed. A shipped template that misstated its own source. Most recently, and
+  worst: **three corrections that never reached the files an agent actually loads**, one of them
+  false about a named third party, and **two figures that appear nowhere in the paper they were
+  attributed to, published under the sentence "both full texts were read"**. All recorded, with what
+  each check cost, at the end of `EVIDENCE.md`. **Please be the seventh**: the rate at which checking
+  finds things has not slowed.
 
 ## What is in here
 
@@ -101,6 +104,10 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
 | `OPERATING.md` | Human-facing: delegation, model tiering, prompting habits | You are deciding how to drive the system, not what it should do |
 | `templates/` | Drop-in files: instruction-file skeleton, profile, ADR, PR description, pre-push hook, editorconfig | Setting up a new repository |
 | `examples/` | Filled profiles for three repository shapes | Writing your first profile |
+
+**`CHANGELOG.md` is in the repository and not in the distributable.** It records what changed
+between versions and what was checked and did not change, which matters when you are deciding whether
+to pin or upgrade, and it is not something an agent should be loading. Read it on the code host.
 
 ## Install
 

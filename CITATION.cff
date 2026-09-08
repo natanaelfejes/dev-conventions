@@ -6,8 +6,8 @@ authors:
   - family-names: "Fejes"
     given-names: "Natanael"
     orcid: "https://orcid.org/0009-0007-8674-0411"
-version: 0.11.0
-date-released: "2026-09-07"
+version: 0.12.0
+date-released: "2026-09-08"
 license:
   - MIT
   - CC-BY-4.0
@@ -18,11 +18,10 @@ abstract: >-
   scale ordered by review trail rather than by whether numbers exist. Guidance is
   conditional on a per-repository profile rather than prescribed. Disagreements
   between sources are left standing with a stated default. The collection keeps a
-  numbered list of its own errors, which as of this version runs to twenty and
-  includes a fabricated statistic it carried for a day before a verification pass
-  traced it to a source that does not exist, and four ratings it awarded on the
-  strength of an acceptance line the papers' own authors had written or on no
-  venue claim at all.
+  numbered list of its own errors, which as of this version runs to twenty-three
+  and includes a fabricated statistic it carried for a day before a verification
+  pass traced it to a source that does not exist, and two figures published under
+  a claim that the paper they came from had been read in full when it had not.
 keywords:
   - software engineering
   - coding agents

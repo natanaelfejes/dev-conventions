@@ -48,6 +48,22 @@ credible thing here, and two external reviewers have said so independently. Prot
   from a claim, so rewording it silently removes the entry from the venue check.
 - **Do not correct a figure in one file only.** When a number changes, **grep the whole collection**
   before calling it done. One unchecked detail once reached five documents. That is error 13.
+- **A correction is not finished until you have grepped the agent-facing files specifically.**
+  `SKILL.md`, `WORKFLOW.md`, `DOCS.md`, `SECURITY.md`, `PROFILE.md`, `OPERATING.md`. Three separate
+  corrections landed in `EVIDENCE.md` or `RESEARCH.md` and never reached them, leaving the withdrawn
+  version loading on every session while the corrected one waited to be looked up. That is error 21,
+  and the general form is that **the file where a correction is easiest to write is not the file
+  where it matters.**
+- **Do not write that a source was read in full unless you opened it.** Where a verification pass
+  reports a full-text read, record that the pass reported it. Two invented figures shipped for two
+  days under the sentence "both full texts were read", which disabled every check a reader could have
+  run. That is error 23.
+- **Do not withdraw a claim on evidence you would not have accepted to make it.** If the primary
+  source cannot be opened, mark the claim unverified and leave it. Removing it is an equally strong
+  assertion about the source. That is error 19.
+- **When a finding gives you a rule, re-scan against the rule's population, not the finding's
+  location.** An audit that fixed every instance in tier 2 left the identical defect in tier 1, one
+  heading above. That is error 22.
 - **Do not use em dashes**, anywhere, including commit messages. Use a comma, a colon, or a full
   stop.
 - **Do not name an employer, customer, product, repository or commit hash** in any file except

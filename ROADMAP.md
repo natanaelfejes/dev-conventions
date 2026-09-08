@@ -27,15 +27,17 @@ not close this. Only usage does.
 
 ## Open, and worth doing next
 
-### 1. Read the original 2006 code review study
+### 1. Adopt it somewhere, and stop researching
 
-`WORKFLOW.md` carries a **contested headline**: whether the popular "pull requests under 400 lines"
-rule misreads that study by turning a review rate into a batch size. Two independent verification
-passes read its secondary sources and extracted materially different numbers, so the claim is
-currently withdrawn to "no threshold from it is safe to cite".
+**This is now the only item that matters and it has been the only item that matters for five
+versions.** Six verification passes and one external audit have run. Zero adoptions. Every one of
+those passes generated evidence entries, changelog entries and error entries, and not one of them
+generated a rule. The collection has got much better at proving itself and no better at telling
+anyone what to do.
 
-**Reading the original book settles it**, and it is one library request. Whichever way it resolves is
-publishable: either the popular rule is folklore, or this collection was wrong about it and says so.
+The 1.0 gate below says the same thing in stronger terms. This entry exists because the gate is easy
+to read as a distant milestone, and the actual instruction is immediate: **run `ADOPTION.md` against
+a repository, in anger, and record where it was wrong.**
 
 ### 2. Make it citable
 
@@ -46,21 +48,22 @@ exists in this repository; **the DOI does not**.
 Without a version-pinnable DOI, this collection asks consumers to pin a version while offering no
 citable identifier for one. That is a rule it does not follow itself.
 
-### 3. Reach the four sources the verification pass could not
+### 3. Reach the sources no pass could reach
 
-`RESEARCH.md` has now been verified and the pass found one contradicted headline, recorded in
-`CHANGELOG.md` 0.9.0. Four items it could not reach are the remainder, and each is named in the file
-with a status rather than asserted:
+**Mostly closed 2026-09-08**, when the sources were downloaded by hand and read. What that produced
+is in `CHANGELOG.md` 0.12.0: three tier restorations, the 2006 book settled, two invented figures
+found, and one withdrawal reversed.
 
-- **Fedora and Rocky Linux** AI-contribution policies. Only secondary aggregators were seen.
-- **The OpenTelemetry primary CONTRIBUTING document**, and the Linux kernel's own
-  `coding-assistants.rst`, to confirm the exact trailer spec against the file rather than against
-  agreeing secondary quotations.
-- **The citation-difference study**, which was not located at all. Its figure is withdrawn.
-- **DBLP and the publisher indexes**, to resolve the contested venue status of arXiv:2608.18167 and
-  the venue fields for three preprints.
+**What that leaves, and it is the useful residue:**
 
-The last one needs institutional access rather than effort.
+- **The citation-difference study** was located at 0.10.0 and this entry went on asking for it. A
+  stale request on a roadmap costs somebody an afternoon.
+- **DBLP remains unreachable** behind an anti-bot interstitial, from every environment tried. It has
+  not mattered yet, because venue programmes and OpenReview answered every question DBLP would have.
+- **The lesson is about the environment rather than the sources.** Four of this collection's recorded
+  errors trace to a network-restricted session treating "could not reach" as a result: three
+  downgrades that were wrong, and one withdrawal that was wrong. **A blocked network is not a
+  finding**, and the fix is not a better search, it is a human with a browser.
 
 ### 4. The templates were audited and one carried an unsourced claim
 
@@ -100,12 +103,16 @@ against a tagged release, then that DOI into `CITATION.cff`.
 - **Nothing has been measured against a control.** One peer-reviewed controlled experiment now exists
   on the adjacent question of downstream maintainability, which narrows this but does not close it.
 - **Most 2026 sources are preprints.** That reflects the field rather than the search, and it means
-  the most current claims rest on unreviewed work. Six peer-reviewed sources now exist against
-  nineteen identified papers.
+  the most current claims rest on unreviewed work. **Eight papers now carry a confirmed venue record
+  against roughly thirty identified**, and three of those eight are in the lightest categories their
+  venues run: a workshop poster, a vision-track short paper and a short-paper talk.
 - **Four items are contested between verification passes.** Recorded in `EVIDENCE.md`. One of them
   undercuts a headline.
-- **`RESEARCH.md` and `TOOLING.md` are single-pass.** `TOOLING.md` at least frames itself as a dated
-  map rather than a finding.
+- **`TOOLING.md`, `OBSERVABILITY.md`, `DOCS.md` and `VOCABULARY.md` are single-pass**, and only two
+  of them say so. `RESEARCH.md` is no longer single-pass and states its verification prominently,
+  which is the model the other four should follow. `TOOLING.md` frames itself as a dated map, which
+  is not the same as saying its claims were never checked against primary sources.
+  **`OBSERVABILITY.md` has no file-level sourcing statement at all**, unlike every other rule file.
 
 ## Deliberately not doing
 

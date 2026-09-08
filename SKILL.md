@@ -5,7 +5,7 @@ description: Evidence-graded conventions for AI-assisted development, covering c
 
 # Development conventions, evidence-graded
 
-**Version 0.11.0. External claims last rechecked 2026-09-06.**
+**Version 0.12.0. External claims last rechecked 2026-09-08.**
 
 ## What this is not
 
@@ -135,7 +135,7 @@ untagged rule is unaccountable. `EVIDENCE.md` carries the sources.
 
 | Section | Provenance |
 |---|---|
-| Verifying a claim | **Mixed.** Run-to-run nondeterminism is **tier 1**, the only replicated finding here. The rest is `first-party` method, demonstrated on external papers: the habits are this collection's own, what they were tested on is public |
+| Verifying a claim | **Mixed.** Run-to-run nondeterminism is **tier 1**, the only multiply replicated finding here, four independent groups. The rest is `first-party` method, demonstrated on external papers: the habits are this collection's own, what they were tested on is public |
 | Instruction files | **Mixed, all external, all weak.** Rule polarity, authorship and repository overviews are each tier 4. Analyzer-beats-prose and the incident rule are `first-party` |
 | Working with agents | **Mixed.** Agent-only review is tier 2; reviewer disagreement was tier 2 and is **tier 4 since 2026-09-07**, when its venue turned out to be author-claimed; context-beats-procedure is tier 3; multi-agent degradation and context length are tier 5. Worktree collision and the delegation heuristic are `first-party` |
 | Measuring whether any of this works | **Mostly tier 7**, vendor and practitioner. Nondeterminism is tier 1, judge bias is tier 4. The absence of any controlled defect study is a recorded search result, not an assumption |
@@ -195,11 +195,14 @@ measured work on them disagrees with itself.
 - **Do not treat rediscovery as replication.** Two research passes finding the same paper confirms
   the paper exists. It does not corroborate its finding or resolve its disagreement with another.
 - **Do not conclude anything from a single agent run, and do not believe temperature zero makes it
-  deterministic.** Two independent groups measured this and agree. One found roughly 9% of
-  per-instance outcomes flipping between byte-identical runs at temperature 0. The other, across
+  deterministic.** **Four independent groups** measured this and agree. One found roughly 9% of
+  per-instance outcomes flipping between byte-identical runs at temperature 0. A second, across
   60,000 trajectories and three models, found pass@1 varying 2.2 to 6.0 percentage points run to run,
-  and a standard deviation above 1.5 percentage points **even at temperature 0**. **Tier 1**, the
-  only replicated finding in this collection, and it discounts every other single-run number here
+  and a standard deviation above 1.5 percentage points **even at temperature 0**. Two more name the
+  causes rather than only the effect: floating-point non-associativity, batch-size variation under
+  concurrent server load, and non-deterministic kernel scheduling. One of them also reports that
+  reasoning models **expose no user-configurable temperature at all**. **Tier 1**, the only
+  multiply replicated finding in this collection, and it discounts every other single-run number here
   including its own. If you are comparing two configurations on your repository, run each of them
   five to ten times or accept that you are reading noise.
 
@@ -366,12 +369,22 @@ evidence of review. It is evidence of a mixed merge pattern.
   heavy modification is where an agent's assumption gets half-corrected. **Tier 2**, and the
   best-evidenced *practice* claim here, though the replicated nondeterminism finding above now
   outranks it on the scale.
-- **Do not invent your own disclosure convention.** One is settling in the open-source world and
-  copying it is free. Major projects including the Linux kernel, the Apache Software Foundation,
-  Fedora, LLVM and QEMU adopted formal trailer-based disclosure during 2026, using an
-  `Assisted-by:` trailer and **explicitly barring AI from `Signed-off-by`**, which keeps
-  human accountability and machine assistance in separate fields. Follow the convention your
-  ecosystem is converging on rather than a scheme local to your repository.
+- **Do not invent your own disclosure convention, and do not assume there is one to copy.** There
+  are **two camps and an abstainer**, verified project by project against each project's own page:
+  the Linux kernel, Fedora, Rocky Linux and Zephyr use **`Assisted-by:`**; the Apache Software
+  Foundation and OpenInfra use **`Generated-by:`**; OpenTelemetry prescribes **no trailer at all**
+  and describes assistance levels instead. **Tier 5, vendor and project self-reported**, each
+  confirmed against a primary page. `RESEARCH.md` carries the table and the verification status of
+  every row.
+
+  What is genuinely converged is the **structure**, not the token: disclose the assistance, and never
+  in a field that certifies authorship. The kernel states that AI agents **MUST NOT** add
+  `Signed-off-by`, and Zephyr gives the reason, that only a human can certify the DCO.
+
+  **So copy your own ecosystem's convention and check which camp it is in.** An earlier version of
+  this rule said seven projects had converged on `Assisted-by:`. That was wrong about the Apache
+  Software Foundation and wrong about OpenTelemetry, and it named two projects nobody here had
+  verified. See error 21.
 - **Do not assume the project has no position.** A survey of 1,000 repositories found 118 carrying an
   explicit AI policy, and of those, **78% permit AI contributions, 51% require disclosure and 74%
   require a human in the loop**. Tier 4: recorded as accepted at a reviewed venue until 2026-09-07,

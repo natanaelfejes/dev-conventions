@@ -208,10 +208,17 @@ The two original sources, different methods, different scale, same direction:
   p=0.754), which would make the earlier reading a conflation of arms with runs. **See the contested
   findings section below**: this collection does not have a direct read settling it, so the flip
   count stands and the 25-versus-23 framing is withdrawn.
-- **arXiv:2602.07150**, Bjarnason, Silva & Monperrus (KTH). **Published at the ICLR 2026 Workshop on
-  Agents in the Wild**, confirmed 2026-09-04 from the paper's own front matter. **This upgrades the
-  entry**: an earlier version of this section described both tier-1 papers as preprints, and one of
-  them is workshop-accepted.
+- **arXiv:2602.07150**, Bjarnason, Silva & Monperrus (KTH). **Preprint. An acceptance at the ICLR
+  2026 Workshop on Agents in the Wild is claimed by the paper's own front matter and has not been
+  confirmed against any record its authors do not control.**
+
+  **This entry said "published, confirmed 2026-09-04 from the paper's own front matter" until
+  2026-09-08.** A front-matter banner is exactly the surface error 20 disqualified, and it is the
+  surface arXiv:2605.02273 was moved down to tier 4 for. The 0.10.1 audit that established the rule
+  was scoped to tier 2 and never looked one section above it, so the identical defect survived the
+  audit that existed to find it. Searches of the workshop's accepted-paper listing and of
+  bibliographic indexes did not reach a record. **"Could not confirm", not "confirmed absent"**:
+  other papers carry that banner, so the workshop is real. Recorded as error 21.
 
   **60,000 trajectories** over **500 SWE-bench Verified tasks**, six configurations (three models
   across two scaffolds), **ten runs per configuration** at multiple temperatures. **pass@1 varies 2.2
@@ -238,10 +245,12 @@ repository, is very likely reading noise.
 **This entry forced a correction to the scale itself, which is worth more than the finding.** When
 it was written, both papers were believed to be preprints with no venue: the scale is ordered by
 review trail, so it could not express "two independent groups agree, neither peer-reviewed", and it
-was quietly treating tier 1 as tier 2 plus replication. That was wrong, and the fix stands even
-though the premise has since changed. **One of the two is now confirmed workshop-accepted and the
-other remains a preprint**, so this pair is *still* not "tier 2 plus replication", just for a
-different reason.
+was quietly treating tier 1 as tier 2 plus replication. That was wrong and the fix stands.
+
+**The premise then changed twice and this paragraph tracked only the first change**, which is how the
+section came to say "confirmed workshop-accepted" in one place and "both preprints" in another, four
+paragraphs apart, for two days. Both statements shipped. `SKILL.md` forbids exactly this: a file that
+states a rule and then contradicts itself is worse than one that omits the rule.
 
 > **Replication and review are orthogonal axes.** Tier 1 records that independent groups converged.
 > Tier 2 records that reviewers accepted the work. Neither implies the other. Two independent
@@ -249,8 +258,14 @@ different reason.
 > finding, and genuinely weaker on method scrutiny.
 
 So a tier-1 entry now **states its review status explicitly** rather than implying one. This pair is
-**tier 1, both preprints**. Read that as: the effect is probably real, the exact numbers have not
-been through review.
+**tier 1, both preprints**, one of them carrying an author-claimed workshop acceptance this document
+has not confirmed. Read that as: the effect is probably real, the exact numbers have not been through
+review.
+
+**And the finding no longer rests on this pair alone**, which is what makes the unconfirmed venue
+survivable: two further independent groups measured the same effect and named its causes, recorded
+above. A venue record would add method scrutiny to one paper. It would not change the replication
+count, and the replication count is what this tier is for.
 
 Everything else in this document that rests on a single benchmark run inherits this caveat, including
 the compression result below, which comes from one of these two papers.
@@ -277,32 +292,59 @@ mapped to CWE. Reports AI-generated code as more prone to **unused constructs an
 artefacts**, as triggering **more high-risk CWE categories** including command injection and
 hardcoded secrets, and as **shorter**, using fewer tokens and fewer lines on average.
 
-> **Contested at the aggregate by arXiv:2603.27130**, a large-scale measurement of AI-generated code
-> in real-world repositories, still a preprint. Both full texts were read on 2026-09-06 and the
-> disagreement is **real but narrower than it first looked**:
+> **Contested at the aggregate by arXiv:2603.27130** (Mao, Duan, Tang, Wang & Zhang, Indiana
+> University Bloomington and NTU), a large-scale measurement of AI-assisted code in real-world
+> repositories, still a preprint.
 >
-> - **They are not measuring the same population.** ISSRE studies prompt-generated functions from a
->   docstring. The preprint studies AI-generated files **found in the wild**, identified by comment
->   attribution and a classifier, matched against human files from the same repositories.
-> - **They are not using the same instrument.** Pylint, PMD and Semgrep against CodeQL. Different
->   rule sets produce different alert profiles before any conclusion is drawn.
-> - **They normalise differently.** The preprint reports per KLOC and gives several cuts that do not
->   agree with each other: one table has AI at 12.81 alerts per KLOC against human 11.58, another has
->   AI *lower* at 10.04 against 13.56, and its risk breakdown has AI with **fewer critical** alerts
->   but **more high-risk**, 0.934 against 0.464.
+> **This block was rewritten on 2026-09-08 against the preprint's own PDF, and three of the numbers
+> it previously carried were wrong.** The version before this one said both full texts had been read
+> on 2026-09-06. They had not. Recorded as error 23, and read the numbers below as the corrected
+> ones rather than as an update.
 >
-> **Where they actually agree, and it is the part that matters: both find elevated high-risk patterns
-> in AI-generated code in at least one cut.** The disagreement is about totals and about which
-> severity band, and it dissolves substantially once population and normalisation are compared. It
-> does not dissolve entirely.
+> **What the preprint actually reports**, quoted from its section on code security and defects:
 >
-> **Default, and it is judgment rather than evidence:** keep checking AI-generated code for the two
-> named defect classes. They are cheap to find and cheap to remove, so the asymmetric-burden rule
-> applies. A contested source may raise a doubt about a safeguard and may not retire it.
+> - **Overall CodeQL alert density: AI 10.04 against human 13.56 per KLOC.** AI-generated code
+>   triggers *fewer* alerts, "in each type of alerts and each level of severity" with one exception.
+> - **That exception is high-risk alerts, and there the two are similar: 0.514 against 0.52.** Not
+>   elevated. The previous version of this entry reported this row as AI 0.934 against human 0.464,
+>   which is not in the paper, and it reversed the direction of the finding it names.
+> - **A second table showing AI at 12.81 against human 11.58 does not exist.** Those numbers appear
+>   nowhere in the paper.
+> - **Human-written code contains more hardcoded secrets**, passwords, API keys, tokens and private
+>   keys, which is a direct contradiction of one of the ISSRE paper's two named defect classes rather
+>   than an aggregate disagreement.
+> - Its own summary: *"AI-generated code shows lower overall defect density, but security differences
+>   are language-dependent."* For high-risk alerts, **C, C#, JavaScript and Ruby** are higher in
+>   AI-generated code; **C++, Java and Python** show the opposite; TypeScript is similar.
+>
+> **The methodological differences stand and still matter:**
+>
+> - **Different populations.** ISSRE studies prompt-generated functions from a docstring. The
+>   preprint studies AI-assisted code **found in the wild**, matched against human code from the same
+>   repositories.
+> - **Different instruments.** Pylint, PMD and Semgrep against CodeQL.
+> - **Both find the same dominant CWE categories**, CWE-563 and CWE-561, unused or ineffective code
+>   constructs. That is genuine convergence on the *mechanism*, and it is on the defect class the
+>   ISSRE paper names first.
+>
+> **What the corrected reading changes.** The previous conclusion, "both find elevated high-risk
+> patterns in AI-generated code in at least one cut", was resting on a figure that is not in the
+> paper. It survives only in the weak form: **in four of eight languages** the preprint finds
+> high-risk alerts higher in AI-generated code, and in three it finds the opposite. At the aggregate
+> the preprint finds AI code *safer* by alert density and *cleaner* on hardcoded secrets. **So the
+> disagreement is wider than this document claimed, not narrower.**
+>
+> **Default, unchanged, and now doing more work than before:** keep checking AI-generated code for
+> the two named defect classes. They are cheap to find and cheap to remove, and the asymmetric-burden
+> rule holds: a contesting source may raise a doubt about a safeguard and may not retire it. **Note
+> what that rule is now protecting.** The safeguard survives a source that contradicts it more
+> strongly than this document previously admitted, which is the rule working rather than the rule
+> being convenient. If you work in C, C# or JavaScript the preprint is on the safeguard's side
+> anyway.
 >
 > **Neither study measures whether human review catches any of this at normal rates.** Both count
-> analyzer alerts. Confirmed by reading both. That question remains open and is the one a practitioner
-> actually needs answered.
+> analyzer alerts. That question remains open, is gap 10, and is the one a practitioner actually
+> needs answered.
 
 **Self-declaration of AI-generated code.** Kashif, Liang & Tahir, arXiv:2504.16485. Published as
 **ACM Transactions on Software Engineering and Methodology, vol. 35 no. 7, pp. 1-37, July 2026**.
@@ -352,11 +394,32 @@ that mattered**, which is the whole lesson.
 CVE-2025-59532 against **Codex CLI**: the agent trusted a **model-generated `cwd`** as the sandbox's
 writable root, so the model's own output redefined the boundary meant to contain it.
 
-**Moved out of this tier 2026-09-07: adversarial review, and how many reviewers**, Qiu & Gill,
-arXiv:2608.18167. **Now at tier 4**, below, because its only evidence of acceptance is the
-author-supplied arXiv `Comments` field. The finding did not change; what changed is that this
-document stopped counting an author's claim as a venue record. See *What counts as confirming a
-venue* above, and error 20.
+**Adversarial review, and how many reviewers.** Qiu & Gill, arXiv:2608.18167. **ICML 2026 Workshop
+on Deep Learning for Code, accepted as a Poster**, confirmed 2026-09-08 against the **OpenReview
+record**: submission 123, published 16 June 2026, listed under the workshop's own venue on a platform
+the authors do not control. **Restored to tier 2** after one day at tier 4: it was downgraded on
+2026-09-07 when its only evidence of acceptance was the arXiv `Comments` field and no record could be
+reached from a network-restricted environment. The record existed. See error 20 and the note on
+"could not confirm" that follows it.
+
+**The tier carries a weight this scale does not currently express**, and it is stated here rather
+than hidden: a workshop **poster** is peer-reviewed and accepted, which is what tier 2 requires, and
+it is among the lightest review trails a venue offers. Read it as tier 2 at the bottom of tier 2.
+
+Findings, and all three are directly load-bearing here:
+
+- A **three-agent** adversarial review (main, reviewer, critic) outperformed a **five-agent**
+  baseline on LiveCodeBench. More reviewers is not better, and this is the only measured statement
+  available on the question.
+- On SWE-PRBench, naive adversarial review exposed a **false-consensus failure mode**, agents
+  converging on agreement without sufficient evidence.
+- **A single prompt iteration adding explicit disagreement** produced the highest F1 among tested
+  methods.
+
+The authors' own summary: cooperative code review "requires that disagreement be minimal, structured,
+and evidence-grounded". So isolating the reviewer's context is necessary and not sufficient. The
+reviewer also has to be told to disagree, because a reviewer that merely lacks the implementer's
+reasoning will still converge on its conclusion. This closes open gap 2.
 
 **Who actually reviews AI-authored changes, and how well.** Chowdhury et al., **arXiv:2604.03196,
 MSR 2026, DOI 10.1145/3793302.3793614.** Added 2026-09-03. From 19,450 pull requests: 3,109 in a
@@ -369,17 +432,34 @@ agents "should augment rather than replace human reviewers".
 This is the external evidence the team layer previously lacked entirely, and it lands on the same
 conclusion the first-party self-merge observation reached from one repository.
 
-**Moved out of this tier 2026-09-07: how humans review AI-generated pull requests**, Duma et al.,
-arXiv:2605.02273. **Now at tier 4**, below. It was recorded as EASE 2026 and its only DOI is the
-arXiv one. It was also the second paper in a paired entry, sitting behind the other paper's DOI,
-which is how a per-entry check missed it and a per-paper count found it.
+**How humans review AI-generated pull requests.** Duma, Wróblewski, Bobińska, Winiarska & Przymus,
+arXiv:2605.02273. **EASE 2026, Short Papers and Emerging Results track**, confirmed 2026-09-08
+against the conference's own research-papers programme, scheduled as a ten-minute talk. **Restored to
+tier 2** after one day at tier 4, same cause and same correction as the entry above.
 
-**Moved out of this tier 2026-09-07: AI-contribution policy prevalence**, Hora & Robbes,
-arXiv:2605.16706. It was recorded here as "accepted at ICSME 2026" and no venue record could be
-found for it. **Now at tier 4**, below. The figures are unchanged and the claim they support was
-never load-bearing on its own: it corroborates that disclosure norms are being formalised and does
-not replicate the 76.6% self-declaration figure, so **the disclosure claim remains a tier-2
-single-study finding on arXiv:2504.16485 alone**, which is where it already stood.
+Most AI-generated pull requests **receive no review at all**, and where they are reviewed, the review
+is dominated by AI agents rather than humans. Human-authored pull requests are more likely to attract
+human-only review and direct human feedback. **Sample size could not be extracted from the available
+text**, which is worth stating because the finding is qualitative without it.
+
+**Two weights on this one, both stated because the tier number expresses neither**: it is a short
+paper in an emerging-results track, and it uses the same public dataset as arXiv:2604.03196 above, so
+the pair is related rather than independent.
+
+**AI-contribution policy prevalence.** Hora & Robbes, arXiv:2605.16706, "AI Policy, Disclosure, and
+Human in the Loop: How Are Contribution Guidelines Adapting to GenAI?". **ICSME 2026, Visions and
+Emerging Results track**, confirmed 2026-09-08 against the conference's own programme, scheduled as a
+ten-minute short paper on 16 September 2026. **Restored to tier 2** after one day at tier 4, same
+cause and same correction as the two entries above.
+
+1,000 GitHub repositories surveyed, **118 carrying an explicit AI policy**: of those, 78% permit AI
+contributions, **51% require disclosure**, and 74% require a human in the loop.
+
+Note carefully what this is and is not. It measures **project policy prevalence**, a different unit
+from the self-declaration *rate* among practitioners in arXiv:2504.16485. So it corroborates that
+disclosure norms exist and are being formalised. **It does not replicate the 76.6% figure**, and the
+disclosure claim therefore stays tier 2 single-study rather than moving toward replicated. It is also
+a vision-track short paper, which is the light end of tier 2.
 
 **Documentation inconsistency is measurably harmful. Two papers, and they were conflated here until
 2026-09-04.**
@@ -532,10 +612,23 @@ question:
 - arXiv:2601.20404 - instruction-file presence cut median wall-clock time **28.64%** and median
   output tokens **16.58%**. **Correctness was explicitly not measured**, and the authors say so. Six
   authors, five pages, two agents.
-- arXiv:2607.27250 - a with/without context-file comparison across two agents, 288 evaluated runs,
-  found the correctness effect bounded and not statistically significant in either direction. Failure
-  triage attributed failures to implementation skill rather than missing repository knowledge.
-  **Single author**; releases all code and data.
+- arXiv:2607.27250, Khatri - a with/without context-file comparison across two frontier agents,
+  **17 real tasks from 3 repositories, 288 evaluated runs with gold-test evaluation**. The PDF was
+  read 2026-09-08 and it states a **bounded null** rather than merely a non-significant result:
+  context strategy does not measurably move correctness, **bounded to within 10 percentage points on
+  one agent and 15 on the other via equivalence testing**. Failure triage attributes failures to
+  implementation skill, feature design, pattern selection and exact wiring, **not to missing
+  repository knowledge**, and a manipulation probe found the real context file could not convert a
+  near-miss failure into a pass on either agent. It also reports that borderline task difficulty is
+  **agent-specific**, which it offers as the reason single-agent studies reach contradictory
+  conclusions. **Single author, independent researcher**; releases all code and data.
+
+  **A bounded null is a stronger result than a non-finding and it is the strongest thing available
+  on this question.** It does not say context files are useless. It says that on these tasks the
+  correctness effect, if any, is smaller than the band, which is wide. Read alongside arXiv:2601.20404
+  above, which measured a large wall-clock and token saving and explicitly did not measure
+  correctness, the two are consistent: the case for a context file is time and tokens, not
+  correctness.
 - arXiv:2607.09691 - rendering an unread file remainder as signatures resolved no more issues than
   deleting it outright (N=70, exact McNemar p=0.75). **Single author**, but pre-registered hypotheses
   with the nulls published, which is stronger method discipline than the tier alone implies. Two
@@ -597,67 +690,29 @@ at 75.9% and architecture at 68.1%, while **security appears in 14.8% and perfor
 This one **contradicts a claim in this collection** and is recorded as such in the disagreements
 below.
 
-**Venue rechecks, 2026-09-03.** arXiv:2604.11088 and arXiv:2607.09691: **confirmed preprint-only**,
-no venue or journal field present at all rather than merely unreached. arXiv:2603.17973: comments
-field still reads submitted to a data and benchmark track, not on any reachable accepted list, so
-**tier 3 stands unchanged**. arXiv:2607.27250: **could not confirm** either way, page fields did not
-render on fetch. That last one is a "could not confirm" and not a "confirmed absent", which is the
-distinction this document nearly got wrong once already.
+**Venue rechecks, 2026-09-03, closed against the PDFs 2026-09-08.** arXiv:2604.11088 and
+arXiv:2607.09691: **confirmed preprint-only**, no venue or journal field present at all rather than
+merely unreached. arXiv:2603.17973: the v2 PDF carries **no acceptance line and no publisher block**,
+so **tier 3 stands unchanged** on its stated submission. arXiv:2607.27250: the outstanding "could not
+confirm" from 2026-09-03 is now **confirmed preprint-only** from the PDF, single author, independent
+researcher, July 2026. arXiv:2511.12884: the ISBN hint that suggested proceedings publication is not
+borne out by the PDF, so it **stays tier 4**.
 
-### Tier 4, moved down from tier 2 on 2026-09-07
+**Three of those four were "could not confirm" and all three resolved the way the weaker reading
+predicted, which is worth noticing rather than celebrating.** It is one small sample and the base
+rate on the tier-2 audit ran the other way: there, three of four unconfirmable acceptances turned out
+to be real. **"Could not confirm" carries no direction.** That is the whole reason it is not a
+finding.
 
-**Four entries, out of the nine papers this document had rated tier 2, and they failed the test in
-two different ways.** Three carry an acceptance claim resting on a surface the paper's own
-authors control: the arXiv `Comments` field, or a conference banner in the paper's own typesetting.
-The fourth carries no venue claim at all and was tiered on the quality of its method, which is the
-substitution this scale exists to prevent. All three findings are unchanged; what changed is how much
-scrutiny this document can honestly say they have survived. Recorded at error 20.
+### Tier 4, moved down from tier 2 and stayed down
 
-**A paper whose acceptance is author-claimed is more likely to be right than one with no claim at
-all, and it is not more confirmed.** That gap is the whole point of the tier.
+**One entry.** Four were moved down on 2026-09-07 when a rule was added that an author-controlled
+surface cannot confirm a venue. **Three of those four were restored to tier 2 on 2026-09-08** once
+the venue records were fetched by hand: an OpenReview record, a conference programme, and a second
+conference programme. They are back in tier 2 above, each naming its record and its track.
 
-**Adversarial review, and how many reviewers.** Qiu & Gill, arXiv:2608.18167. The arXiv `Comments`
-field states acceptance at the **ICML 2026 Workshop on Deep Learning for Code**. That field is
-author-supplied. A recheck on 2026-09-07 could not reach the workshop's own accepted-paper list or
-any bibliographic index from this environment, and no publisher DOI was found; the paper's only DOI
-is the arXiv one. **This is a "could not confirm", not a "confirmed absent"** - the acceptance is
-plausible and probably real. Upgrade to tier 2 on sight of an OpenReview entry, a programme listing,
-or a DBLP record. Added 2026-09-02, having been missed by four research passes.
-
-Findings, and all three are directly load-bearing here:
-
-- A **three-agent** adversarial review (main, reviewer, critic) outperformed a **five-agent**
-  baseline on one benchmark. More reviewers is not better, and this is the only measured statement
-  available on the question.
-- Naive adversarial review produced the **worst F1 measured anywhere in the paper, 0.457**, on a
-  pull-request benchmark, through a false-consensus failure mode: the reviewer agreed with the
-  implementer.
-- Adding an **explicit instruction to disagree** fixed it and produced the best F1 in the
-  comparison.
-
-So isolating the reviewer's context is necessary and not sufficient. The reviewer also has to be
-told to disagree, because a reviewer that merely lacks the implementer's reasoning will still
-converge on its conclusion. **This closes open gap 2 at tier 4 rather than tier 2**, which is a
-weaker closure than the one recorded on 2026-09-02 and is still a closure: the gap was that no source
-existed, and one does.
-
-**One thing the downgrade does not do: it does not weaken the rule built on this finding.** The
-disagreement instruction stays, on the asymmetric-burden rule. A lowered tier may raise a doubt about
-a safeguard and may not retire it, and the two corroborating tier-4 judge-agreement results above
-point the same way independently.
-
-**AI-contribution policy prevalence.** Hora & Robbes, arXiv:2605.16706, submitted May 2026, revised
-July 2026. This document recorded it as **accepted at ICSME 2026**. A recheck on 2026-09-07 found the
-paper on arXiv and nowhere else: no conference programme entry, no proceedings record, no DOI but the
-arXiv one. **A "could not confirm", not a "confirmed absent."**
-
-1,000 GitHub repositories surveyed, **118 carrying an explicit AI policy**: of those, 78% permit AI
-contributions, 22% explicitly discourage AI use, **51% require disclosure**, and 74% require a human
-in the loop.
-
-It measures **project policy prevalence**, a different unit from the self-declaration *rate* among
-practitioners in arXiv:2504.16485, so it never replicated that figure and the downgrade costs
-nothing that was being claimed.
+**The one that stayed down never claimed a venue at all**, and that is the difference. The other
+three were "could not confirm" from a network-restricted environment. This one was a category error.
 
 **Developers are wrong about their own speedup, and wrong in the confident direction.** Becker, Rush,
 Barnes & Rein, arXiv:2507.09089, a randomised controlled trial from a non-commercial research
@@ -681,19 +736,6 @@ faster.
 "believe your own speed estimate less", and a lower tier is not an argument for believing it more.
 This is the clearest case in the collection of a finding whose usefulness is independent of its
 review trail, which is exactly why the two are graded separately.
-
-**How humans review AI-generated pull requests.** Duma, Wróblewski, Bobińska, Winiarska & Przymus,
-arXiv:2605.02273, May 2026. Recorded here as **EASE 2026**; the paper carries a conference banner in
-its own typesetting, which authors set, and a recheck on 2026-09-07 found no publisher DOI or
-programme entry. **A "could not confirm", not a "confirmed absent."**
-
-Most AI-generated pull requests **receive no review at all**, and where they are reviewed, the review
-is dominated by AI agents rather than humans. Human-authored pull requests are more likely to attract
-human-only review and direct human feedback. **Sample size could not be extracted from the available
-text**, which matters more at this tier than it did at the last one: the finding is qualitative
-without it, and it now has neither a number nor a review trail.
-
-It uses the same public dataset as arXiv:2604.03196 above, so it was never independent of it.
 
 ### Tier 5, Vendor-disclosed
 
@@ -839,18 +881,33 @@ Both passes were competent, both cited primary material, and **neither can be pr
 third read**. Recording them rather than picking is the only honest option, and each entry names what
 would settle it.
 
-**1. The pull-request size numbers, and this one undercuts a headline.** `WORKFLOW.md` leads on the
-claim that "keep pull requests under 400 lines" misreads a 2006 study by turning a review *rate*
-into a *batch size*. One pass reported the study's own recommendation as **100 to 300 lines over 30
-to 60 minutes**, with **400 lines per hour** as the rate and defect density high *below* 200 lines. A
-second pass reported it as **200 to 400 lines over 60 to 90 minutes** yielding 70 to 90% defect
-discovery, with the rate threshold at **under 500 lines per hour**.
+**1. The pull-request size numbers. SETTLED 2026-09-08 by reading the book, and the resolution is
+better than either pass.** `WORKFLOW.md` leads on the claim that "keep pull requests under 400 lines"
+misreads a 2006 study by turning a review *rate* into a *batch size*. One pass reported the study's
+recommendation as **100 to 300 lines over 30 to 60 minutes**, with **400 lines per hour** as the rate
+and defect density high *below* 200 lines. A second reported **200 to 400 lines over 60 to 90
+minutes** yielding 70 to 90% defect discovery, rate threshold **under 500 lines per hour**.
 
-If the second reading is right, **the popular rule is roughly correct and this collection's headline
-is wrong.** What survives either way is weaker and still useful: **the figures attributed to this
-study vary between retellings, so no specific threshold from it is safe to cite.** Settled by reading
-the original 2006 book rather than any summary of it. Until then `WORKFLOW.md` presents it as
-contested.
+The book was obtained and read. **Neither pass reported it correctly, and the second pass's error is
+the finding.** Its "200 to 400 lines" and "70 to 90%" come from a Q&A about reviewing your own code
+which reads, verbatim: *"your overall speed is going to be about 200 to 400 lines of code per hour...
+you should expect to get a 70 to 90% yield."* **That is a rate and its yield.** The pass converted a
+rate into a size, which is precisely the misreading this collection was arguing the popular rule
+commits. A verification pass reproduced the error it was sent to adjudicate.
+
+What the book measures, quoted: reviewers **slower than 400 lines per hour** were above average at
+finding defects and above **450 lines/hour** defect density was below average in **87% of cases**;
+**below 200 lines** produced a relatively high defect rate, "often several times the average"; and
+reviewers **wear out after 60 minutes**. From those it *derives* a size ceiling in a hedged sentence:
+*"a reviewer will **probably** not be able to review more than 300-400 lines of code before his
+performance drops."*
+
+**So the headline was right about the mechanism and too strong about the conclusion.** The 400 is a
+rate. A 300-400 line ceiling is also in the book, as a stated hypothesis rather than a measurement,
+so the popular rule is a reasonable heuristic misquoted as a finding rather than pure folklore.
+`WORKFLOW.md` now carries the quotations and the distinction. **The book also flags a limit on its
+own strongest size result**: it assumes true defect density is constant across large and small
+changes, which the collection would otherwise have had to notice for it.
 
 **2. The developer-written context-file gain.** One pass reported **+2.4% on average**; a second
 reported **4% on average on the purpose-built benchmark**, at a cost of 3.34 extra steps and up to
@@ -1086,18 +1143,24 @@ No primary source found by any pass. Do not present these as resolved.
    human-adjudicated badges) and it runs **repeated passes specifically to handle its own evaluator's
    nondeterminism**.
 
-   **Two figures, and they are not the same figure. Corrected 2026-09-07; the previous version of
-   this entry welded them together.** The paper reports **70.56% exact badge agreement** for its best
-   system, the highest badge-level agreement among the systems compared. Separately it reports the
-   rubric improving coding agents' **three-run mean** exact badge agreement by **10.55 to 28.34
-   percentage points** over ACM badge-policy prompts. This entry previously read "three-run mean
-   exact-badge agreement of 70.56%", which is the number from the first claim carrying the qualifier
-   from the second. See error 19.
+   **The paper reports three-run mean exact badge agreement of 70.56% for its best system**, which is
+   what this entry said originally. It was "corrected" on 2026-09-07 to say the qualifier belonged to
+   a different sentence, and the correction was wrong. The paper's introduction reads, verbatim:
+   *"Across all evaluated systems and protocols, ARTIFACTCOPILOT achieves the highest three-run mean
+   exact badge agreement at 70.56%."* Its methods section adds: *"All results reported for RQ1 and
+   RQ2 are three-run means."* **Restored 2026-09-08 from the PDF. See error 19**, which is now about
+   the withdrawal rather than the figure.
 
-   The detail that matters most for this gap is neither number: the best system is reported as **the
-   only one that completed all repeated runs while producing a review report every time.** Evaluator
-   agents that fail to finish a run are a reproducibility problem before any agreement rate is
-   computed.
+   Separately, the rubric improves coding agents' three-run mean exact badge agreement by **10.55 to
+   28.34 percentage points** over ACM badge-policy prompts.
+
+   **The number that matters most for this gap is neither of those, and it is worse than both.**
+   Across three repeated runs on 60 artifacts, the best system reproduced its own badge on **32 of
+   60**. The baselines: 37/60, 35/60, 21/60, 12/60. Failure rates, meaning runs that produced no
+   review report at all, ran from **0% for the best system to 45%** for the worst. So a majority of
+   artifacts got a different badge depending on which run you looked at, from the system that
+   agreed with human adjudication most often. **Agent nondeterminism is not a caveat on artifact
+   evaluation. At these numbers it is the dominant term.**
    So agent nondeterminism, this collection's only multiply-replicated finding, now threatens the
    **badging process** and not merely the artifacts being badged. The collection has no entry for
    nondeterminism of the evaluator and needs one.
@@ -1399,32 +1462,39 @@ Kept deliberately, because they are the argument for the scale.
     say which half was measured.** "Measured as not helping" attached to a broader category than the
     measurement covered is a claim nobody can trace back to a defect.
 
-19. **A number was taken from one sentence of an abstract and the qualifier describing it from
-    another.** Found 2026-09-07 by a third verification pass, in open gap 6.
+19. **A correct figure was withdrawn on weaker evidence than the assertion had required.** Found
+    2026-09-08 by reading the PDF. **This entry originally described the opposite error and was
+    itself wrong.**
 
-    The entry read "three-run mean exact-badge agreement of **70.56%** for its best system". The
-    source reports 70.56% as its best system's **exact badge agreement**, the highest among the
-    systems it compares. "Three-run mean exact badge agreement" is the metric in a **different**
-    sentence, where the reported quantity is an improvement of 10.55 to 28.34 percentage points. Both
-    halves of the retelling appear in the abstract. The combination does not.
+    Open gap 6 read "three-run mean exact-badge agreement of 70.56%". A verification pass reported
+    that the abstract does not state that figure. It does not: the abstract says "the highest
+    badge-level agreement at 70.56%". On the strength of that, this document rewrote the entry,
+    declared the qualifier had been welded on from a neighbouring sentence, and recorded an error.
 
-    Why it earns a number:
+    **The paper's introduction says, verbatim: "ARTIFACTCOPILOT achieves the highest three-run mean
+    exact badge agreement at 70.56%."** Its methods section says all RQ1 and RQ2 results are
+    three-run means. The original text was right, the pass was right about the abstract, and the
+    inference from one to the other was wrong.
 
-    - **It is errors 6 through 8 and 18 again, in the hardest form to catch.** The previous instances
-      widened a category or swapped a subject. This one kept the number exactly right, which means
-      **every check that verifies figures against the source would pass it.** Searching the abstract
-      for "70.56" finds it. Searching for "three-run mean" finds it. Only reading the two together
-      shows the join is invented.
-    - **The pass that introduced it and the pass that caught it disagreed about a fact, not a
-      judgment.** One reported the figure as stated in the source; the other reported it as absent.
-      Both were partly right, and neither could have been resolved by asking a third model, only by
-      returning to the text. That is error 15's category, and its resolution is the general lesson:
-      **when two passes disagree about whether a source says something, the disagreement is usually
-      about scope, not existence.**
+    Why it earns a number, and why it may be more instructive than the error it replaced:
 
-    New rule: **a figure and the words qualifying it must come from the same sentence, and where they
-    do not, the retelling must quote both.** A number is not verified by finding it in the source; it
-    is verified by finding it there **attached to the thing the sentence claims it measures**.
+    - **Every rule in this collection points one way, and the failure went the other way.** Hard rule
+      1 forbids asserting a figure you have not seen in the primary source. Nothing forbade
+      *retracting* one on the same evidence, and the asymmetric-burden rule protects safeguards, not
+      figures. So a correct number was removed on a secondhand read of an abstract, by a document
+      whose entire argument is that you do not do that.
+    - **The withdrawal was more confident than the assertion had been.** It came with a new rule, a
+      numbered error, and a paragraph explaining why the mistake was subtle. All of that was
+      constructed on a source nobody had opened. **Constructing an explanation is not evidence that
+      the thing being explained happened.**
+    - **The environment was the proximate cause and not the excuse.** arXiv was unreachable, the
+      limitation was recorded honestly, and the work proceeded anyway rather than waiting for the
+      PDF. Recording a limit is not the same as respecting it.
+
+    New rule: **a withdrawal needs the same primary-source standard as an assertion.** If the source
+    could not be opened, the correct output is "this figure is unverified pending the PDF", left in
+    place and flagged, not removed and explained. Removing a claim feels conservative and is not: it
+    is an equally strong assertion about the source, made on the same missing evidence.
 
 20. **Tier 2 was being awarded on things that are not venue records. Four entries, and the audit
     that found them only happened because a third pass questioned one of them.** Found 2026-09-07.
@@ -1489,9 +1559,142 @@ Kept deliberately, because they are the argument for the scale.
     a publisher DOI**, which is the specific way this nearly went wrong on a sixth paper.
 
     New check, because a rule this document already had and did not follow needs an instrument rather
-    than a restatement: `build.py` now reads every tier-2 entry naming a preprint and reports how many
-    cite a publisher DOI. It **warns rather than fails**, deliberately, because a failing build here
-    would be fixed by deleting the check. It was made to fail on purpose before being believed.
+    than a restatement: `build.py` reads the Tier 2 section and reports, for every paper it names,
+    whether a venue record appears near the claim. It **warns rather than fails**, deliberately,
+    because a failing build here would be fixed by deleting the check. It was made to fail on purpose
+    before being believed. **Its first version accepted only a publisher DOI**, which is narrower
+    than the rule it enforces, and it fired on three entries that were correctly confirmed against
+    OpenReview and two conference programmes. Widened 2026-09-08 to the three routes the scale
+    actually names. A check encoding a narrower rule than the document states is the boundary error
+    pointing the other way: it rejects work that is right.
+
+    **Outcome, recorded 2026-09-08, and it partly reverses this entry.** The four downgrades were
+    "could not confirm" from an environment where arXiv, DBLP, IEEE Xplore, OpenReview and the
+    authors' pages were all unreachable. The records were then fetched by hand:
+
+    - **arXiv:2608.18167 restored to tier 2.** OpenReview record, ICML 2026 Workshop DL4C, Poster,
+      submission 123.
+    - **arXiv:2605.16706 restored to tier 2.** ICSME 2026 programme, Visions and Emerging Results
+      track.
+    - **arXiv:2605.02273 restored to tier 2.** EASE 2026 programme, Short Papers and Emerging Results
+      track.
+    - **arXiv:2507.09089 stayed at tier 4.** It never claimed a venue, so there was nothing to find.
+
+    **So the rule was right and three of the four downgrades were wrong**, and the distinction is the
+    lesson rather than an embarrassment: the rule concerns the *route*, and the route was genuinely
+    unsound in all four cases. What the downgrades got wrong was treating "could not confirm" as
+    grounds to act, which is error 19's failure committed the same day in the other direction. Both
+    directions have the same cause: **a blocked network was allowed to function as a finding.**
+
+    **One thing the restorations exposed that the tier cannot express.** All three are real
+    acceptances at real venues, and all three are in the lightest categories those venues run: a
+    workshop poster, a vision-track short paper, and a short-paper talk. Tier 2 says "peer-reviewed
+    and accepted" and flattens a workshop poster together with a full research-track paper. Each
+    restored entry now names its track, which is a patch on the prose rather than on the scale.
+    **Recorded as an open weakness in the scale**, not fixed, because adding a tier would be a larger
+    change than this evidence justifies.
+
+
+
+21. **Three corrections landed in the file nobody loads and never reached the two files an agent
+    does.** Found 2026-09-08 by an external audit. Three separate instances, one cause, and the rule
+    that would have caught all three has been on this list since error 13.
+
+    - **The trailer table, corrected at 0.9.0.** `RESEARCH.md` replaced "seven projects converged on
+      `Assisted-by:`" with a verified per-project table showing **two camps and an abstainer**.
+      `SKILL.md` and `WORKFLOW.md` kept the withdrawn sentence for two versions. Both were wrong
+      about the **Apache Software Foundation**, which uses `Generated-by:`, and about
+      **OpenTelemetry**, which prescribes no trailer at all. Both also named **LLVM and QEMU**, which
+      appear in no verified table, in no research pass, and were never checked here by anyone.
+    - **The evidence-base withdrawal, made at 0.8.0.** Every observation from a repository the author
+      does not own was withdrawn, and the changelog stated that "every place that described the base
+      has been rewritten to say four rather than five". `DOCS.md` still said five, and it was the one
+      file that described the withdrawn codebase in prose. The withdrawal was made on the ground that
+      the material should not have been the author's to publish, so this was not a stale count.
+    - **The replication upgrade, made at 0.9.0.** `EVIDENCE.md` went from two independent groups to
+      four and from "replicated" to "multiply replicated". `SKILL.md` still said "two independent
+      groups" and "the only replicated finding" in two places.
+
+    Why it earns a number:
+
+    - **The rule already existed and names this exact failure.** Error 13: when a figure is corrected
+      or retracted, grep the whole collection before considering the correction done. It was written
+      after one unchecked detail reached five documents. It was then not applied to this collection's
+      three largest corrections.
+    - **The direction is what makes it serious.** In all three cases the correct version is in a
+      reference file and the withdrawn version is in an agent-facing file. **`EVIDENCE.md` and
+      `RESEARCH.md` load when a rule is challenged. `SKILL.md` loads every time.** So the collection
+      was optimised to look right to anyone auditing it and to behave wrong in use.
+    - **One of the three was factually false about a named third party.** Any repository that adopted
+      this skill was told, on every load, that the Apache Software Foundation uses a trailer it does
+      not use.
+
+    New rule, an instrument rather than a restatement: **a correction is not finished until it has
+    been grepped for in the agent-facing files specifically.** `AGENTS.md` now says so. The general
+    form is sharper: **the file where a correction is easiest to write is not the file where it
+    matters.**
+
+22. **An audit found a defect, fixed every instance inside its own scope, and left the identical
+    defect one section above.** Found 2026-09-08, in the same audit as error 21.
+
+    The 0.10.1 audit established that an author-controlled surface cannot confirm a venue and checked
+    **all nine papers rated tier 2**. The tier-1 entry claimed a workshop acceptance "confirmed from
+    the paper's own front matter", which is the same surface, named in the same rule, one heading
+    above the section being audited. It was not looked at. The tier-1 entry then contradicted itself
+    for two days, saying "confirmed workshop-accepted" in one paragraph and "both preprints" four
+    paragraphs later, with both statements shipping.
+
+    - **It is errors 9, 17 and 20's shape, and this instance is the cleanest.** The audit's scope was
+      the section named in the finding rather than the population the rule covers. Nothing about the
+      result distinguished "no bad entries" from "no bad entries in tier 2".
+    - **The rule was written by the same pass that failed to apply it.** Error 20 states the rule
+      generally, about venues, not about tier 2, and was recorded three paragraphs from the entry it
+      does not cover.
+
+    New rule: **when a finding produces a rule, re-scan against the rule's population, not the
+    finding's location.** Boundary table, sixth row.
+
+23. **Numbers that are not in a paper were published under an explicit claim that the paper had been
+    read in full.** Found 2026-09-08 when the PDF was finally obtained. **The worst entry on this
+    list on the dimension that matters most, which is whether a reader could have caught it.**
+
+    The contested-security block asserted that arXiv:2603.27130 reports "one table with AI at 12.81
+    alerts per KLOC against human 11.58" and a risk breakdown with "AI more high-risk, 0.934 against
+    0.464". It also stated, in the same paragraph: **"Both full texts were read on 2026-09-06."**
+
+    Against the PDF:
+
+    - **12.81 and 11.58 appear nowhere in the paper.**
+    - The high-risk row is **0.514 against 0.52**, which the paper describes as *similar*. The
+      published figures reversed the direction of the finding they named.
+    - **10.04 against 13.56 was correct**, which is why nothing looked wrong.
+    - The paper additionally finds **more hardcoded secrets in human-written code**, contradicting
+      one of the two defect classes the collection tells you to check for, and this was not recorded
+      at all.
+
+    The conclusion built on those figures, "both find elevated high-risk patterns in AI-generated
+    code in at least one cut", was the pivot of the whole adjudication and it was resting on a number
+    that does not exist. It survives only in a much weaker language-sliced form.
+
+    Why it earns a number, and why it is worse than errors 6 through 8:
+
+    - **The claim of a full-text read is the defect, not the wrong figures.** A wrong figure is error
+      14's category and this list has several. **A false statement about the verification method is
+      new**, and it disables every downstream check: a reader who wanted to challenge the numbers was
+      told the strongest possible provenance for them.
+    - **It was the most heavily reasoned block in the document.** Four paragraphs of population,
+      instrument and normalisation analysis, a stated default, an asymmetric-burden justification.
+      All of it downstream of two invented numbers. **Density of reasoning is not evidence of
+      grounding**, and this document repeatedly reads as though it were.
+    - **The correction makes the collection's own safeguard harder to justify, and it stays.** The
+      disagreement is wider than was claimed: at the aggregate the contesting paper finds AI code
+      lower in alert density and cleaner on hardcoded secrets. The default survives on the
+      asymmetric-burden rule alone. That is the rule doing real work for the first time against a
+      source that genuinely hurts.
+
+    New rule: **never write that a source was read in full unless you opened it.** Where a pass
+    reports having read a full text, the document records that the *pass* reported it, not that it
+    happened. Provenance of a verification is itself a claim and takes a tier like any other.
 
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
@@ -1509,7 +1712,7 @@ Two lessons, not one:
   error on this list at least leaves you uncertain. This one hands you confidence.
 
 **And one pattern runs through errors 9 and 17 and every repeat of them, which is worth stating as a
-rule because naming the instances did not stop it recurring.** Five times in this repository, a check
+rule because naming the instances did not stop it recurring.** Six times in this repository, a check
 drew its boundary at the convenient unit and the thing it was looking for sat one unit outside it:
 
 | The check looked at | What it was looking for was in |
@@ -1519,11 +1722,14 @@ drew its boundary at the convenient unit and the thing it was looking for sat on
 | The distributable | The repository |
 | The prose files | The changelog, which ships |
 | The paper's arXiv page | The publisher's record |
+| The tier-2 section | Tier 1, where the same rule applied |
 
 Every one of those checks passed. Every one was correct within its scope. **None of them stated its
 scope**, so a clean result read as "clean" rather than as "clean in the half I looked at". The fifth,
-added 2026-09-07 as error 20, is the one that shows the pattern is not only about identifier leaks:
-the convenient surface answered the question asked, and the answer it gave was the author's.
+error 20, shows the pattern is not only about identifier leaks: the convenient surface answered the
+question asked, and the answer it gave was the author's. **The sixth, error 22, is the one that
+should end the argument**: it was committed by the audit that discovered the fifth, in the same
+session, against a rule it had just written.
 
 **The rule: a check must report the boundary it drew, next to its result.** "No identifier leaks in
 22 files, contents only" is a result a reader can act on. "No identifier leaks" is compatible with
@@ -1577,7 +1783,8 @@ things has not slowed**, which is the honest argument for a sixth rather than fo
 | 2026-09-03 | Design review | Three design flaws, all accepted and fixed the same day. Verified three citations against primary sources |
 | 2026-09-04 | Claim verification, every external claim | A fabricated statistic, two wrong figures, four items where two passes disagreed with each other |
 | 2026-09-06 | Two independent research passes, run in parallel | Each reached primary sources the other could not. One tier upgrade, a contradiction adjudicated, seven new gaps, one shipped template found misstating its own source |
-| 2026-09-07 | Figure and venue recheck | Errors 19 and 20: a number joined to the wrong qualifier, and an audit that moved **four of the nine tier-2 ratings down to tier 4**, one of which had never claimed a venue at all |
+| 2026-09-07 | Figure and venue recheck | Error 20: an audit that moved **four of the nine tier-2 ratings down to tier 4**, one of which had never claimed a venue at all. Also produced error 19, a correct figure withdrawn on a secondhand read |
+| 2026-09-08 | Full external audit at 0.11.0, plus primary sources obtained on paper | Errors 21, 22 and 23. **Three corrections that never reached the agent-facing files**, one of them false about a named third party. An audit scoped to the section rather than the rule. And **two figures that are not in the paper they were attributed to, published under a claim that the paper had been read in full** |
 
 **What the 2026-09-06 pair demonstrated is worth separating from what it found.** Neither pass alone
 produced the trailer table, and neither alone would have caught the mis-tiering. Two passes cost

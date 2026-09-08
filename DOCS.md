@@ -3,9 +3,14 @@
 Read the repository profile first. Every rule here is conditional on which slots that repository
 actually has. **Do not prescribe a document set.**
 
-This file is grounded in an inventory of **five real repositories**, including one large third-party
-production codebase, and in the record of every documentation correction those repositories made. The
-useful part is not a list of files. It is **which document types actually rot, and how**.
+This file is grounded in an inventory of **four real repositories**, all small, one or two people
+each, and in the record of every documentation correction those repositories made. The useful part is
+not a list of files. It is **which document types actually rot, and how**.
+
+**It said five until 2026-09-08, and named a large third-party production codebase among them.** The
+fifth was withdrawn at 0.8.0 along with every observation drawn from a repository the author does not
+own. That withdrawal was applied to every other file and missed this one, which is the file that
+described the withdrawn codebase in prose. Recorded as error 22.
 
 **Everything in this file is `first-party` unless marked otherwise.** The rot taxonomy, the
 displacement targets, the trust markers, the decision-record findings: all of it is direct
@@ -28,7 +33,7 @@ confounds. Where a pattern appeared in genuinely independent contexts, the count
   context files across 1,925 repositories found they behave as **living configuration rather than
   documentation**: frequently edited in small increments, not left to decay. This file treats
   instruction and context files as ordinary documents subject to the taxonomy below. **That is not
-  established for them**, and 1,925 repositories outweigh five.
+  established for them**, and 1,925 repositories outweigh four.
 
   The likely reconciling variable is repository activity: a file edited weekly cannot rot, and the
   first-party cases here come from repositories where nobody touched the file for two hundred

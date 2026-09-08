@@ -32,8 +32,16 @@ EXCLUDE_FILES = {
     "CITATION.cff",   # belongs to the repository, not the skill
     "CONTRIBUTING.md",      # how to contribute here, not a convention
     "CODE_OF_CONDUCT.md",   # governs this repository, not a consumer's
+    "CHANGELOG.md",   # see below
     ".gitignore",
 }
+# CHANGELOG.md was excluded on 2026-09-08, on the same logic as ROADMAP.md and
+# CONTRIBUTING.md: it governs this repository rather than a consumer's. It had
+# grown to roughly 40 minutes of reading, 15% of the distributable, none of it
+# telling a consumer what to do. It stays in the repository and on the code host,
+# where anyone comparing two versions will look for it, and README.md points
+# there. The version line in SKILL.md is what a consumer needs, and the citation
+# message already says to cite the version you read.
 EXCLUDE_DIRS = {".git", "dist", ".agents", "__pycache__", ".claude-plugin", ".github"}
 # .github holds this repository's vulnerability-disclosure policy, which is a
 # different document from the root SECURITY.md despite the near-identical name.
@@ -48,7 +56,7 @@ ORDER = [
     "README.md", "ADOPTION.md", "SKILL.md", "EVIDENCE.md", "DOCS.md",
     "SECURITY.md", "WORKFLOW.md", "RESEARCH.md", "TOOLING.md",
     "OBSERVABILITY.md", "VOCABULARY.md", "PROFILE.md", "OPERATING.md", "HANDOFF.md",
-    "CHANGELOG.md", "LICENSE",
+    "LICENSE",
 ]
 
 FAILURES = []
@@ -211,61 +219,71 @@ ARXIV = re.compile(r"arXiv:\d{4}\.\d{4,5}")
 # deliberately: treating it as a publisher DOI is how error 20 nearly recurred a
 # third time on a different paper.
 PUBLISHER_DOI = re.compile(r"\b10\.(?!48550)\d{4,9}/[^\s`)\]]+")
+# The scale accepts three confirmation routes, not one: a publisher DOI, the
+# venue's own programme or proceedings, or an independent index. The first
+# version of this check counted only DOIs, so it fired on three entries that
+# were correctly confirmed against OpenReview and two conference programmes.
+# A check that encodes a narrower rule than the document states is error 9's
+# shape pointing the other way: it fails work that is right.
+CONFIRMED_AGAINST = re.compile(r"onfirmed\s+\d{4}-\d{2}-\d{2}\s+against", re.I)
+RECORD_WINDOW = 14   # lines after a paper's first mention in which its record must appear
 
 
 def check_venue_confirmation():
-    """Error 20: tier 2 was awarded twice on an author-supplied acceptance line.
+    """Error 20: tier 2 was awarded on surfaces the papers' own authors control.
 
     Tier 2 means peer-reviewed and accepted, confirmed against the venue or a
-    publisher DOI. An arXiv Comments field is written by the submitting author
-    and checked by nobody, so an entry whose only evidence of acceptance is a
-    named venue in prose is asserting the author's claim, not a venue record.
+    publisher DOI. An arXiv Comments field, and a conference banner a paper sets
+    in its own typesetting, are written by the authors and checked by nobody.
 
-    This WARNS rather than fails, and the reason is stated so nobody mistakes it
-    for a passing check: several tier-2 entries predate the rule and naming a
-    venue in prose is not by itself proof that no record was consulted. What the
-    check can say honestly is how many tier-2 entries name a preprint and how
-    many of those cite a record you can follow. A build that failed here today
-    would be fixed by deleting the warning, which is the wrong direction.
+    What this measures, stated because a check must report its boundary: for
+    every distinct arXiv identifier in the Tier 2 section, whether a record token
+    appears within RECORD_WINDOW lines of its first mention. A record token is a
+    non-arXiv DOI or a "confirmed <date> against" phrase. It is a proximity test
+    over prose, so it cannot tell which record belongs to which paper, and it
+    will miss a record written far from its claim.
+
+    It WARNS rather than fails, deliberately: a failing build here would be fixed
+    by deleting the check.
     """
     text = (ROOT / "EVIDENCE.md").read_text(encoding="utf-8")
     sections = re.split(r"^### Tier (\d)[^\n]*$", text, flags=re.M)
-    # sections: [preamble, "1", body, "2", body, ...]
     tier2 = "".join(sections[i + 1] for i in range(1, len(sections), 2)
                     if sections[i] == "2")
     if not tier2:
         fail("no Tier 2 section found in EVIDENCE.md, so venue confirmation was NOT checked")
         return
 
-    # An entry that opens with the relocation marker is a forwarding pointer to a
-    # paper that has been moved OUT of this tier, not a tier-2 claim. The marker is
-    # a fixed opening phrase rather than a guess at intent, and it is documented in
-    # AGENTS.md so a future entry cannot drift out of the check by rewording.
-    entries = [e for e in re.split(r"\n\n(?=\*\*)", tier2)
-               if not e.startswith("**Moved out of this tier")]
     # Blockquoted lines are asides: contesting sources, adjudications, caveats.
     # A preprint named in one is being discussed, not tiered, so it must not be
-    # counted against the entry. An entry that names two papers must cite two
-    # records, which is how the second paper in a paired entry was found sitting
-    # behind the first one's DOI.
-    def body(e):
-        return "\n".join(l for l in e.splitlines() if not l.lstrip().startswith(">"))
+    # counted as a tier-2 paper. Blanked rather than dropped so line offsets, and
+    # therefore the proximity window, stay aligned with the section.
+    lines = ["" if l.lstrip().startswith(">") else l for l in tier2.splitlines()]
+    # An entry opening with the relocation marker points at a paper that has been
+    # moved OUT of this tier. The marker is a fixed phrase, documented in
+    # AGENTS.md, so a reworded pointer cannot silently leave the check.
+    moved = set()
+    for i, line in enumerate(lines):
+        if line.startswith("**Moved out of this tier"):
+            for j in range(i, min(i + 6, len(lines))):
+                moved.update(ARXIV.findall(lines[j]))
 
-    checked, short = 0, []
-    for e in entries:
-        ids = set(ARXIV.findall(body(e)))
-        if not ids:
-            continue
-        checked += 1
-        dois = set(PUBLISHER_DOI.findall(body(e)))
-        if len(dois) < len(ids):
-            short.append(f"{sorted(ids)[0]} ({len(ids)} papers, {len(dois)} records)")
-    if short:
-        print(f"  WARN  {len(short)} of {checked} tier-2 entries name more preprints than they "
-              f"cite publisher records: {'; '.join(short)}. "
+    seen, unconfirmed = set(), []
+    for i, line in enumerate(lines):
+        for pid in ARXIV.findall(line):
+            if pid in seen or pid in moved:
+                continue
+            seen.add(pid)
+            window = "\n".join(lines[i:i + RECORD_WINDOW])
+            if not (PUBLISHER_DOI.search(window) or CONFIRMED_AGAINST.search(window)):
+                unconfirmed.append(pid)
+    if unconfirmed:
+        print(f"  WARN  {len(unconfirmed)} of {len(seen)} tier-2 papers cite no venue record "
+              f"within {RECORD_WINDOW} lines of first mention: {', '.join(unconfirmed)}. "
               f"A venue named in prose is the author's claim until a record is cited.")
     else:
-        ok(f"{checked} tier-2 entries name a preprint, each citing a publisher record per paper")
+        ok(f"{len(seen)} tier-2 papers, each citing a venue record "
+           f"(publisher DOI, programme or index) within {RECORD_WINDOW} lines")
 
 
 def check_metadata():

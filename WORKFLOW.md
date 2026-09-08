@@ -20,29 +20,44 @@ rests on:
 | Commit message conventions | Adoption is measured. Benefit is asserted, never measured |
 | AI-specific practice | Early, and almost entirely vendor or self-reported |
 
-### The "keep pull requests under 400 lines" rule, and why no number from it is safe to cite
+### The "keep pull requests under 400 lines" rule, settled against the original 2006 book
 
-**Revised 2026-09-04, and the revision is more interesting than the original claim.**
-
-An earlier version of this section asserted confidently that the popular rule misreads a 2006 study
-by turning a review *rate*, lines per hour, into a *batch size*, lines per pull request. **Two
-independent verification passes then read that study and its secondary sources and extracted
-materially different numbers**, so the confident version is withdrawn.
+**Settled 2026-09-08 by reading the book itself**, after two verification passes read its secondary
+sources and extracted materially different numbers. Both passes were wrong in interesting ways and
+the popular rule is folklore, though not quite in the way this section originally claimed.
 
 The source is an industrial study of roughly **2,500 reviews, 3.2 million lines of code, 50
-developers**, published in 2006. What the two passes reported:
+developers**, published in 2006. Quoting it directly:
 
-| | First pass | Second pass |
-|---|---|---|
-| Recommended size | **100 to 300 lines** | **200 to 400 lines** |
-| Recommended sitting | 30 to 60 minutes | 60 to 90 minutes |
-| Rate threshold | slower than **400 lines/hour** finds more | under **500 lines/hour** |
-| Small-change finding | below 200 lines had *high* defect density | not reported |
-| Defect discovery | not reported | **70 to 90%** at the recommended size |
+| What the book actually says | Kind of claim |
+|---|---|
+| "Reviewers slower than **400 lines per hour** were above average in their ability to uncover defects. But when faster than 450 lines/hour the defect density is below average in **87% of the cases**" | Measured, and it is a **rate** |
+| "Anything **below 200 lines** produces a relatively high rate of defects, often several times the average... no review larger than 250 lines produced more than 37 defects per 1000 lines" | Measured, and it is a **size** |
+| "after 60 minutes reviewers 'wear out' and stop finding additional defects" | Measured, and cited to a separate study |
+| "a reviewer will **probably** not be able to review more than **300-400 lines** of code before his performance drops" | **A hypothesis the book derives** from the two rows above, hedged in its own sentence |
+| "Industry experts say inspection rates should not exceed **200 lines per hour**" | Inherited from Fagan and Gilb, not measured here |
+| "your overall speed is going to be about **200 to 400 lines of code per hour**... you should expect to get a **70 to 90% yield**" | A **rate** again, in a Q&A about reviewing *your own* code |
 
-**If the second reading is right, the popular rule is roughly correct and this section's original
-claim was wrong.** Neither pass can be preferred without reading the original 2006 book rather than a
-summary of it, and this collection has not done that. `EVIDENCE.md` records it under contested
+**So the original claim was right about the mechanism.** The famous 400 is **400 lines per hour**, a
+review rate. The popular rule converts it into a batch size, which the book never states as a
+measurement. The second verification pass's "200 to 400 lines" and "70 to 90%" came from the last row
+above, where both numbers describe a rate and its yield: **that pass committed the exact misreading
+this section exists to describe.**
+
+**And the original claim was too strong.** A 300-400 line ceiling is not baseless. The book derives
+one, explicitly as a hypothesis, from the 60-minute wear-out plus a defensible rate. So "under 400
+lines" is a reasonable heuristic with a stated derivation behind it, and it is not a measured
+threshold, and anyone citing it as one is citing something the book hedged.
+
+**One caveat the book raises about its own strongest size finding**, and it is the sharpest thing in
+the chapter: the "small reviews find more defects per KLOC" result **assumes true defect density is
+constant across large and small changes**. The book flags this itself. If a 400-line change does not
+in fact contain four times the defects of a 100-line change, the result partly measures the
+assumption.
+
+**What to actually do**, and it follows from the rate rather than the size: keep a review to one
+sitting under an hour, which for most code means a few hundred lines. Size is the proxy; time and
+pace are what was measured. `EVIDENCE.md` records the full resolution under contested
 findings.
 
 **What survives either reading, and it is weaker and still worth having:**
@@ -135,11 +150,18 @@ automated versioning and changelog generation.
 - **Do not adopt a commit convention for quality reasons.** Adopt it because you want the tooling it
   enables, or do not adopt it. Both are fine; the quality argument is unsupported.
 
-**AI attribution has a real convention now, and it is worth copying rather than inventing.** During
-2026 the Linux kernel, Fedora, Rocky Linux, LLVM, QEMU, the Apache Software Foundation and
-OpenTelemetry converged on an **`Assisted-by:`** trailer, in the kernel's form carrying the agent and
-model version, while **barring AI from `Signed-off-by`**. That split keeps human accountability and
-machine assistance in separate fields.
+**AI attribution has real conventions now, plural, and which one applies depends on your
+ecosystem.** During 2026 several major projects adopted trailer-based disclosure and **they did not
+converge on one token**. The Linux kernel, Fedora, Rocky Linux and Zephyr use **`Assisted-by:`**, the
+kernel's form carrying the agent and model version. The Apache Software Foundation and OpenInfra use
+**`Generated-by:`**. OpenTelemetry prescribes **no trailer**, describing assistance levels instead.
+`RESEARCH.md` has the table with each row's primary source.
+
+What *is* common to all of them is the structural rule: **disclose the assistance, and never in a
+field that certifies authorship.** The kernel bars AI agents from `Signed-off-by` outright.
+
+An earlier version of this paragraph asserted a seven-project convergence on `Assisted-by:`. It was
+wrong on two projects and named two more that were never verified. Recorded as error 21.
 
 - **Do not invent a disclosure scheme local to your repository.** Follow the one your ecosystem is
   converging on.

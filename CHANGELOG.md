@@ -4,6 +4,127 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.12.0, 2026-09-08
+
+**An external audit at 0.11.0 found three corrections that had never reached the files an agent
+actually loads, and the primary sources were then obtained on paper.** Reading them reversed three
+tier downgrades, settled the oldest open item on the roadmap, restored a figure this collection had
+wrongly withdrawn, and exposed two numbers that appear nowhere in the paper they were attributed to.
+Three new errors, one rewritten, and the changelog leaves the distributable.
+
+### The agent-facing files were carrying withdrawn claims, one of them false about a named third party
+
+Three corrections landed in `EVIDENCE.md` or `RESEARCH.md` and never propagated:
+
+- **The trailer table.** `SKILL.md` and `WORKFLOW.md` still said seven projects had converged on
+  `Assisted-by:`, two versions after that was replaced with a verified table showing **two camps and
+  an abstainer**. Both were wrong about the **Apache Software Foundation**, which uses
+  `Generated-by:`, and about **OpenTelemetry**, which prescribes no trailer at all. Both also named
+  **LLVM and QEMU**, which no pass here ever verified.
+- **The evidence-base withdrawal.** `DOCS.md` still said five repositories and still described the
+  withdrawn third-party codebase, while the 0.8.0 changelog asserted every file had been rewritten.
+- **The replication upgrade.** `SKILL.md` and `README.md` still said two independent groups and "the
+  only replicated finding" after `EVIDENCE.md` went to four groups and multiply replicated.
+
+All fixed. Recorded as **error 21**, whose lesson is that the file where a correction is easiest to
+write is not the file where it matters. `AGENTS.md` now requires grepping the agent-facing files
+specifically before a correction counts as done.
+
+### Three tier-2 downgrades reversed, one upheld
+
+The 0.10.1 audit moved four papers to tier 4 because their acceptance rested on a surface the authors
+control. **The rule was right and three of the four downgrades were wrong.** The records existed and
+were unreachable from a network-restricted session:
+
+- **arXiv:2608.18167 restored.** OpenReview record, ICML 2026 Workshop DL4C, **Poster**, submission
+  123.
+- **arXiv:2605.16706 restored.** ICSME 2026 programme, **Visions and Emerging Results** track.
+- **arXiv:2605.02273 restored.** EASE 2026 programme, **Short Papers and Emerging Results** track.
+- **arXiv:2507.09089 stays at tier 4.** It never claimed a venue.
+
+**A weakness in the scale that the restorations exposed and this version does not fix:** all three
+are real acceptances in the lightest categories their venues run, and tier 2 flattens a workshop
+poster together with a full research-track paper. Each entry now names its track. That is a patch on
+the prose, not on the scale, and it is recorded as an open weakness.
+
+### Two numbers that are not in the paper, published under a claim the paper had been read
+
+The contested-security block asserted a table with "AI at 12.81 alerts per KLOC against human 11.58"
+and a risk breakdown with "AI more high-risk, 0.934 against 0.464", in the same paragraph as the
+sentence **"Both full texts were read on 2026-09-06."**
+
+Against the PDF: **12.81 and 11.58 appear nowhere in the paper.** The high-risk row is **0.514
+against 0.52**, which the paper calls *similar*, so the published figures reversed the direction of
+the finding they named. The one correct figure, 10.04 against 13.56, is why nothing looked wrong.
+
+The conclusion built on them, "both find elevated high-risk patterns in at least one cut", was the
+pivot of the whole adjudication. It survives only in a weak language-sliced form: four of eight
+languages higher, three lower. At the aggregate the contesting paper finds AI-generated code **lower
+in alert density and cleaner on hardcoded secrets**, the second of which contradicts one of the two
+defect classes this collection tells you to check for and had not been recorded at all.
+
+**The safeguard stays, on the asymmetric-burden rule alone.** That rule has now done real work
+against a source that genuinely hurts, which is the first time it has been tested rather than cited.
+Recorded as **error 23**.
+
+### The 2006 code review book was read, and the top roadmap item is settled
+
+Both verification passes had it wrong. The famous "400" is **400 lines per hour**, a review rate:
+reviewers slower than that were above average at finding defects, and above 450 lines/hour defect
+density was below average in **87% of cases**. The second pass's "200 to 400 lines" and "70 to 90%"
+come from a Q&A about reviewing your own code, where both numbers describe **a rate and its yield**.
+That pass converted a rate into a size, which is exactly the misreading the collection was arguing
+the popular rule commits.
+
+**And the original headline was too strong.** The book does derive a 300-400 line ceiling, explicitly
+as a hypothesis, from the 60-minute wear-out finding. So the popular rule is a hedged derivation
+misquoted as a measurement rather than pure folklore. `WORKFLOW.md` now carries the quotations, the
+distinction, and the caveat the book raises about its own strongest size result.
+
+### A withdrawal that was wrong, and the rule that was missing
+
+Error 19 previously recorded that gap 6 had joined a figure to the wrong qualifier. **The paper's
+introduction says, verbatim, "ARTIFACTCOPILOT achieves the highest three-run mean exact badge
+agreement at 70.56%."** The original text was right and the correction was made on a secondhand read
+of the abstract.
+
+Error 19 is now about the withdrawal. New rule: **a withdrawal needs the same primary-source standard
+as an assertion.** Hard rule 1 forbids asserting an unseen figure and nothing forbade retracting one,
+so a correct number was removed by a document whose entire argument is that you do not do that.
+
+Gap 6 also gains the number that matters more than either: across three runs on 60 artifacts, the
+best evaluator agent reproduced its own badge on **32 of 60**, with baselines from 37/60 down to
+12/60 and failure rates up to 45%.
+
+### An audit that fixed its own scope and not the rule's
+
+The 0.10.1 venue audit checked all nine tier-2 papers. The tier-1 entry claimed a workshop acceptance
+"confirmed from the paper's own front matter", the same disqualified surface, one heading above. It
+was never looked at, and the entry then contradicted itself for two days, saying both "confirmed
+workshop-accepted" and "both preprints". Both shipped. Recorded as **error 22**, and the boundary
+table gains a sixth row: the check looked at tier 2, and the same rule applied to tier 1.
+
+### `CHANGELOG.md` leaves the distributable
+
+Same logic `build.py` already applies to `ROADMAP.md` and `CONTRIBUTING.md`: it governs this
+repository rather than a consumer's. It had reached roughly 40 minutes of reading and 15% of the
+distributable while telling a consumer nothing about what to do. It stays in the repository, where
+anyone comparing two versions will look for it, and `README.md` says so.
+
+### Also
+
+- **arXiv:2607.27250's venue is now confirmed preprint-only** from the PDF, closing a "could not
+  confirm" from 2026-09-03, and its finding is stated properly for the first time: a **bounded null**
+  on context files, correctness effect within 10 and 15 percentage points by equivalence testing
+  across 288 runs, with failures attributed to implementation skill rather than missing repository
+  knowledge.
+- **arXiv:2603.17973 stays tier 3** and **arXiv:2511.12884 stays tier 4**, both confirmed against
+  their PDFs rather than against page metadata.
+- **The venue check in `build.py` was widened.** Its first version accepted only a publisher DOI,
+  which is narrower than the rule it enforces, and it fired on three entries correctly confirmed
+  against OpenReview and two conference programmes. It now accepts all three routes the scale names,
+  states its own proximity window as its scope, and was made to fail on purpose again.
+
 ## 0.11.0, 2026-09-07
 
 **A practitioner account of running one workflow across two vendors' harnesses was read, graded, and
