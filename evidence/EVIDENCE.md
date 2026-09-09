@@ -2012,6 +2012,57 @@ Kept deliberately, because they are the argument for the scale.
     is a result. "And nobody else has done this" is a different claim needing its own search, which
     in this case would have been a code search rather than a literature search.
 
+28. **The collection verified every artifact it produced and never verified the one that was
+    running.** Reported 2026-09-09 by an outside audit session with access to the author's machine.
+    The repository facts below are verified here. **The machine state is the author's report and was
+    not observed from inside this repository**, which is itself part of the finding: nothing in this
+    project can see the thing that matters most.
+
+    The installed skill was **0.7.0, dated 2026-09-04 in `CHANGELOG.md`**. The repository was at
+    0.15.0. **Eleven releases**, carrying every correction from errors 19 through 27, had landed in
+    the repository and none had reached the thing that loads. It was a flat copy of the directory,
+    so there was no mechanism by which any of them ever could.
+
+    **The cause is a sentence in this collection's own README.** The install instruction read "Clone
+    **or copy** the directory", offering the two as equivalent. They are not. A clone has a version
+    and can be updated; a copy has neither. The document whose entire argument is that a claim must
+    be traceable to a version told its only user to install it in the one way that discards the
+    version.
+
+    What was therefore loaded in every session for five days:
+
+    - The **ASF trailer claim in its pre-correction form**, wrong about a named third party.
+    - **"five repositories"** as the first-party evidence base, since corrected to four.
+    - **No `SETUP.md`, `SPEC.md`, `MEASURING.md`, `SOLO.md`, `TEAM.md`, `HANDOFF.md` or
+      `REFRESH.md`**, because none of them existed at 0.7.0.
+    - **No `templates/AGENTS.md`**, and a **description two orders of magnitude shorter** than the
+      921 characters the current version carries, which is the only field deciding whether the skill
+      loads at all.
+
+    Why it earns a number, and why it is the worst entry on this list:
+
+    - **It is the eighth row of the boundary table and the first one drawn outside the repository.**
+      Every previous row drew its boundary at a convenient unit *inside* the project: a branch, a
+      file's contents, the distributable, the working tree. This one drew it at the project.
+      `build.py` verifies what it builds, the watcher verifies what it cites, and nothing verified
+      what runs.
+    - **Every other error here is a wrong claim in a document. This one was a wrong claim in
+      production.** The other twenty-seven were wrong where a reader might encounter them. This one
+      was wrong in every session on the machine where the work was being done, including the
+      sessions that wrote the corrections it did not have.
+    - **It would have consumed the adoption run.** The 1.0 gate accepts exactly one input, an
+      adoption run against a real repository. That run would have adopted 0.7.0 and produced a
+      friction log against defects fixed three days earlier, and **nothing anywhere would have said
+      so**. The most expensive item in the project was pointed at a stale artifact.
+    - **The skill states its own version in its eighth line, and was never asked.** This was not a
+      check nobody had built. It was a question nobody thought to ask of a file that answers it.
+
+    New rule, and deliberately **not** a new build check: **install by a mechanism that carries a
+    version, and make the loaded version the first thing asserted before acting on loaded rules.**
+    A build check would be the wrong shape by construction, because the failure lives outside the
+    build's reach, which is the whole finding. `README.md` now refuses the copy install and
+    `ADOPTION.md` now opens by asking the skill which version it is.
+
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
 the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
@@ -2028,7 +2079,7 @@ Two lessons, not one:
   error on this list at least leaves you uncertain. This one hands you confidence.
 
 **And one pattern runs through errors 9 and 17 and every repeat of them, which is worth stating as a
-rule because naming the instances did not stop it recurring.** Seven times in this repository, a check
+rule because naming the instances did not stop it recurring.** Eight times in this repository, a check
 drew its boundary at the convenient unit and the thing it was looking for sat one unit outside it:
 
 | The check looked at | What it was looking for was in |
@@ -2040,6 +2091,7 @@ drew its boundary at the convenient unit and the thing it was looking for sat on
 | The paper's arXiv page | The publisher's record |
 | The tier-2 section | Tier 1, where the same rule applied |
 | The working tree | The zip a consumer installs |
+| The built zip | The copy actually installed and loaded |
 
 Every one of those checks passed. Every one was correct within its scope. **None of them stated its
 scope**, so a clean result read as "clean" rather than as "clean in the half I looked at". The fifth,
@@ -2047,6 +2099,12 @@ error 20, shows the pattern is not only about identifier leaks: the convenient s
 question asked, and the answer it gave was the author's. **The sixth, error 22, is the one that
 should end the argument**: it was committed by the audit that discovered the fifth, in the same
 session, against a rule it had just written.
+
+**The eighth, error 28, is the only one whose boundary was the repository itself, and it is the
+reason this table is not a curiosity.** The first seven cost a wrong sentence in a document. The
+eighth meant that for five days none of the other twenty-seven corrections reached the artifact
+being loaded, and no instrument in this project was positioned to notice. **A collection that
+verifies only what it produces has verified nothing about what anyone runs.**
 
 **The rule: a check must report the boundary it drew, next to its result.** "No identifier leaks in
 22 files, contents only" is a result a reader can act on. "No identifier leaks" is compatible with
@@ -2104,6 +2162,7 @@ things has not slowed**, which is the honest argument for a sixth rather than fo
 | 2026-09-09 | Third landscape pass, searching code hosts rather than literature | Error 27. **The claim that nobody else has measured against a control was false**, and had survived six checks because it reads as humility. `martinholovsky/SOTA-skills` runs guided-against-unguided arms, publishes nine nulls, retracted a lift, pre-registers predictions, and runs negative-control CI that verifies the intended check is the one that fired |
 | 2026-09-08 | Competitive evaluation against comparable published work, and a skill-craft audit | Errors 24 and 25. **A platform limit this collection invented and enforced in its own build**, which starved the field that decides whether the skill loads. **A conflict claim about a vendor that had gone stale** while the recheck date read zero days old, with a live conflict unrecorded at the same moment. Also: the overlap with first-party vendor guidance is materially larger than this collection claimed |
 | 2026-09-08 | Full external audit at 0.11.0, plus primary sources obtained on paper | Errors 21, 22 and 23. **Three corrections that never reached the agent-facing files**, one of them false about a named third party. An audit scoped to the section rather than the rule. And **two figures that are not in the paper they were attributed to, published under a claim that the paper had been read in full** |
+| 2026-09-09 | An audit that looked at the **installed** skill rather than the repository | **Error 28, the worst one here.** The loaded copy was **eleven releases stale and had been for five days**, because this collection's own README offered a copy install. Seven checks had examined what the repository builds. This was the first to ask what actually runs |
 
 **What the 2026-09-06 pair demonstrated is worth separating from what it found.** Neither pass alone
 produced the trailer table, and neither alone would have caught the mis-tiering. Two passes cost

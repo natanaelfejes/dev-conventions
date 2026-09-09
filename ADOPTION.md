@@ -5,6 +5,12 @@ conventions in. It works unchanged in any repository, any language, any team siz
 
 **Prerequisite:** this collection installed where your tool looks for skills. Nothing else.
 
+**And one assertion before you start, which costs a sentence and once cost five days.** The first
+thing the prompt does is report the version of the skill it loaded. Check it against the version you
+expect. An installed skill is a copy of a document, it goes stale silently, and an adoption run
+against a stale copy produces a friction log about defects you already fixed. That is error 28 and
+it is the reason this line exists.
+
 Run it once per repository. It is deliberately **two phases with a stop in between**, because the
 second phase is wrong if the first one guessed. The stop is friction on purpose.
 
@@ -17,6 +23,10 @@ the three places an adoption pass usually goes wrong.
 
 Load the `dev-conventions` skill and adopt it in this repository. Work in two phases and **stop
 between them for my approval**. Do not skip ahead.
+
+**First, before anything else, quote the version line from the top of the skill's `SKILL.md` back to
+me and stop if I say it is wrong.** One line. Everything you do after this is decided by that
+document, so I need to know which one you have.
 
 ## Phase 1: derive and write the profile. Nothing else.
 

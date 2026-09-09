@@ -187,8 +187,38 @@ inversely correlated in this market and it is no longer an anecdote.** Recorded 
 
 ## Unreleased, 2026-09-09
 
-**No version bump: `ROADMAP.md` is excluded from the distributable and is deliberately volatile.**
-Recorded here because the second item changes what this collection can claim about itself.
+**No version bump: `ROADMAP.md` item 0 says stop releasing, `ROADMAP.md` itself is excluded from the
+distributable and deliberately volatile, and the fix below is an instruction rather than a check.**
+Recorded here because both items change what this collection can claim about itself.
+
+### Error 28, and it is the worst one on the list
+
+An outside audit session found that the installed skill on the author's machine was **0.7.0, dated
+2026-09-04**, while the repository was at 0.15.0. **Eleven releases**, carrying every correction
+from errors 19 through 27, had landed in the repository and none had reached the thing that loads,
+because it was a flat copy of the directory with no mechanism by which they ever could.
+
+**The cause was a sentence in this collection's own `README.md`**, which offered "clone **or copy**"
+as equivalent installs. They are not: a clone has a version and can be refreshed, a copy has
+neither. For five days every session on that machine loaded the ASF trailer claim in its
+pre-correction form, "five repositories" instead of four, none of the seven files added since
+0.7.0, and a description too short to reliably trigger the skill at all.
+
+**It is the eighth row of the boundary table and the first drawn outside the repository.** `build.py`
+verifies what it builds and the watcher verifies what it cites; nothing verified what runs. And it
+would have eaten the adoption run, the single input the 1.0 gate accepts, producing a friction log
+against defects fixed three days earlier with nothing anywhere to say so.
+
+**Fixed as an instruction rather than a check, deliberately**, because the failure lives outside any
+build's reach by construction and that is the finding:
+
+- `README.md` now **refuses the copy install**, says why, and tells you to refresh on every bump.
+- `README.md` and `ADOPTION.md` now both require **asserting the loaded version before trusting it**.
+  The skill states its version in its eighth line and had never once been asked.
+- `evidence/EVIDENCE.md` carries error 28 in full and the boundary table gains an **eighth row**.
+
+**The machine state is the author's report and was not observed from inside this repository**, which
+is part of the finding rather than a caveat on it.
 
 ### The release gate split in two
 

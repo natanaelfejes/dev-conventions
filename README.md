@@ -82,20 +82,22 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   measured agent evaluation flipping outcomes between identical runs, with temperature zero providing
   no protection, and two of them name the causes. Every single-run number in this collection inherits
   that caveat, including the ones these four papers report.
-- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-seven of
+- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-eight of
   them, including a security figure it inflated nineteenfold, a source it cited as saying the
   opposite of what it found, and **two figures that are not in the paper they were attributed to,
   published under a claim that the paper had been read in full**. That list is not humility
   furniture. It is the argument for the scale, and it is the section to read first if you want to
   know how much to trust the rest.
-- **It has been checked from outside seven times**, between 2026-09-03 and 2026-09-09, and every one
+- **It has been checked from outside eight times**, between 2026-09-03 and 2026-09-09, and every one
   of them found something. A fabricated statistic. Two figures wrong. Four items where two
-  independent passes disagreed. A shipped template that misstated its own source. Most recently, and
-  worst: **three corrections that never reached the files an agent actually loads**, one of them
-  false about a named third party, and **two figures that appear nowhere in the paper they were
-  attributed to, published under the sentence "both full texts were read"**. All recorded, with what
-  each check cost, at the end of `EVIDENCE.md`. **Please be the seventh**: the rate at which checking
-  finds things has not slowed.
+  independent passes disagreed. A shipped template that misstated its own source. Three corrections
+  that never reached the files an agent actually loads, one of them false about a named third party.
+  **And worst, the eighth, which was the first to look at the installed copy rather than the
+  repository: it had been eleven releases stale for five days, so none of those corrections had
+  reached the thing that loads.** Seven checks examined what this repository builds. The one that
+  examined what runs found the worst thing on the list. All recorded, with what each check cost, at
+  the end of `EVIDENCE.md`. **Please be the ninth**: the rate at which checking finds things has not
+  slowed.
 
 ## What is in here, and it is two artifacts now
 
@@ -140,7 +142,15 @@ to pin or upgrade, and it is not something an agent should be loading. Read it o
 
 ## Install
 
-**Claude Code, personal.** Clone or copy the directory to `~/.claude/skills/dev-conventions/`.
+**Never install this by copying the directory, and this instruction used to say you could.** A copy
+carries no version and no way back to one, so it can never be refreshed and nothing will tell you it
+is stale. That is not hypothetical: this collection's only installation sat eleven releases behind
+for five days because an earlier version of this line offered "clone or copy" as if the two were
+equivalent. See error 28, which is the worst one on the list.
+
+**Claude Code, personal.** Clone to `~/.claude/skills/dev-conventions/`, or unpack a released zip
+there. Refresh it with `git pull` in that directory, or by unpacking the new zip over it, **every
+time you bump the version**.
 
 **Claude Code, one project.** Same, at `.claude/skills/dev-conventions/`.
 
@@ -151,6 +161,11 @@ Requires a paid plan with code execution enabled.
 
 **Other tools.** The skill format is supported natively well beyond one vendor. Check your tool's
 documentation for where it expects skills to live; the files themselves need no changes.
+
+**Then assert what actually loaded, once, before you trust it.** Ask the agent in a fresh session:
+*"Load the dev-conventions skill and tell me the version line at the top of `SKILL.md`."* It states
+its own version in its eighth line. If that number is not the one you expect, everything downstream
+of it is being decided by a document you have already corrected.
 
 **One hard rule, whichever way you install it: never `@`-import this from an instruction file.** It
 is a skill so that it loads on demand. Importing it turns a reference document into per-turn context,

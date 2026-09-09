@@ -67,7 +67,7 @@ Each of these has been asked for directly. Saying no is not a gap.
 ### The one want this artifact cannot meet as stated, and it should be said rather than quietly missed
 
 The author asked for something that means **never having to research this again**, self-updating. In
-a field where six outside checks each found something and the rate has not slowed, a
+a field where eight outside checks each found something and the rate has not slowed, a
 never-stale digest is not available. **What is available is an honest map of what is known, what is
 contested and what nobody has measured, refreshed on a cadence.** `REFRESH.md` is that cadence and
 the build warns when it lapses. Anything promising more than that is the failure mode this collection
@@ -134,6 +134,25 @@ will report every control caught even when every run dies before the thing under
 intended check is the one that produced the message.** Their own harness found this the hard way,
 twice: once when a probe failed on check 6 instead of check 15 because a staged file leaked between
 probes, and once when a piped `grep -q` under `pipefail` reported a real catch as a false pass.
+
+### Verify what runs, not only what you build
+
+**Added 2026-09-09, as error 28, and it is the worst thing recorded here.** `build.py` verifies the
+artifact it produces. The watcher verifies the sources it cites. **Nothing verified the copy that
+was actually loaded**, and for five days that copy was eleven releases stale, on the author's own
+machine, in every session, including the sessions writing the corrections it did not have.
+
+Two things follow, and neither is a new build check, because the failure lives outside any build's
+reach by construction:
+
+- **An install that cannot name its version is broken, whatever it contains.** `README.md` refuses
+  the copy install for this reason. A copy has no version and no path back to one.
+- **Assert the loaded version before acting on loaded rules.** `SKILL.md` states its version in its
+  eighth line. That question had never been asked, which is why `ADOPTION.md` now opens with it.
+
+**And the general form, which is the eighth row of the boundary table in `evidence/EVIDENCE.md`:**
+every check in this repository has drawn its boundary at a convenient unit inside the project.
+Before adding one, ask what sits immediately outside the unit it examines.
 
 ### Detection is automated. Judgment is not.
 
