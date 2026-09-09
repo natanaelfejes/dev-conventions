@@ -60,6 +60,40 @@ two models, one task, and on one model the unguided arm already scores 1.00 so t
 commercial interest in the library performing well. Its headline is hedged and it reports the
 stricter measure alongside the flattering one, which is more than most such parties do.
 
+### Read SOTA-skills' measurement method, and took the three things that transfer
+
+A worker read its evaluation harness in full and reported honestly that **most of it does not
+transfer**, because the apparatus measures a generative task against a rubric and this repository has
+no artifact whose lift can be measured. That bottom line is the useful part and it is recorded at
+`.agents/sota-method-2026-09-09.md` rather than stretched.
+
+Three things do transfer, all adopted in `AGENTS.md`:
+
+- **Pre-register a rule change before making it.** A dated note, committed before or alongside the
+  change, stating what you expect, **what observation would show it did not help** as a threshold you
+  will not move, and the ways it could fail to measure anything, listed in advance **so they cannot
+  be discovered afterwards as an explanation for an inconvenient result.** It does not manufacture a
+  control. It stops the repository reading its own outcomes as confirmation after the fact, which is
+  the one failure a prose collection can actually close.
+- **One data point is not a number.** Never publish a first-party figure without its sample size.
+  Their +0.07 was retracted at n=49 and their +0.40 became +0.39 on a two-run mean. This collection's
+  first-party findings are routinely single incidents.
+- **A fail-on-purpose test must assert which check fired.** This repository has been planting a
+  defect and confirming the build fails, which accepts **any** failure. Their harness calls a
+  mutation caught for the wrong reason a **false pass** and treats it as equivalent to not caught,
+  because a harness accepting any non-zero exit reports every control caught even when every run dies
+  before the thing under test. They found it twice: a staged file leaking between probes so a probe
+  failed on the wrong check, and a piped `grep -q` under `pipefail` reporting a real catch as a false
+  pass.
+
+### A fourth corroboration of the tier-1 finding, with a usable number
+
+Their harness records that re-running an **untreated** arm, which cannot see the treatment, moved
+0.60 to 0.57 at temperature 0, and derives a working rule: **any single-sample delta below roughly
+0.05 is unresolvable.** That is the first figure here that tells a practitioner **how big a
+difference has to be** before one run means anything, rather than only that one run is unreliable.
+Tier 5, one harness, one project.
+
 ### Three gaps the audit named that had not been closed
 
 - **`SETUP.md` said "per machine" and was silent about the second machine.** Anyone with a work

@@ -100,6 +100,41 @@ a retraction, and runs negative-control CI. `sjarmak/engineering-reliable-coding
 companion to a 314-page monograph with a versioned catalog and an evidence ledger. **Read their
 method. Do not copy their rules.** Both are tracked in `sources.yml`.
 
+### Pre-register a rule change before you make it
+
+**Adopted 2026-09-09 from `martinholovsky/SOTA-skills`, which is ahead of this collection on
+measurement discipline.** Before changing or adding a rule on the strength of an anecdote or a single
+observed failure, write a short dated note and **commit it before or alongside the change, never
+after**:
+
+- What you expect the rule to change.
+- **What observation would show it did not help**, stated as a threshold you will not move.
+- The ways the change could fail to measure anything, listed in advance **so they cannot be
+  discovered afterwards as an explanation for an inconvenient result.**
+
+**This does not manufacture a control and does not pretend to.** This repository has no runnable
+artifact whose lift can be measured, and most of the borrowed project's apparatus therefore does not
+transfer, which is recorded honestly at `.agents/sota-method-2026-09-09.md`. What it does is stop the
+repository reading its own outcomes as confirmation after the fact, which is the one failure a prose
+collection can actually close.
+
+**One data point is not a number.** Never publish a first-party figure without its sample size
+attached. Two figures in the borrowed project were walked back by a larger sample: a +0.07 retracted
+at n=49, and a +0.40 revised to +0.39. This collection's first-party findings come from four
+repositories and are routinely single incidents.
+
+### Making a check fail on purpose is not enough on its own
+
+**Sharpened 2026-09-09.** This repository's practice has been to plant a defect and confirm the build
+fails. That accepts **any** failure, and the borrowed project documents why it is insufficient: a
+mutation caught for the wrong reason is a **false pass**, and a harness accepting any non-zero exit
+will report every control caught even when every run dies before the thing under test.
+
+**So a fail-on-purpose test asserts two things, not one:** that the build failed, **and that the
+intended check is the one that produced the message.** Their own harness found this the hard way,
+twice: once when a probe failed on check 6 instead of check 15 because a staged file leaked between
+probes, and once when a piped `grep -q` under `pipefail` reported a real catch as a false pass.
+
 ### Detection is automated. Judgment is not.
 
 `sources.yml` and `.github/workflows/source-drift.yml` watch the external sources monthly and file a

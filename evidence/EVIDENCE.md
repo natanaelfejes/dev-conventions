@@ -114,6 +114,14 @@ measured, and where it was itself wrong. Those are different instruments. Its sc
 you that a paper's venue was never confirmed; this document's tier scale cannot tell you whether a
 rule changes what a model writes.
 
+**A fourth independent corroboration of the tier-1 nondeterminism finding, and this one comes with a
+usable number.** Its harness records that temperature 0 is not deterministic in practice: re-running
+an **untreated** arm, which cannot even see the treatment, moved 0.60 to 0.57. From that it derives a
+working noise floor and states it as a rule: **any single-sample delta below roughly 0.05 is
+unresolvable.** That is the first figure this document holds that tells a practitioner *how big a
+difference has to be* before a single run means anything, rather than only that single runs are
+unreliable. Organisation-disclosed, one harness, one project, so tier 5.
+
 **How this entry was verified, because the pass that surfaced it has a defect worth recording.** The
 repository was **cloned and grepped**, not read from its README, and the two facts most load-bearing
 here, the negative-control script and the `LAST-VERIFIED` invariant, are visible only in the clone.
