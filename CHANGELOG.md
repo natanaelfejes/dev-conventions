@@ -4,6 +4,42 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.14.1, 2026-09-09
+
+**Three packaging defects in 0.14.0, the release whose purpose was to fix packaging.** Found by an
+outside reader inspecting the built zip rather than the repository, which is the distinction that
+caused all three.
+
+- **`templates/AGENTS.md` had never shipped, in any version.** The exclusion filter matched on file
+  name, so excluding the root `AGENTS.md` also caught the template. Five of six templates shipped.
+  Exclusions now match a relative path; `LOCAL.md` is the only name-matched exception and it says
+  why.
+- **Four rule files left the deliverable in the split**: `WORKFLOW.md` (17 rules),
+  `OBSERVABILITY.md` (11), `DOCS.md` (10) and `TOOLING.md` (9). **47 prohibitions and 8,523 words**
+  removed from what a consumer installs, described in the build as reference material read once by a
+  human. True of a vocabulary, false of seventeen rules about how changes move through a repository.
+  All four are back at the root. `EVIDENCE.md`, `RESEARCH.md` and `VOCABULARY.md` stay in
+  `evidence/`. **The boundary is apparatus against rules, not long against short.**
+- **Ten shipped files referenced documents a consumer does not receive**, `SKILL.md`'s own provenance
+  table among them.
+
+**One cause under all three.** The cross-reference check resolved against the working tree, so every
+reference resolved and the build stayed green while none of it was true of the zip. Worse: when
+`evidence/` was created the resolver was **extended to search it**, so references to files that had
+just stopped shipping would keep passing. That is a check edited to survive the change it existed to
+police. Recorded as **error 26**, and the boundary table gains a seventh row.
+
+Two new checks, both made to fail on purpose before being believed:
+
+- Cross-references resolve against **the shipped file list**, never the working tree.
+- The build **asserts the template count** against the directory rather than reporting it.
+
+Minor, same release: `.git` was filtered as a directory name only, so building from a git worktree,
+where `.git` is a file, shipped it. Now excluded by name as well.
+
+**Nothing was re-researched and no claim changed.** This is a packaging fix, which is what the
+versioning rule in `AGENTS.md` calls a patch.
+
 ## 0.14.0, 2026-09-08
 
 **The split, and the friction fix the split was blocking.** The rules and the evidence behind them

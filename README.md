@@ -4,7 +4,7 @@ Conventions for AI-assisted software development, where **every claim carries th
 evidence behind it**, and the guidance **adapts to your repository** instead of prescribing one shape
 for all of them.
 
-**Version 0.14.0. External claims last rechecked 2026-09-08.**
+**Version 0.14.1. External claims last rechecked 2026-09-08.**
 
 ---
 
@@ -76,7 +76,7 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   measured agent evaluation flipping outcomes between identical runs, with temperature zero providing
   no protection, and two of them name the causes. Every single-run number in this collection inherits
   that caveat, including the ones these four papers report.
-- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-five of
+- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-six of
   them, including a security figure it inflated nineteenfold, a source it cited as saying the
   opposite of what it found, and **two figures that are not in the paper they were attributed to,
   published under a claim that the paper had been read in full**. That list is not humility
@@ -117,10 +117,13 @@ reader of the apparatus was handed a skill they did not want.
 
 ### Artifact B: the evidence, which a human reads
 
-`evidence/` builds into a single document, roughly 35,000 words, and **it is not part of the skill.**
+`evidence/` builds into a single document, roughly 27,000 words, and **it is not part of the skill.**
 It holds the tier scale, every source, the disagreements left standing, the open gaps, the numbered
-errors, and the reference material on documentation rot, workflow, tooling categories, observability
-and vocabulary.
+errors, the research-community conventions and the vocabulary.
+
+**The boundary is apparatus against rules, and 0.14.0 drew it on length instead.** Four rule files,
+`DOCS.md`, `WORKFLOW.md`, `TOOLING.md` and `OBSERVABILITY.md`, ended up outside the deliverable and
+took 47 prohibitions with them. They are back in the skill. Error 26.
 
 Read it when a rule is challenged, when you need a claim's provenance, or when you want to know how
 often this has been wrong. **Do not load it in a session.** Nothing in `ADOPTION.md` requires it.

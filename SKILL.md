@@ -5,12 +5,12 @@ description: Evidence-graded conventions for AI-assisted development, where ever
 
 # Development conventions, evidence-graded
 
-**Version 0.14.0. External claims last rechecked 2026-09-08.**
+**Version 0.14.1. External claims last rechecked 2026-09-08.**
 
 ## What this is and is not
 
 **This is the rules half.** The evidence behind every claim, the sources, the disagreements, the open
-gaps and this collection's own numbered errors are a separate document, `evidence/EVIDENCE.md`, built
+gaps and this collection's own numbered errors are a separate document, `EVIDENCE.md`, built
 as its own artifact. They were one thing until 2026-09-08. Splitting them is why this file is a third
 of its former size: an agent applying a rule does not need the apparatus, and a human evaluating the
 claims should not have to install a skill to read it.
@@ -108,17 +108,23 @@ commands, which review passes are available, and the maturity level. `PROFILE.md
 | `SOLO.md` / `TEAM.md` | Load exactly one, whichever the profile's `team` field selects |
 | `MEASURING.md` | About to compare two configurations, models or prompts, or decide whether a practice earns its cost |
 | `REFRESH.md` | The build warns the recheck date is over ninety days old |
+| `DOCS.md` | Setting up, auditing or pruning a repository's documentation |
+| `WORKFLOW.md` | Setting up branching, merging, pull request or pre-merge gate conventions |
+| `TOOLING.md` | Choosing what to put around an agent, or checking for a missing category |
+| `OBSERVABILITY.md` | Deciding what to record about agent work, or explaining its cost |
 
-**`evidence/EVIDENCE.md` is not in this list and that is deliberate.** It is roughly 35,000 words and
-no agent should be loading it. Open it when a rule here is challenged, when you need a claim's
-provenance, or when you want to know how often this collection has been wrong. It ships as its own
-artifact and carries the tier scale, every source, the disagreements, the gaps, the errors list, and
-the documentation, workflow, tooling, observability and vocabulary references that used to sit in
-this skill.
+**`EVIDENCE.md` is not in this list and that is deliberate.** It is the apparatus: the tier scale,
+every source, the disagreements, the open gaps and this collection's own numbered errors. It builds
+as a separate document of roughly 27,000 words, alongside `RESEARCH.md` and `VOCABULARY.md`, and **no
+agent should load it**. Open it when a rule here is challenged or you need a claim's provenance.
+
+**The boundary is apparatus against rules, not long against short.** At 0.14.0 it was drawn on length
+and four rule files ended up outside the deliverable, taking 47 prohibitions and 8,523 words with
+them. Error 26.
 
 ## Where each layer's rules come from
 
-Stated once rather than tagged on every line. `evidence/EVIDENCE.md` carries the sources.
+Stated once rather than tagged on every line. `EVIDENCE.md` carries the sources.
 
 | Section | Provenance |
 |---|---|

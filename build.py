@@ -43,8 +43,17 @@ EXCLUDE_FILES = {
 # where anyone comparing two versions will look for it, and README.md points
 # there. The version line in SKILL.md is what a consumer needs, and the citation
 # message already says to cite the version you read.
+# Matched anywhere in the tree, by basename. Deliberately tiny: this is the
+# mechanism that removed templates/AGENTS.md from every distributable at 0.14.0,
+# because the root AGENTS.md was excluded and the match was on the file name.
+# LOCAL.md earns it because it can legitimately sit in a subdirectory and must
+# never ship from any of them. Nothing else does. Error 26.
+EXCLUDE_ANYWHERE = {"LOCAL.md"}
+
 EXCLUDE_DIRS = {".git", "dist", ".agents", "__pycache__", ".claude-plugin", ".github",
                 "evidence"}
+# In a git worktree, .git is a FILE rather than a directory, so filtering it as a
+# directory name alone ships it. Excluded by basename in collect() as well.
 # evidence/ is the split, made 2026-09-08. It holds the apparatus: the tier scale,
 # every source, the disagreements, the open gaps, the errors list, and the
 # reference files that are read once by a human rather than loaded by an agent.
@@ -72,10 +81,12 @@ ORDER = [
 # The evidence document, built as one file in this order. Read once by a human,
 # not loaded by an agent. EVIDENCE.md leads because the tier scale has to be read
 # before anything graded by it means anything.
-EVIDENCE_ORDER = [
-    "EVIDENCE.md", "RESEARCH.md", "DOCS.md", "WORKFLOW.md",
-    "OBSERVABILITY.md", "TOOLING.md", "VOCABULARY.md",
-]
+EVIDENCE_ORDER = ["EVIDENCE.md", "RESEARCH.md", "VOCABULARY.md"]
+# Corrected 0.14.1. The 0.14.0 split put four rule files in here on a long-versus-
+# short reading and removed 47 prohibitions and 8,523 words from what a consumer
+# installs. The boundary is APPARATUS versus RULES: sources, gaps, disagreements
+# and the errors list are apparatus; anything telling an engineer what to do
+# ships. WORKFLOW.md, OBSERVABILITY.md, DOCS.md and TOOLING.md are back at root.
 
 FAILURES = []
 
@@ -109,8 +120,10 @@ def collect():
     for dirpath, dirnames, filenames in os.walk(ROOT):
         dirnames[:] = [d for d in dirnames if d not in EXCLUDE_DIRS]
         for name in filenames:
+            if name == ".git":      # a file, not a directory, inside a worktree
+                continue
             rel = Path(dirpath, name).relative_to(ROOT).as_posix()
-            if rel in EXCLUDE_FILES or Path(rel).name in EXCLUDE_FILES:
+            if rel in EXCLUDE_FILES or Path(rel).name in EXCLUDE_ANYWHERE:
                 continue
             files.append(rel)
     # ordered files first, then the rest sorted, so templates/ and examples/ follow
@@ -217,32 +230,50 @@ def check_prose(files):
         # scope was file contents and nobody said so. Error 17.
         ok(f"no identifier leaks in {len(md)} files (contents only, see the metadata check)")
 
-    # cross-references. External concepts and template placeholders are expected.
+    # cross-references, resolved against WHAT SHIPS rather than what is on disk.
+    #
+    # Until 0.14.1 this resolved against the working tree, so a file that stopped
+    # shipping still resolved and the check stayed green. At 0.14.0 that let ten
+    # shipped files reference documents a consumer does not receive. It is row
+    # three of the boundary table, the distributable against the repository,
+    # recurring for the seventh time, in the release made to fix the split.
+    # Error 26. The question a consumer needs answered is whether the reference
+    # resolves IN THEIR COPY, so that is the only set consulted.
     external = {
         "CLAUDE.md", "GEMINI.md", "skills.md", ".agents/profile.yml",
         "dev-conventions/SKILL.md", "requirements.txt", "ADR-NNN.md",
+        "ADR-NNN-kebab-case-title.md", "LOCAL.md", "AGENTS.md", "ROADMAP.md",
         "setup.yml",   # the user's own resolved-stack file, produced by SETUP.md
                        # and living in their home directory, not in this repository
-        "ADR-NNN-kebab-case-title.md", "LOCAL.md", "AGENTS.md", "ROADMAP.md",
+        "CHANGELOG.md",   # in the repository and not in the distributable, on
+                          # purpose. README.md says where to read it.
+        "EVIDENCE.md", "RESEARCH.md", "VOCABULARY.md",   # the evidence document,
+                          # built separately. Named in shipped prose deliberately.
     }
+    shipped = {Path(f).name for f in files} | set(files)
     refs = set()
     pattern = re.compile(r"`([A-Za-z_./-]+\.(?:md|yml))`")
     for f in md:
         refs.update(pattern.findall((ROOT / f).read_text(encoding="utf-8", errors="ignore")))
-    missing = sorted(
-        r for r in refs
-        if r not in external
-        and not (ROOT / r).exists()
-        and not (ROOT / "templates" / r).exists()
-        and not (ROOT / "examples" / r).exists()
-        and not (ROOT / "evidence" / r).exists()
-    )
+    missing = sorted(r for r in refs if r not in external and r not in shipped)
     if missing:
-        fail(f"cross-references that do not resolve: {missing}")
+        fail(f"shipped files reference documents that do not ship: {missing}")
     else:
-        # Print the count, never just "no errors": a check that passes by
-        # finding nothing to check is error 9.
-        ok(f"{len(refs)} cross-references examined, all resolve")
+        ok(f"{len(refs)} cross-references examined against the {len(files)} shipped files, "
+           f"all resolve in a consumer's copy")
+
+    # The templates are the most-copied thing here and the least noticed when one
+    # goes missing: every local check passed at 0.14.0 while templates/AGENTS.md
+    # was absent from every distributable. A count is the cheapest instrument that
+    # would have caught it, and it is asserted rather than reported.
+    on_disk = sorted(p.name for p in (ROOT / "templates").iterdir() if p.is_file())
+    shipped_templates = sorted(Path(f).name for f in files if f.startswith("templates/"))
+    if shipped_templates != on_disk:
+        missing_t = sorted(set(on_disk) - set(shipped_templates))
+        fail(f"{len(on_disk)} templates on disk, {len(shipped_templates)} ship. "
+             f"Not shipping: {missing_t}")
+    else:
+        ok(f"all {len(on_disk)} templates ship: {', '.join(on_disk)}")
 
 
 ARXIV = re.compile(r"arXiv:\d{4}\.\d{4,5}")

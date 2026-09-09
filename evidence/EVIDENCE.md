@@ -1861,6 +1861,53 @@ Kept deliberately, because they are the argument for the scale.
     New rule: **a claim about what somebody else recommends is a dated claim about a page, and the
     page goes in the refresh list by URL.** `REFRESH.md` now names them.
 
+26. **Three packaging defects shipped in the release made to fix packaging, and the check that
+    would have caught all three was resolving against the wrong set.** Found 2026-09-09 by an outside
+    reader inspecting the built zip rather than the repository.
+
+    - **`templates/AGENTS.md` had not shipped in any distributable.** The exclusion list held the
+      root `AGENTS.md`, the filter matched on **file name**, and the template of the same name was
+      caught by it. Five of six templates shipped. The templates are the most-copied artifact here.
+    - **Four rule files left the deliverable in the 0.14.0 split**, taking **47 prohibitions and
+      8,523 words** with them: `WORKFLOW.md`, `OBSERVABILITY.md`, `DOCS.md` and `TOOLING.md`. The
+      build comment called them reference material read once by a human. That is true of a
+      vocabulary and false of seventeen rules about how changes move through a repository. **The
+      boundary was drawn on length when it should have been drawn on apparatus against rules.**
+    - **Ten shipped files referenced documents a consumer does not receive.** `SKILL.md`'s own
+      provenance table described five of them.
+
+    **One cause under all three, and it is the reason this earns a number rather than a patch note.**
+    The cross-reference check resolved names against the **working tree**. Every reference resolved,
+    the build was green, and none of it was true of what anybody installed. **It is row three of the
+    boundary table, the distributable against the repository, for the seventh time.**
+
+    Why it is the worst instance of that pattern so far:
+
+    - **It happened inside the release whose entire purpose was to fix what ships.** The 0.14.0 split
+      moved files between the deliverable and the apparatus and the check verifying the deliverable
+      was never pointed at the deliverable.
+    - **The check was actively taught to look in the wrong place.** When `evidence/` was created, the
+      resolver was extended to search it, so that references to files that had just stopped shipping
+      would keep resolving. **That is a check being edited to stay green through the exact change it
+      existed to police**, and it took one line.
+    - **Every other instrument passed.** No em dashes, no identifier leaks, 29 cross-references
+      resolving, eight tier-2 papers with venue records, the staleness date zero days old. **A green
+      build is a statement about the checks, not about the artifact**, and this collection has now
+      said that four times and shipped it wrong anyway.
+
+    New rules, both mechanical:
+
+    - **A check on the distributable resolves against the shipped file list, never against the
+      working tree.** The question a consumer needs answered is whether a reference resolves **in
+      their copy**.
+    - **An exclusion matches a relative path, not a file name.** Only `LOCAL.md` is excluded by name,
+      because it can legitimately sit in a subdirectory and must never ship from any of them, and
+      that exception is now the only member of its set and says why.
+
+    New check: the build **asserts the template count** against the directory rather than reporting
+    it. Both new checks were made to fail on purpose before being believed, which the previous three
+    packaging defects would each have been caught by.
+
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
 the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
@@ -1877,7 +1924,7 @@ Two lessons, not one:
   error on this list at least leaves you uncertain. This one hands you confidence.
 
 **And one pattern runs through errors 9 and 17 and every repeat of them, which is worth stating as a
-rule because naming the instances did not stop it recurring.** Six times in this repository, a check
+rule because naming the instances did not stop it recurring.** Seven times in this repository, a check
 drew its boundary at the convenient unit and the thing it was looking for sat one unit outside it:
 
 | The check looked at | What it was looking for was in |
@@ -1888,6 +1935,7 @@ drew its boundary at the convenient unit and the thing it was looking for sat on
 | The prose files | The changelog, which ships |
 | The paper's arXiv page | The publisher's record |
 | The tier-2 section | Tier 1, where the same rule applied |
+| The working tree | The zip a consumer installs |
 
 Every one of those checks passed. Every one was correct within its scope. **None of them stated its
 scope**, so a clean result read as "clean" rather than as "clean in the half I looked at". The fifth,

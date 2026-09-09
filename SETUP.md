@@ -10,7 +10,7 @@ they need different answers:
 - **"What is the best tool for X?"** No artifact can answer this durably. Anything named here rots in
   a quarter, and a study of published agent skills found a security flaw in **36.8%** of them, so a
   recommendation list would contradict `SECURITY.md` sitting next to it. This collection permanently
-  refuses that, and `evidence/TOOLING.md` maps the categories instead.
+  refuses that, and `TOOLING.md` maps the categories instead.
 - **"Which tool did I already decide on, why, and when did I last check it?"** This is answerable,
   it is the friction that actually recurs, and nobody was answering it. **That is what this file
   fixes.** You decide once, you record the decision and its date, and every subsequent repository
@@ -24,7 +24,7 @@ can be reviewed, whereas a remembered one cannot.
 
 ## 1. Fill one row per category, and leave rows empty on purpose
 
-`evidence/TOOLING.md` has the nine categories and the argument for which ones matter at your scale.
+`TOOLING.md` has the nine categories and the argument for which ones matter at your scale.
 The short version, from that file: **a solo developer genuinely needs permission gating, sandboxing,
 secret scanning, and supply-chain scanning for anything third-party.** Everything on that list
 constrains the agent. The team list observes it, and observation mostly does not scale down, because
@@ -145,7 +145,7 @@ is worse than an absent one: it reads as current.
 
 **It does not tell you what to install.** It records what you chose and makes the choice reviewable.
 If you want a recommendation, the honest answer is that no durable one exists, and the closest thing
-to one is `evidence/TOOLING.md`'s judgment about which categories are worth filling at your scale,
+to one is `TOOLING.md`'s judgment about which categories are worth filling at your scale,
 which is explicitly labelled as judgment rather than evidence.
 
 **It does not make your stack good.** It makes it explicit, dated and portable, which is the
