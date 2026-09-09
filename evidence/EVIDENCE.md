@@ -114,6 +114,16 @@ measured, and where it was itself wrong. Those are different instruments. Its sc
 you that a paper's venue was never confirmed; this document's tier scale cannot tell you whether a
 rule changes what a model writes.
 
+**How this entry was verified, because the pass that surfaced it has a defect worth recording.** The
+repository was **cloned and grepped**, not read from its README, and the two facts most load-bearing
+here, the negative-control script and the `LAST-VERIFIED` invariant, are visible only in the clone.
+The research pass that surfaced it carried **a broken footnote apparatus**: footnote numbers resolved
+to unrelated sources, including a citation for an arXiv policy that resolved to a medical evidence
+handbook. Its inline URLs were mostly correct, so the work was recoverable, but **anyone verifying it
+by footnote number lands on the wrong document.** Nothing from that pass entered this collection
+without independent retrieval, and the general rule stands: **a research pass locates a thing, it
+never supplies the number.**
+
 **Self-interest flag, since this collection insists on them:** the repository's homepage is a company
 site, so the measurements are published by a party with a commercial interest in the library
 performing well. Its own headline is nevertheless hedged as "small pilot, 3x, two models, one task"

@@ -60,6 +60,34 @@ two models, one task, and on one model the unguided arm already scores 1.00 so t
 commercial interest in the library performing well. Its headline is hedged and it reports the
 stricter measure alongside the flattering one, which is more than most such parties do.
 
+### Three gaps the audit named that had not been closed
+
+- **`SETUP.md` said "per machine" and was silent about the second machine.** Anyone with a work
+  computer and a personal one has two of these and they drift invisibly. Now split by what actually
+  varies: **delegation policy, category decisions and vetting records sync** in a private repository,
+  because none of them vary by machine; **what is installed here and what is forbidden here stay
+  local**, because those genuinely do. A required `machine:` field makes a stale copy visible, and an
+  agent whose host does not match it should stop rather than apply it. `HANDOFF.md` carried this rule
+  one level down already: a record only one harness can read fails at the moment you switch harnesses.
+- **The reputation competitor's cadence.** Simon Willison's pattern series states each chapter is
+  "designed to be updated over time, not frozen" and that he hopes to add "1-2 a week". **A quarterly
+  refresh cannot match that.** With first-party vendor guidance, a second pass puts coverage of the
+  categories this collection names at roughly three quarters to four fifths. Recorded, along with the
+  near-miss that produced it: the pass first fetched the guide's **index**, found no cadence
+  statement, and nearly reported it unconfirmed. **A search that reaches the wrong page is
+  indistinguishable from a true absence.**
+- **The release cadence itself.** Sixteen versions in six days. `ROADMAP.md` gains item 0: freeze the
+  version, and let the next bump be caused by an adoption run rather than by another verification
+  pass. Blocking corrections still ship, and "blocking" now has to be argued.
+
+### A source caution on the pass that surfaced SOTA-skills
+
+Its footnote apparatus was broken: footnote numbers resolved to unrelated documents, including an
+arXiv policy citation resolving to a medical evidence handbook. Inline URLs were mostly right so the
+work was recoverable, but **verifying it by footnote number lands on the wrong source.** Nothing from
+it entered this collection without independent retrieval. The SOTA-skills entry was cloned and
+grepped, and its two most load-bearing facts are visible only in the clone.
+
 ### The source-drift watcher, added 2026-09-09
 
 `sources.yml` plus `.github/workflows/source-drift.yml` and `scripts/watch_sources.py`. Monthly, plus

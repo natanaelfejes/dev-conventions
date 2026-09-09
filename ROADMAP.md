@@ -70,6 +70,21 @@ publications. The passes were not the problem. **The gate was**, and it was gati
 
 ## Open, and worth doing next
 
+### 0. Stop releasing, and the count is the argument
+
+**Sixteen versions in six days.** An outside reader put the point plainly: the marginal return went
+negative somewhere around 0.11, and every release since has been a correction to a release rather
+than a new capability. **That is not a productivity signal, it is a defect-discovery rate**, and it
+is high because the artifact keeps changing rather than because the checking keeps improving.
+
+**Freeze the version.** The next bump should be caused by an adoption run finding something, not by a
+verification pass finding something. Corrections that are genuinely blocking still ship, and this
+entry exists so that "genuinely blocking" has to be argued rather than assumed.
+
+**What this does not mean.** It does not mean stop fixing defects: a false claim in an agent-facing
+file ships as soon as it is found, and three of the last four releases were exactly that. It means
+stop *generating* work by re-examining an artifact nobody outside has used.
+
 ### 1. Adopt it somewhere, and stop researching
 
 **This is now the only item that matters and it has been the only item that matters for five
@@ -160,6 +175,22 @@ adoption gate. **They were one sequence and that is why neither had started.**
   venues run: a workshop poster, a vision-track short paper and a short-paper talk.
 - **Four items are contested between verification passes.** Recorded in `EVIDENCE.md`. One of them
   undercuts a headline.
+- **The reputation competitor publishes faster than this collection can recheck, and says so.**
+  Verified 2026-09-09 from an environment that could reach the page. Simon Willison's agentic
+  engineering pattern series states that each chapter is "effectively a blog post with a less
+  prominent date that's designed to be updated over time, not frozen", and that he hopes "to add more
+  chapters at a rate of 1-2 a week". **That is a cadence a quarterly refresh cannot match**, from
+  someone who is already the default citation in this space. Combined with first-party vendor
+  guidance, a second landscape pass puts coverage of the categories this collection names at roughly
+  **three quarters to four fifths**. What is left is what neither has an incentive to publish: the
+  strength marking, the disagreements left standing, the profile conditioning, and any finding that
+  makes a vendor look bad.
+
+  **A false negative was nearly published on this exact point**, and it is worth recording because it
+  is this collection's own rule demonstrating itself. The pass first fetched the guide's index, found
+  no cadence statement, and was about to report it unconfirmed. The quote is in a chapter, not the
+  index. **A search that reaches the wrong page is indistinguishable from a true absence.**
+
 - **Direct prior art for the evidence-grading thesis exists, and this collection did not find it in
   eight passes.** A second landscape pass, 2026-09-09, reports **arXiv:2608.13867** (Jarmak, 14 August
   2026, 314 pages) as carrying a **versioned catalog of 206 reliability records and an evidence

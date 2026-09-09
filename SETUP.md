@@ -127,6 +127,37 @@ the documentation slots, `team`, `reviewers`, `maturity`, `secrets`. **It does n
 choices**, because those do not vary by repository and a value repeated in seven places is a value
 that will be wrong in at least one of them.
 
+## 4b. Two machines, and the file will drift between them
+
+**Added 2026-09-09 because this file said "per machine" and then said nothing about the second
+machine.** Anyone with a work computer and a personal one has two of these, they diverge silently,
+and the divergence is invisible until an agent applies the wrong policy. `HANDOFF.md` carries this
+exact rule one level down: **a record only one harness can read fails at the moment you switch
+harnesses.** The same is true of machines.
+
+**Split the file by what actually varies, because "sync it" and "keep it local" are both wrong.**
+
+```yaml
+machine: work-pc            # REQUIRED. Name the machine in the file.
+setup_base: ~/dev/agents-setup/base.yml   # synced, one source of truth
+```
+
+- **Synced, in a private repository:** the **delegation policy**, the **category decisions and their
+  reasons**, and the **vetting records** with their dates. None of these vary by machine. A tool you
+  vetted on Tuesday is vetted, wherever you are sitting.
+- **Local, in `~/.agents/setup.yml`:** what is **actually installed here**, and anything **your
+  employer forbids here**. These genuinely differ, and pretending otherwise is how a work machine
+  ends up configured from a personal policy.
+
+**The `machine:` field is the part that does the work.** Without it, a stale file copied from the
+other machine is indistinguishable from a current one, which is the same failure as an undated
+claim. An agent reading a `setup.yml` whose `machine:` does not match the host it is running on
+should say so and stop rather than apply it.
+
+**If you will not maintain two files, keep one and accept the cost explicitly:** put the union in the
+synced file, mark every row that is machine-specific, and never let the work machine's restrictions
+silently become the personal machine's defaults.
+
 ## 5. Review it on a cadence, and make the cadence visible
 
 Put the review date in the file, as above. Two things make it stale:
