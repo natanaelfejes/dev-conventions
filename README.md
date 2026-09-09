@@ -4,7 +4,7 @@ Conventions for AI-assisted software development, where **every claim carries th
 evidence behind it**, and the guidance **adapts to your repository** instead of prescribing one shape
 for all of them.
 
-**Version 0.14.1. External claims last rechecked 2026-09-08.**
+**Version 0.15.0. External claims last rechecked 2026-09-08.**
 
 ---
 
@@ -63,10 +63,16 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   out of git history, which proves only what was written down. A team that reviews by screen-share
   leaves the same trace as a team that does not review. Read every claim about what a repository
   "did not do" as what it did not **record**.
-- **Nothing here has been measured against a control**, and neither has anything else. A deliberate
-  search for a controlled comparison of defect rates with and without AI assistance found no study
-  meeting all of random assignment, a real defect outcome, and adequate power. The search terms are
-  recorded so you can do better rather than repeat it.
+- **Nothing here has been measured against a control**, and until 2026-09-09 this bullet added "and
+  neither has anything else". **That was false and it was the most self-flattering sentence in the
+  collection.** `martinholovsky/SOTA-skills` runs guided-against-unguided arms across multiple models
+  with pre-registered predictions, publishes nine null results, and has retracted a lift that did not
+  reproduce. Verified by cloning it. See error 27.
+
+  What survives, narrowly: a deliberate search for a controlled comparison of **defect rates with and
+  without AI assistance** found no study meeting all of random assignment, a real defect outcome and
+  adequate power. That gap is still open. The search terms are recorded so you can do better rather
+  than repeat it.
 - **The documentation rot taxonomy has a known bias and one external contradiction.** It ranks by
   *recorded* corrections, so it under-weights repositories that never audit their documents, which
   are the ones whose documentation is worst. And a study of 2,303 agent context files across 1,925
@@ -76,13 +82,13 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   measured agent evaluation flipping outcomes between identical runs, with temperature zero providing
   no protection, and two of them name the causes. Every single-run number in this collection inherits
   that caveat, including the ones these four papers report.
-- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-six of
+- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-seven of
   them, including a security figure it inflated nineteenfold, a source it cited as saying the
   opposite of what it found, and **two figures that are not in the paper they were attributed to,
   published under a claim that the paper had been read in full**. That list is not humility
   furniture. It is the argument for the scale, and it is the section to read first if you want to
   know how much to trust the rest.
-- **It has been checked from outside six times**, between 2026-09-03 and 2026-09-08, and every one
+- **It has been checked from outside seven times**, between 2026-09-03 and 2026-09-09, and every one
   of them found something. A fabricated statistic. Two figures wrong. Four items where two
   independent passes disagreed. A shipped template that misstated its own source. Most recently, and
   worst: **three corrections that never reached the files an agent actually loads**, one of them

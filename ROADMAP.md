@@ -182,6 +182,11 @@ adoption gate. **They were one sequence and that is why neither had started.**
   | The Jarmak companion repository | **10** | by the landscape pass, 2026-09-09, unconfirmed here |
   | `obra/superpowers` | **283,707** | GitHub REST API, 2026-09-09, confirmed here |
 
+  **A second datapoint, 2026-09-09, in the same direction.** `martinholovsky/SOTA-skills`, the most
+  methodologically rigorous artifact found anywhere in three landscape passes, with control arms,
+  published nulls, a retraction and negative-control CI, has **18 stars**, confirmed against the
+  GitHub API. Two independent rigorous projects, 10 and 18. **This is no longer an anecdote.**
+
   **In this market rigor and distribution are inversely correlated, and the ratio is roughly
   28,000 to 1.** The most rigorous artifact found in two landscape passes has an audience of
   approximately nobody. The most distributed one, cloned and grepped on 2026-09-08, carries **one

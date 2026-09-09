@@ -4,6 +4,73 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.15.0, 2026-09-09
+
+**A third landscape pass searched code hosts instead of literature and found the thing two earlier
+passes missed: a live repository doing this better on method.** One claim in `README.md` was false
+because of it.
+
+### The most self-flattering sentence in the collection was wrong
+
+`README.md` said: *"Nothing here has been measured against a control, and neither has anything
+else."* The first clause is true. The second generalised from a search about **defect rates with and
+without AI assistance** to a claim about the **whole field**.
+
+`martinholovsky/SOTA-skills`, cloned and inspected 2026-09-09 rather than read from its README:
+
+- **Control arms**, guided against unguided, on multiple models, with saturation checks that discard
+  an experiment when the arms fail to separate.
+- **Nine published null results** next to the positive ones, including one saying its own audit half
+  adds nothing a good model does not already do. The count was **corrected upward from seven**.
+- **A retraction.** An early +0.07 did not reproduce when the sample grew from 15 to 49 cases.
+- **Pre-registered predictions**, with the wrong ones published.
+- **Negative-control CI**: `scripts/check-negative-controls.sh` injects a known-bad per invariant and
+  requires **the intended check** to be the one that complains, reporting a non-zero exit for any
+  other reason as a false pass. **Strictly stronger than this collection's practice** of making a
+  check fail on purpose by hand, once, when it remembers.
+- **A `LAST-VERIFIED` stamp with an invariant preventing a dishonest bump.** It cannot move without a
+  sweep-shaped diff. This collection's recheck date moves whenever someone edits the header.
+
+**Error 27**, and it may be the most embarrassing entry on the list. It is error 10's shape at the
+widest possible scope: the search was stated in the very next sentence and was narrower than the
+claim built on it. A reader could see the scope and the overreach in the same bullet. **Six outside
+checks did not, because "nobody has done this properly, including us" reads as humility and functions
+as a moat.**
+
+New rule: **an absence claim may not be broader than the search that produced it, and the two must
+appear in the same sentence.** "No study meeting these criteria was found, searching for X" is a
+result. "And nobody else has done this" needs its own search, which here would have been a code
+search rather than a literature search.
+
+**Two landscape passes had already run and neither found it**, one specifically tasked with finding
+comparable work. A pass that searches for papers will not find a repository, and the strongest work
+in this space is currently in repositories.
+
+### What survives, stated narrowly because the margin is narrow
+
+SOTA-skills measures **its own library's effect on model output**. This collection grades **the
+field's published claims by review trail**, records where sources disagree, where nobody has
+measured, and where it was itself wrong. Its scoreboard cannot tell you a paper's venue was never
+confirmed. This document's tier scale cannot tell you whether a rule changes what a model writes.
+
+It **does not close open gap 4**, and says so itself: baseline-dependent, small pilot, three runs,
+two models, one task, and on one model the unguided arm already scores 1.00 so the lift is +0.00.
+
+**Self-interest flag:** its homepage is a company site, so the measurements come from a party with a
+commercial interest in the library performing well. Its headline is hedged and it reports the
+stricter measure alongside the flattering one, which is more than most such parties do.
+
+### The distribution finding now has two datapoints
+
+| Artifact | Stars | Retrieved |
+|---|---|---|
+| `martinholovsky/SOTA-skills` | **18** | GitHub API, 2026-09-09, confirmed here |
+| The Jarmak companion repository | **10** | landscape pass, 2026-09-09, unconfirmed here |
+| `obra/superpowers` | **283,707** | GitHub API, 2026-09-09, confirmed here |
+
+Two independent rigorous projects at 10 and 18 against 283,707. **Rigor and distribution are
+inversely correlated in this market and it is no longer an anecdote.** Recorded in `ROADMAP.md`.
+
 ## Unreleased, 2026-09-09
 
 **No version bump: `ROADMAP.md` is excluded from the distributable and is deliberately volatile.**

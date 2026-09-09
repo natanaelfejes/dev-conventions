@@ -80,6 +80,49 @@ reviewers scrutinised the method. Neither implies the other, and for deciding wh
 finding, convergence is usually the more informative of the two. So a tier-1 entry always names its
 review status rather than leaving it inferred from the number 1.
 
+### The closest thing to this collection is not a paper, it is a live repository, and it measures
+
+**Found 2026-09-09 in a third landscape pass, missed by the two before it, and verified here by
+cloning the repository rather than reading its README.** `martinholovsky/SOTA-skills`, created
+2026-06-17, pushed the day it was checked, CC BY 4.0, **18 stars**. 385 markdown files, roughly
+795,000 words, which is fourteen times this collection's corpus.
+
+**What it has that this collection does not, all confirmed in the clone:**
+
+- **Control arms.** Guided against unguided, on multiple models, with saturation checks that
+  discard an experiment when the arms fail to separate. This collection grades other people's
+  published evidence. That repository **generates its own**.
+- **Nine published null results**, sitting on the same scoreboard as the positive ones, including
+  one that says the audit half of its own library adds nothing a good model does not already do. The
+  count was **corrected upward from seven**, in public, for understating it.
+- **A retraction.** An early +0.07 on inert-control detection did not reproduce when the sample grew
+  from 15 to 49 cases. Withdrawn, documented, not quietly dropped.
+- **Pre-registered predictions**, recorded before the experiments ran, with the wrong ones published.
+- **Negative-control CI.** `scripts/check-negative-controls.sh` injects a known-bad per invariant
+  into a disposable worktree and **requires the intended check to be the one that complains**; a
+  non-zero exit for any other reason is reported as a false pass rather than a catch. This
+  collection makes its checks fail on purpose by hand, once, when it remembers. That repository
+  automated it and verifies that the *right* check fired.
+- **A `LAST-VERIFIED` stamp with an invariant preventing a dishonest bump**: it cannot move without a
+  sweep-shaped diff or a changelog entry naming it. This collection's recheck date is bumped by
+  whoever edits the header.
+
+**Where this collection is still different, stated narrowly because the honest margin is narrow.**
+SOTA-skills measures **its own library's effect on model output**. This collection grades **the
+field's published claims by review trail** and records where sources disagree, where nobody has
+measured, and where it was itself wrong. Those are different instruments. Its scoreboard cannot tell
+you that a paper's venue was never confirmed; this document's tier scale cannot tell you whether a
+rule changes what a model writes.
+
+**Self-interest flag, since this collection insists on them:** the repository's homepage is a company
+site, so the measurements are published by a party with a commercial interest in the library
+performing well. Its own headline is nevertheless hedged as "small pilot, 3x, two models, one task"
+and it reports the stricter measure alongside the flattering one, which is more than most parties
+with that interest do.
+
+**It does not close open gap 4**, and it says so itself: baseline-dependent, small pilot, and on one
+model the unguided arm already scores 1.00 so the lift is +0.00.
+
 ### The nearest published thing to this scale, and how it differs
 
 **Added 2026-09-08 after an external evaluation went looking for prior art.** arXiv:2605.11027, De La
@@ -1915,6 +1958,42 @@ Kept deliberately, because they are the argument for the scale.
     it. Both new checks were made to fail on purpose before being believed, which the previous three
     packaging defects would each have been caught by.
 
+27. **An absence claim was asserted far beyond the scope of the search that produced it, and the
+    thing it missed is doing this better.** Found 2026-09-09 by a third landscape pass, verified here
+    by cloning the repository.
+
+    `README.md` said: **"Nothing here has been measured against a control, and neither has anything
+    else."** The first clause is true. The second was a generalisation from a search about **defect
+    rates with and without AI assistance** to a claim about **the entire field**, and it was false.
+
+    `martinholovsky/SOTA-skills` runs **guided against unguided arms** on multiple models, publishes
+    **nine null results** next to its positive ones, **retracted a lift** that failed to reproduce
+    when its sample grew from 15 to 49 cases, **pre-registers predictions** and publishes the wrong
+    ones, and runs a CI job that **injects a known-bad per invariant and requires the intended check
+    to be the one that complains**, reporting a non-zero exit for any other reason as a false pass.
+
+    Why it earns a number, and why it may be the most embarrassing entry on this list:
+
+    - **It is error 10's shape at the widest possible scope.** Error 10 is reporting an absence
+      without stating what was searched for. This is worse: the search *was* stated, in the very next
+      sentence, and it was narrower than the claim built on it. **A reader could see the scope and
+      the overreach in the same bullet and neither the author nor six outside checks did.**
+    - **It was the most self-flattering sentence in the collection**, and that is the tell. "Nobody
+      has done this properly, including us" reads as humility and functions as a moat. It survived
+      six outside checks because it costs the author nothing and sounds like a concession.
+    - **The thing it missed is ahead on method, not behind.** This collection grades other people's
+      published evidence. That repository generates its own with control arms. Its
+      negative-control CI is strictly stronger than this collection's practice of making a check fail
+      on purpose by hand: it automates the injection and verifies that the **right** check fired.
+    - **Two landscape passes had already run** and neither found it, one of them specifically tasked
+      with finding comparable work. **A landscape pass that searches for papers will not find a
+      repository**, and the strongest work in this space is currently in repositories.
+
+    New rule: **an absence claim may not be broader than the search that produced it, and the two
+    must appear in the same sentence.** "No study meeting these criteria was found, searching for X"
+    is a result. "And nobody else has done this" is a different claim needing its own search, which
+    in this case would have been a code search rather than a literature search.
+
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
 the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
@@ -2004,6 +2083,7 @@ things has not slowed**, which is the honest argument for a sixth rather than fo
 | 2026-09-04 | Claim verification, every external claim | A fabricated statistic, two wrong figures, four items where two passes disagreed with each other |
 | 2026-09-06 | Two independent research passes, run in parallel | Each reached primary sources the other could not. One tier upgrade, a contradiction adjudicated, seven new gaps, one shipped template found misstating its own source |
 | 2026-09-07 | Figure and venue recheck | Error 20: an audit that moved **four of the nine tier-2 ratings down to tier 4**, one of which had never claimed a venue at all. Also produced error 19, a correct figure withdrawn on a secondhand read |
+| 2026-09-09 | Third landscape pass, searching code hosts rather than literature | Error 27. **The claim that nobody else has measured against a control was false**, and had survived six checks because it reads as humility. `martinholovsky/SOTA-skills` runs guided-against-unguided arms, publishes nine nulls, retracted a lift, pre-registers predictions, and runs negative-control CI that verifies the intended check is the one that fired |
 | 2026-09-08 | Competitive evaluation against comparable published work, and a skill-craft audit | Errors 24 and 25. **A platform limit this collection invented and enforced in its own build**, which starved the field that decides whether the skill loads. **A conflict claim about a vendor that had gone stale** while the recheck date read zero days old, with a live conflict unrecorded at the same moment. Also: the overlap with first-party vendor guidance is materially larger than this collection claimed |
 | 2026-09-08 | Full external audit at 0.11.0, plus primary sources obtained on paper | Errors 21, 22 and 23. **Three corrections that never reached the agent-facing files**, one of them false about a named third party. An audit scoped to the section rather than the rule. And **two figures that are not in the paper they were attributed to, published under a claim that the paper had been read in full** |
 

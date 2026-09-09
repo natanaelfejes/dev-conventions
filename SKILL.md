@@ -5,7 +5,7 @@ description: Evidence-graded conventions for AI-assisted development, where ever
 
 # Development conventions, evidence-graded
 
-**Version 0.14.1. External claims last rechecked 2026-09-08.**
+**Version 0.15.0. External claims last rechecked 2026-09-08.**
 
 ## What this is and is not
 
