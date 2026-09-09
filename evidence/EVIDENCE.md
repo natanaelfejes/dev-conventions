@@ -92,6 +92,13 @@ literature, benchmarks, talks, essays, product announcements and social-media di
 **So somebody has stratified this field's sources by kind, in an academic register, and published
 it.** That is worth stating plainly rather than letting the differentiation claim stand unqualified.
 
+**And something closer may exist.** A second landscape pass on 2026-09-09 reports **arXiv:2608.13867**
+(Jarmak, 314 pages) as carrying a versioned catalog of **206 reliability records** and an evidence
+ledger, which would be direct prior art rather than adjacent work. **Not confirmed here**: arXiv is
+unreachable from every environment used on this project and the companion repository was not named.
+Recorded in `ROADMAP.md` under known weaknesses with its verification status. **If it holds, the
+differentiation claim in this section is too strong and this document should be the one to say so.**
+
 **Two differences, and they are real rather than defensive.** It classifies **sources in a corpus** in
 order to derive themes about where the profession is going. This collection grades **claims attached
 to rules an engineer applies**, and the tier travels with the rule to the point of use. And its

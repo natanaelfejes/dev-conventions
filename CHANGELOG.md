@@ -4,6 +4,66 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## Unreleased, 2026-09-09
+
+**No version bump: `ROADMAP.md` is excluded from the distributable and is deliberately volatile.**
+Recorded here because the second item changes what this collection can claim about itself.
+
+### The release gate split in two
+
+One gate over two artifacts is why nothing shipped in five versions, and it was gating the wrong
+thing. The two halves have **opposite dependencies**:
+
+- **The skill stays gated on adoption.** It is a procedure strangers execute, and its failure mode is
+  a step that made sense to whoever wrote it and does not survive somebody who does not already know
+  what it meant. That defect is invisible from inside. Only a stranger running it finds it.
+- **The evidence document is not gated on adoption at all**, and neither is anything drawn from it.
+  Its audience is readers. **A review of published sources is not made more or less true by whether
+  anyone installed a skill.** Its release conditions are its own and are about the claims: every
+  tier-2 rating citing a venue record the authors do not control (held, eight papers, checked by the
+  build), every figure seen in its primary source or labelled as not, and a current errors list.
+
+The skill depends on a stranger, which the author cannot supply alone. The evidence depends on the
+sources being right, which is met. **Holding the second behind the first meant the half that was
+ready waited on the half that could not move**, in a field whose sources go stale in quarters.
+
+`ROADMAP.md` items 2 and 5 now run two sequences instead of one. The DOI belongs to the evidence
+document and is actionable now.
+
+### Direct prior art may exist, and eight passes did not find it
+
+A second landscape pass reports **arXiv:2608.13867** (Jarmak, 14 August 2026, 314 pages) as carrying
+a **versioned catalog of 206 reliability records and an evidence ledger**. That is not adjacent work
+and not a thematic analysis of a corpus, which is what the nearest previously-known item was. **It is
+what this collection believes itself to be doing, at a scale this collection is not close to.**
+
+**Not confirmed here.** arXiv is unreachable from every environment used on this project and the
+companion repository was not named, so it could not be located by search either. Reported by that
+pass, recorded with its verification status, and `EVIDENCE.md`'s prior-art section now says the
+differentiation claim may be too strong rather than leaving it to stand. **Fourth provisional entry
+caused by a blocked network.**
+
+### The number pair, which matters more to the publication plan than the paper does
+
+| Artifact | Stars | Retrieved |
+|---|---|---|
+| The Jarmak companion repository | **10** | landscape pass, 2026-09-09, unconfirmed here |
+| `obra/superpowers` | **283,707** | GitHub REST API, 2026-09-09, confirmed here |
+
+**Rigor and distribution are inversely correlated in this market, at roughly 28,000 to 1.** The most
+rigorous artifact found in two landscape passes has an audience of approximately nobody. The most
+distributed one carries one informal academic citation across 94 markdown files and no confidence
+marking of any kind.
+
+**Rigor is not a distribution strategy**, and it does not follow that the rigor is worthless. It
+follows that the two are different products with different audiences, which is the gate split arrived
+at independently from the other direction.
+
+**One methodological note, and it is not pedantry.** The pass read 283,183 and this session read
+283,707 **the same day**, a drift of 524 in hours. A figure that moves that fast needs a timestamp
+rather than a date, which is the rule `EVIDENCE.md`'s administrative-facts section already states and
+which this pair demonstrates better than the section does.
+
 ## 0.14.1, 2026-09-09
 
 **Three packaging defects in 0.14.0, the release whose purpose was to fix packaging.** Found by an

@@ -170,7 +170,7 @@ Stated plainly, because the gap is the useful part.
 | Token and usage-limit optimisation | **Partly.** The delegation rule is context economy, not cost. No usage-tracking guidance exists |
 | Memory architecture | **Open gap 11**, deliberately. Nothing measured exists |
 | Self-updating | **No.** It is manually updated with an alarm clock. The runner would live outside the repository |
-| Publication, credit, reputation | **Blocked on the 1.0 gate**, which is adoption by someone else, not more research |
+| Publication, credit, reputation | **Half unblocked, 2026-09-08.** The skill is gated on adoption by a stranger. The evidence document and any finding drawn from it are **not gated at all**, because their audience is readers rather than adopters. One gate over both is why nothing shipped for five versions |
 
 ---
 

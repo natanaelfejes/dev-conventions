@@ -8,7 +8,14 @@ list of what is left.
 
 ---
 
-## The 1.0 gate, and nothing else substitutes for it
+## Release gates, and there are two of them
+
+**Split 2026-09-08 after an external evaluation identified one gate over two artifacts as the reason
+nothing had shipped in five versions.** The gate below was written when the skill and the evidence
+were one thing. They are not, and they fail in different ways, so they release on different
+conditions.
+
+### The skill: gated on adoption, and nothing substitutes for it
 
 **Somebody who is not the author has to use this on a repository nobody here has seen.**
 
@@ -16,14 +23,50 @@ That is the whole gate. Three profiles now exist and **all three were derived by
 tests the document and not whether the procedure is followable. `PROFILE.md`'s seven-step derivation
 was written by doing it twice; whether it survives a stranger is unknown.
 
-Concretely, 1.0 requires:
+Concretely, 1.0 of the skill requires:
 
 - Two adoptions by someone else, on repositories the author has never opened.
 - A written report of where the procedure was unclear or wrong.
 - One install on a machine that is not the authoring machine.
 
-**Do not bump to 1.0 for content reasons.** More sources, more files and more verification passes do
-not close this. Only usage does.
+**Do not bump the skill to 1.0 for content reasons.** More sources, more files and more verification
+passes do not close this. Only usage does.
+
+**Why this artifact and not the other one:** the skill is a **procedure strangers execute**. Its
+failure mode is a step that made sense to the person who wrote it and does not survive contact with
+somebody who does not already know what it meant. That defect is invisible from inside and no amount
+of reading finds it. Only a stranger running it does.
+
+### The evidence document: not gated on adoption at all
+
+**`EVIDENCE.md` and anything drawn from it ship when they are correct, not when somebody adopts
+them.** Its audience is readers, not adopters. **A review of published sources is not made more or
+less true by whether anyone installed a skill**, and gating it on adoption is a category error that
+cost five versions.
+
+Its release conditions are its own, and they are about the claims rather than about usage:
+
+- Every claim carries a tier, and every tier-2 rating cites a venue record that is not a surface the
+  authors control. **Held as of 0.14.1**, eight papers, checked by the build.
+- Every figure has been seen in its primary source by whoever wrote the sentence, and where it has
+  not, the sentence says so. **Two open items**, both labelled in the document.
+- The errors list is current and the outside-checks table names what each check cost.
+
+**Anything drawn from it is gated on even less.** The venue audit, that four of nine tier-2 ratings
+failed a check against records the authors do not control, is a finding **about the field's evidence
+base** rather than about this repository. It is checkable by anyone in an afternoon, it implicates
+every artifact that cites a 2026 preprint as though it were reviewed, and it needs no adoption, no
+1.0 and nobody's permission.
+
+### Why one gate over both was wrong, recorded so it is not re-merged
+
+The two artifacts have **opposite dependencies**. The skill depends on a stranger, which the author
+cannot supply alone. The evidence depends on the sources being right, which is entirely within the
+author's control and is already met. Holding the second behind the first meant the half that was
+ready waited on the half that could not move, in a field where the sources go stale in quarters.
+
+**The observable cost:** five versions, seven verification passes, one external audit, zero
+publications. The passes were not the problem. **The gate was**, and it was gating the wrong thing.
 
 ## Open, and worth doing next
 
@@ -47,6 +90,11 @@ exists in this repository; **the DOI does not**.
 
 Without a version-pinnable DOI, this collection asks consumers to pin a version while offering no
 citable identifier for one. That is a rule it does not follow itself.
+
+**The DOI belongs to the evidence document, and that is what unblocks it.** `EVIDENCE.md` is the
+citable artifact: a review of sources, versioned, with an errors list. **It is not gated on adoption**
+per the split above, so this item is actionable now rather than after a stranger runs `ADOPTION.md`.
+The skill can carry the same identifier later or its own; nothing about the skill blocks this.
 
 ### 3. Reach the sources no pass could reach
 
@@ -95,6 +143,10 @@ carries it.
 **Sequence, in order:** confirm history is clean, then public, then an archival-repository DOI
 against a tagged release, then that DOI into `CITATION.cff`.
 
+**Two sequences now, since the gates split.** The evidence document runs the whole sequence above on
+its own schedule and is blocked only on the repository going public. The skill runs it after the
+adoption gate. **They were one sequence and that is why neither had started.**
+
 ## Known weaknesses, stated so nobody rediscovers them as news
 
 - **The first-party base is four small repositories and one observer.** Nothing is observed at
@@ -108,6 +160,47 @@ against a tagged release, then that DOI into `CITATION.cff`.
   venues run: a workshop poster, a vision-track short paper and a short-paper talk.
 - **Four items are contested between verification passes.** Recorded in `EVIDENCE.md`. One of them
   undercuts a headline.
+- **Direct prior art for the evidence-grading thesis exists, and this collection did not find it in
+  eight passes.** A second landscape pass, 2026-09-09, reports **arXiv:2608.13867** (Jarmak, 14 August
+  2026, 314 pages) as carrying a **versioned catalog of 206 reliability records and an evidence
+  ledger**. If that description holds, it is not adjacent work and it is not a thematic analysis of a
+  corpus, which is what the nearest previously-known item was. It is the thing this collection
+  believes itself to be doing, done at a scale this collection is not close to.
+
+  **Verification status, stated because this document's own rules require it.** The paper was
+  verified by that pass on 2026-09-09 and **could not be confirmed here**: arXiv is unreachable from
+  every agent environment used on this project, and the companion repository was not named, so it
+  could not be located by search either. **Treat the description as reported rather than confirmed
+  until somebody opens the PDF.** This is the fourth time a blocked network has produced a
+  provisional entry, and it is why item 3 below is phrased the way it is.
+
+- **The pair of numbers below is the finding, and it bears on the publication plan more than the
+  paper does.**
+
+  | Artifact | Stars | Retrieved |
+  |---|---|---|
+  | The Jarmak companion repository | **10** | by the landscape pass, 2026-09-09, unconfirmed here |
+  | `obra/superpowers` | **283,707** | GitHub REST API, 2026-09-09, confirmed here |
+
+  **In this market rigor and distribution are inversely correlated, and the ratio is roughly
+  28,000 to 1.** The most rigorous artifact found in two landscape passes has an audience of
+  approximately nobody. The most distributed one, cloned and grepped on 2026-09-08, carries **one
+  informal academic citation across 94 markdown files** and no confidence marking of any kind.
+
+  Three things follow, and none of them is "so do not bother":
+
+  - **Rigor is not a distribution strategy.** Anyone planning to publish this on the strength of
+    being more careful than the alternatives should read those two numbers first. Careful is not
+    what gets installed.
+  - **It does not follow that the rigor is worthless.** It follows that the rigor and the reach are
+    **different products with different audiences**, which is the same conclusion the gate split
+    above reached from the other direction, arrived at independently. The evidence document competes
+    with the 10, and it competes on being right. The skill competes with the 283,707, and it does not
+    compete on completeness.
+  - **The comparison needs a timestamp, not a date.** The pass read 283,183 and this session read
+    **283,707 the same day**, a drift of 524 in hours. `EVIDENCE.md` keeps administrative facts in
+    one section precisely because they rot; a figure that moves that fast is one nobody should quote
+    without saying when they looked.
 - **`TOOLING.md`, `OBSERVABILITY.md`, `DOCS.md` and `VOCABULARY.md` are single-pass**, and only two
   of them say so. `RESEARCH.md` is no longer single-pass and states its verification prominently,
   which is the model the other four should follow. `TOOLING.md` frames itself as a dated map, which
