@@ -34,6 +34,8 @@ EXCLUDE_FILES = {
     "CONTRIBUTING.md",      # how to contribute here, not a convention
     "CODE_OF_CONDUCT.md",   # governs this repository, not a consumer's
     "CHANGELOG.md",   # see below
+    "sources.yml",    # what the drift watcher tracks; governs this repo
+    "scripts/watch_sources.py",
     ".gitignore",
 }
 # CHANGELOG.md was excluded on 2026-09-08, on the same logic as ROADMAP.md and
@@ -51,7 +53,7 @@ EXCLUDE_FILES = {
 EXCLUDE_ANYWHERE = {"LOCAL.md"}
 
 EXCLUDE_DIRS = {".git", "dist", ".agents", "__pycache__", ".claude-plugin", ".github",
-                "evidence"}
+                "evidence", "scripts"}
 # In a git worktree, .git is a FILE rather than a directory, so filtering it as a
 # directory name alone ships it. Excluded by basename in collect() as well.
 # evidence/ is the split, made 2026-09-08. It holds the apparatus: the tier scale,

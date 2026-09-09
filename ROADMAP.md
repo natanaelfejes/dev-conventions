@@ -167,12 +167,19 @@ adoption gate. **They were one sequence and that is why neither had started.**
   corpus, which is what the nearest previously-known item was. It is the thing this collection
   believes itself to be doing, done at a scale this collection is not close to.
 
-  **Verification status, stated because this document's own rules require it.** The paper was
-  verified by that pass on 2026-09-09 and **could not be confirmed here**: arXiv is unreachable from
-  every agent environment used on this project, and the companion repository was not named, so it
-  could not be located by search either. **Treat the description as reported rather than confirmed
-  until somebody opens the PDF.** This is the fourth time a blocked network has produced a
-  provisional entry, and it is why item 3 below is phrased the way it is.
+  **Confirmed 2026-09-09 from an environment that could reach arXiv**, after being provisional here
+  for one day. Stephanie Jarmak, submitted 14 August 2026. Verbatim from the abstract: **"a versioned
+  catalog of 206 reliability records: 193 gated practices"**, "an evidence ledger", "limits on
+  evidence-grading claims", and **"164 scholarly works, 100 practitioner records"**. The Comments
+  field gives 314 pages and a public companion repository, **`sjarmak/engineering-reliable-coding-agents`**,
+  created 2026-08-05, last pushed 2026-08-24, **10 stars and one fork**.
+
+  **Note what resolved and what that says about the method.** The 206 and the 193 are not competing
+  figures: 206 reliability records **of which** 193 are gated practices. Two reports of the same
+  abstract looked like a discrepancy and were not, which is why a number is quoted with its
+  surrounding clause rather than alone. And this entry sat provisional for exactly one day because a
+  different environment could reach the page. **A blocked network is not a finding**, demonstrated
+  again.
 
 - **The pair of numbers below is the finding, and it bears on the publication plan more than the
   paper does.**

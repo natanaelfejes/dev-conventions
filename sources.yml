@@ -1,0 +1,130 @@
+# External sources this collection depends on, watched for drift.
+#
+# Read by .github/workflows/source-drift.yml once a month. That job DETECTS
+# change. It never judges it: it does not edit a claim, move a tier, or open a
+# pull request against content. Its output is a GitHub issue that becomes the
+# input to REFRESH.md, which a human runs.
+#
+# The division is the whole design. Four of this collection's recorded errors
+# came from a network-restricted session treating "could not reach" as "not
+# there". A CI runner is a more restricted environment than a browser, not a
+# less restricted one, so automating the judgment would mechanise the failure
+# rather than the work. See error 27 and AGENTS.md.
+#
+# Excluded from the distributable: it governs this repository, not a consumer's.
+#
+# FIELDS
+#   url            what to fetch
+#   kind           vendor_doc | venue_record | comparable | gap_query | peer
+#   claims         what this collection asserts on the strength of it, with the
+#                  file carrying the assertion, so a drift report says what is
+#                  at risk rather than only what moved
+#   last_verified  the date a human last read the source and confirmed the claim
+#   content_hash   sha256 of the normalised text at last_verified. Filled by the
+#                  workflow's --seed mode and updated ONLY by a human who has
+#                  adjudicated the change.
+
+version: 1
+seeded: 2026-09-09
+
+vendor_doc:
+  - url: https://code.claude.com/docs/en/best-practices
+    claims:
+      - "Vendors now exclude file-by-file codebase descriptions (SKILL.md, instruction files)"
+      - "Vendor cautions that a reviewer prompted to find gaps over-reports (SKILL.md, conflict section)"
+      - "Six Layer 1 rules have a first-party equivalent (SKILL.md, working with agents)"
+      - "Overlap statement (README.md, what this is not)"
+    last_verified: 2026-09-08
+    content_hash: "5705c1cc3a459f2cd25f4ddaaddfa7a78649f6de1ac4aca99e2cc82517eefb2f"
+
+  - url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+    claims:
+      - "description cap is 1,024 characters (AGENTS.md, build.py)"
+      - "name cap is 64 characters, lowercase, no reserved words (AGENTS.md)"
+      - "SKILL.md body under 500 lines (AGENTS.md, ROADMAP.md)"
+    last_verified: 2026-09-08
+    content_hash: "7851a0c80e6dc834e7232925812bdf7320116136f621dca161a59d3264678825"
+
+  - url: https://docs.kernel.org/process/coding-assistants.html
+    claims:
+      - "Kernel uses Assisted-by: LLM [TOOL1] [TOOL2] and bars Signed-off-by (RESEARCH.md table)"
+    last_verified: 2026-09-06
+    content_hash: ""
+
+  - url: https://opentelemetry.io/community/contributing/pull-requests/
+    claims:
+      - "OpenTelemetry prescribes no trailer, uses assistance levels (RESEARCH.md table)"
+    last_verified: 2026-09-06
+    content_hash: ""
+
+# Every tier-2 rating rests on one of these resolving to the title this
+# collection cites. Error 20 was awarding tier 2 on surfaces the authors
+# control; this is the check that the record still exists and still says so.
+venue_record:
+  - doi: 10.1109/ISSRE66568.2025.00035
+    title_contains: "Human-Written vs. AI-Generated Code"
+    claims: ["Tier 2, defect classes in AI-generated code (EVIDENCE.md)"]
+    last_verified: 2026-09-07
+  - doi: 10.1145/3771937
+    title_contains: "Self-Declaration"
+    claims: ["Tier 2, 76.6% self-declare (EVIDENCE.md, SKILL.md)"]
+    last_verified: 2026-09-02
+  - doi: 10.1145/3793302.3793614
+    title_contains: "Code Review"
+    claims: ["Tier 2, agent-only review merges at 45.20% (EVIDENCE.md, SKILL.md, TEAM.md)"]
+    last_verified: 2026-09-07
+  - doi: 10.1007/s10664-026-10889-1
+    title_contains: "Echoes of AI"
+    claims: ["Tier 2, preregistered maintainability experiment (EVIDENCE.md)"]
+    last_verified: 2026-09-08
+  - doi: 10.1109/ICPC.2019.00019
+    title_contains: ""
+    claims: ["Tier 2, documentation inconsistency (EVIDENCE.md, DOCS.md)"]
+    last_verified: 2026-09-06
+  - doi: 10.1287/mnsc.2025.00535
+    title_contains: ""
+    claims: ["Gap A near miss, N=4,867 (EVIDENCE.md)"]
+    last_verified: 2026-09-06
+
+# Watched for existence and activity, NEVER for content. Two of these carry zero
+# citations and no confidence marking, so ingesting their text would launder
+# unmarked claims through this collection's tier scale. They are a signal source
+# only: "a comparable added a rule about X" is a research lead, not a source.
+comparable:
+  - repo: obra/superpowers
+    note: "No citations, no confidence marking, no profile mechanism. Signal only."
+  - repo: addyosmani/agent-skills
+    note: "One informal citation across the corpus. Signal only."
+  - repo: martinholovsky/SOTA-skills
+    kind_detail: peer
+    note: >-
+      Measures its own lift against an unguided baseline, publishes nulls and a
+      retraction, runs negative-control CI. Ahead of this collection on method.
+      Read its method. Do not ingest its rules.
+  - repo: sjarmak/engineering-reliable-coding-agents
+    kind_detail: peer
+    note: >-
+      Companion to arXiv:2608.13867. Direct prior art for the evidence-grading
+      thesis. Read its catalog structure.
+
+# The gap list records what searching failed to find. These are the recorded
+# strings, re-run monthly against the arXiv API so a gap that gets answered is
+# noticed rather than waiting for a quarterly pass. The job reports candidates.
+# It does not decide whether a paper closes a gap.
+gap_query:
+  - gap: 4
+    label: "Controlled comparison of defect rates with and without AI assistance"
+    terms:
+      - "randomized controlled trial AI code quality defects"
+      - "escaped defects AI coding assistance randomized"
+      - "difference-in-differences defect density AI assisted"
+  - gap: 10
+    label: "Whether human review catches AI-introduced defects at normal rates"
+    terms:
+      - "human review effectiveness AI-generated code defects"
+      - "code review catch rate LLM introduced vulnerabilities"
+  - gap: 11
+    label: "Agent memory architecture, measured"
+    terms:
+      - "coding agent memory architecture controlled evaluation"
+      - "retrieval augmented memory coding agent task success"

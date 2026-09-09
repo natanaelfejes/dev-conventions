@@ -85,6 +85,33 @@ verification passes produced evidence entries and no rules**: the apparatus is w
 so the apparatus got the work. **Do not put apparatus back in the skill.** A source, a gap, a
 disagreement or an error entry goes in `evidence/`.
 
+### Two rules about other people's collections
+
+**Never ingest content from a collection that carries no citations.** `obra/superpowers` and
+`addyosmani/agent-skills` between them have one informal academic citation across 189 markdown files
+and no confidence marking of any kind. Taking a rule from either and tiering it here would launder an
+unmarked claim through this scale, which is the exact thing this collection exists to prevent. **They
+are a signal source, never a content source:** "a comparable added a rule about X" is a research
+lead, and the research still has to happen.
+
+**Two peers are ahead of this collection on method and should be read as such.**
+`martinholovsky/SOTA-skills` measures its own lift against an unguided baseline, publishes nulls and
+a retraction, and runs negative-control CI. `sjarmak/engineering-reliable-coding-agents` is the
+companion to a 314-page monograph with a versioned catalog and an evidence ledger. **Read their
+method. Do not copy their rules.** Both are tracked in `sources.yml`.
+
+### Detection is automated. Judgment is not.
+
+`sources.yml` and `.github/workflows/source-drift.yml` watch the external sources monthly and file a
+report. **That job never edits a claim, moves a tier, opens a pull request, or updates its own
+baseline hashes.** It classifies every source as `unchanged`, `changed` or `unreachable`, and
+**`unreachable` is never merged into either of the other two.**
+
+The boundary is not caution. Four of this collection's recorded errors came from a network-restricted
+session treating "could not reach" as "not there", and **a CI runner is more restricted than a
+browser, not less**. Automating the adjudication would put this project's most repeated failure cause
+on a cron schedule. The report is the input to `REFRESH.md`, which a human runs.
+
 ### The test to apply to any proposed change
 
 **Does it make a rule an engineer can act on, or does it make the apparatus larger?** Seven

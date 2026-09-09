@@ -1,0 +1,61 @@
+# Detect drift in the external sources this collection depends on.
+#
+# This job DETECTS. It never adjudicates. It does not edit a claim, move a tier,
+# open a pull request against content, or update its own baseline hashes. Its
+# only output is an issue that becomes the input to REFRESH.md.
+#
+# That boundary is not caution, it is this repository's most repeated failure
+# cause. Four of its recorded errors came from a network-restricted session
+# treating "could not reach" as "not there", and a CI runner is more restricted
+# than a browser, not less. Automating the judgment would put the failure on a
+# schedule. See error 27 and AGENTS.md.
+
+name: source drift
+
+on:
+  schedule:
+    - cron: "0 7 1 * *"      # 07:00 UTC on the 1st, monthly
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install --quiet pyyaml
+
+      - name: Watch sources
+        id: watch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/watch_sources.py --out report.md
+
+      # The report is filed whether or not anything changed. A run that found no
+      # change still says what it measured and what it could not reach, per the
+      # rule that a check reports its count rather than "no errors".
+      - name: File the report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "Source drift report, $(date -u +%Y-%m-%d)" \
+            --body-file report.md \
+            --label "source-drift" || \
+          gh issue create \
+            --title "Source drift report, $(date -u +%Y-%m-%d)" \
+            --body-file report.md
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-drift-report
+          path: report.md

@@ -60,6 +60,58 @@ two models, one task, and on one model the unguided arm already scores 1.00 so t
 commercial interest in the library performing well. Its headline is hedged and it reports the
 stricter measure alongside the flattering one, which is more than most such parties do.
 
+### The source-drift watcher, added 2026-09-09
+
+`sources.yml` plus `.github/workflows/source-drift.yml` and `scripts/watch_sources.py`. Monthly, plus
+manual dispatch. Four jobs, seeded from the sources this collection already cites:
+
+- **Page drift.** Fetches each vendor page, normalises whitespace, hashes, compares. Reports the
+  change **and names every claim that rests on that page**, with the file carrying it.
+- **Venue records.** Puts each publisher DOI through the Crossref API and asserts the returned title
+  still matches what this document cites. A DOI resolving to a different paper is the failure error
+  20 exists for.
+- **Gap surveillance.** Re-runs each open gap's own recorded search terms against the arXiv API,
+  reporting new submissions. It does not judge whether a paper closes a gap.
+- **Comparables.** Star counts and last-push dates **with a timestamp rather than a date**, because
+  one of these moved 524 in hours.
+
+**The design constraint is the whole point.** Every source lands in exactly one of `unchanged`,
+`changed` or `unreachable`, and **`unreachable` is never merged into either of the others**. The
+report leads with the unreachable count, so a run that reached two sources of twenty-one cannot read
+as clean.
+
+**It detects. It never adjudicates.** No claim edited, no tier moved, no pull request opened, no
+baseline hash updated by CI. The output is an issue that becomes the input to `REFRESH.md`. Four of
+this collection's recorded errors came from a network-restricted session treating "could not reach"
+as "not there", and **a CI runner is more restricted than a browser, not less**, so automating the
+judgment would put the failure cause on a schedule.
+
+**Made to fail on purpose, both jobs, before being believed.** A planted hash produced a drift report
+naming the four claims at risk. A stubbed Crossref response returning a different paper's title was
+reported as `changed` rather than passing quietly, and a dead DOI landed in `unreachable` and in no
+other bucket. The first run from this environment reached 2 of 21 sources and said so at the top,
+which is the design demonstrating itself.
+
+### Two rules about other people's collections
+
+**Never ingest content from a collection that carries no citations.** `obra/superpowers` and
+`addyosmani/agent-skills` have one informal academic citation between them across 189 files. Taking a
+rule from either and tiering it here would launder an unmarked claim through this scale. **Signal
+source, never content source.**
+
+**Two peers are ahead on method and are tracked as peers**: `martinholovsky/SOTA-skills` and
+`sjarmak/engineering-reliable-coding-agents`. Read their method, do not copy their rules.
+
+### The Jarmak entry moved from provisional to confirmed in one day
+
+Confirmed from an environment that could reach arXiv. **"A versioned catalog of 206 reliability
+records: 193 gated practices"**, an evidence ledger, 164 scholarly works and 100 practitioner
+records, 314 pages, companion repository at **10 stars**.
+
+The 206 and the 193 looked like competing figures across two reports and were not: 206 records **of
+which** 193 are gated practices. **A number quoted without its surrounding clause manufactures a
+discrepancy**, which is error 19's rule arriving from the opposite direction.
+
 ### The distribution finding now has two datapoints
 
 | Artifact | Stars | Retrieved |
