@@ -1,7 +1,8 @@
 # What this collection is for, in the author's own words
 
 **Extracted 2026-09-08 from the full session transcript**, 61 user messages between 2026-09-04 and
-2026-09-08. Fourteen of them state intent. Quoted rather than paraphrased, because every earlier
+2026-09-08. **Status table updated 2026-09-09**; the quotes are unchanged and are the point of the
+file. Fourteen of them state intent. Quoted rather than paraphrased, because every earlier
 attempt to summarise this drifted, and because the point of the file is to stop the next agent
 re-deriving the goal from the artifact.
 
@@ -163,13 +164,13 @@ Stated plainly, because the gap is the useful part.
 |---|---|
 | Conventions to adopt per repository | **Delivered.** `SKILL.md` plus the rule files, profile-conditional |
 | Quality without slowdown | **Not measurable and never will be here.** No controlled study exists; the collection says so throughout |
-| Stop having to research this | **Partly.** `REFRESH.md` is the procedure; the cadence is a build warning, not a runner |
+| Stop having to research this | **Mostly, 2026-09-09.** `SETUP.md` stops you re-deciding the stack per repository. `sources.yml` plus a monthly workflow watches every source this collection depends on and files a report. `REFRESH.md` is still the human pass. **Detection is automated, judgment is not**, and that boundary is deliberate |
 | Improve prompting and workflow habits | **Delivered**, in `OPERATING.md`, and it is the smallest file relative to how much was asked of it |
 | Cross-vendor orchestrator and worker workflow | **Delivered** in `OPERATING.md`, including the finding that review independence depends on **which lab trained the model**, not who sells the harness |
 | Named tool, skill and plugin recommendations | **Refused permanently**, and correctly. `ROADMAP.md` forbids curated lists; `SECURITY.md` is the reason. `TOOLING.md` gives nine categories and five vetting facts instead. **This will never be in the artifact** |
-| Token and usage-limit optimisation | **Partly.** The delegation rule is context economy, not cost. No usage-tracking guidance exists |
+| Token and usage-limit optimisation | **Partly.** The delegation rule is context economy, not cost. No usage-tracking guidance exists. `SETUP.md`'s delegation block records worker count and the lab that trained each model, which is the part that was actually costing you |
 | Memory architecture | **Open gap 11**, deliberately. Nothing measured exists |
-| Self-updating | **No.** It is manually updated with an alarm clock. The runner would live outside the repository |
+| Self-updating | **Half, and the other half is deliberate.** A monthly job now detects page drift, dead or redirected venue DOIs, new papers matching each open gap's own recorded search terms, and comparable activity. **It will never adjudicate.** Four recorded errors here came from a network-restricted session treating "could not reach" as "not there", and a CI runner is more restricted than a browser. Automating the judgment would put the failure cause on a schedule |
 | Publication, credit, reputation | **Half unblocked, 2026-09-08.** The skill is gated on adoption by a stranger. The evidence document and any finding drawn from it are **not gated at all**, because their audience is readers rather than adopters. One gate over both is why nothing shipped for five versions |
 
 ---
