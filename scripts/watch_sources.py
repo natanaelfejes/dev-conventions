@@ -40,6 +40,10 @@ TIMEOUT = 30
 UA = "dev-conventions-source-watch/1 (+https://github.com/natanaelfejes/dev-conventions)"
 
 UNCHANGED, CHANGED, UNREACHABLE = "unchanged", "changed", "unreachable"
+# A baseline that was never established is a fourth state. It is not a change, and folding it
+# into one is the same error this file already refuses for UNREACHABLE, one function over.
+# The 2026-09-09 CI run reported a kernel page as "changed" on this path, having never seen it.
+UNSEEDED = "unseeded"
 
 
 def fetch(url, accept=None):
@@ -82,7 +86,7 @@ def job_page_drift(sources):
         digest = hashlib.sha256(normalise(body).encode()).hexdigest()
         stored = (entry.get("content_hash") or "").strip()
         if not stored:
-            rows.append((CHANGED, url, "no hash recorded, run --seed", entry.get("claims", [])))
+            rows.append((UNSEEDED, url, "no baseline recorded, run --seed", entry.get("claims", [])))
         elif digest == stored:
             rows.append((UNCHANGED, url, f"{digest[:12]}", entry.get("claims", [])))
         else:
@@ -125,8 +129,15 @@ def job_gap_surveillance(sources, since_days=35):
     rows, unreachable = [], []
     for entry in sources.get("gap_query", []):
         for term in entry.get("terms", []):
+            # `all:some multi word phrase` does NOT and-join on the arXiv API. The 2026-09-09 CI
+            # run returned the ten newest arXiv submissions overall for every gap query, on every
+            # subject from humanoid navigation to cosmic birefringence, and reported all seven gaps
+            # "changed". That is a firehose, and a monthly report that always says changed is a
+            # report nobody reads. And the terms must every one appear, so the query is narrow and
+            # its narrowness is printed with the result rather than left for a reader to assume.
+            search_query = " AND ".join(f"all:{w}" for w in term.split())
             q = urllib.parse.urlencode({
-                "search_query": f"all:{term}",
+                "search_query": search_query,
                 "sortBy": "submittedDate",
                 "sortOrder": "descending",
                 "max_results": "10",
@@ -148,7 +159,8 @@ def job_gap_surveillance(sources, since_days=35):
                 if age <= since_days:
                     hits.append(f"{idm.group(1).rsplit('/', 1)[-1]}  {' '.join(ttl.group(1).split())[:80]}")
             state = CHANGED if hits else UNCHANGED
-            detail = "; ".join(hits) if hits else f"no submissions in {since_days} days"
+            scope = f"every term required, {since_days} days"
+            detail = ("; ".join(hits) + f"  [{scope}]") if hits else f"none in {since_days} days, requiring every term"
             rows.append((state, f"gap {entry['gap']}: {term}", detail, [entry.get("label", "")]))
     return rows, unreachable
 
@@ -190,10 +202,15 @@ def render(results, unreachable_all, total):
         out += [f"> All {total} sources were reached.", ""]
 
     for title, rows in results:
+        # Count every state by name. Deriving one as "the rest" is how a state disappears:
+        # unseeded entries were counted as unchanged until 2026-09-09.
         changed = [r for r in rows if r[0] == CHANGED]
-        out += [f"## {title}", "",
-                f"{len(rows)} checked, **{len(changed)} changed**, "
-                f"{len(rows) - len(changed)} unchanged.", ""]
+        unchanged = [r for r in rows if r[0] == UNCHANGED]
+        unseeded = [r for r in rows if r[0] == UNSEEDED]
+        assert len(changed) + len(unchanged) + len(unseeded) == len(rows), "a state went missing"
+        tally = (f"{len(rows)} checked, **{len(changed)} changed**, {len(unchanged)} unchanged"
+                 + (f", **{len(unseeded)} never baselined**" if unseeded else "") + ".")
+        out += [f"## {title}", "", tally, ""]
         if changed:
             for _, what, detail, claims in changed:
                 out.append(f"- **{what}**  {detail}")
@@ -203,6 +220,15 @@ def render(results, unreachable_all, total):
         else:
             out.append("No change detected in any source this job could reach.")
         out.append("")
+        if unseeded:
+            out += ["", "**Never baselined, so not comparable to anything.** Not a change. Run "
+                    "`watch_sources.py --seed` by hand once, then this becomes a real check.", ""]
+            for _, what, detail, claims in unseeded:
+                out.append(f"- **{what}**  {detail}")
+                for c in claims:
+                    if c:
+                        out.append(f"    - claim it would protect: {c}")
+            out.append("")
 
     out += ["## Not reached", ""]
     if unreachable_all:
@@ -218,7 +244,7 @@ def render(results, unreachable_all, total):
     out += ["", "---", "",
             "This job **detects**. It does not adjudicate, edit a claim, move a tier, or open a "
             "pull request. Feed it to `REFRESH.md`. A changed page is a question, not a defect, "
-            "and an unreachable one is neither."]
+            "and an unreachable or never-baselined one is neither."]
     return "\n".join(out)
 
 
