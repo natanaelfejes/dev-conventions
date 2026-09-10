@@ -162,6 +162,49 @@ against a tagged release, then that DOI into `CITATION.cff`.
 its own schedule and is blocked only on the repository going public. The skill runs it after the
 adoption gate. **They were one sequence and that is why neither had started.**
 
+### 6. The monthly adjudication session, and it is blocked on item 1 by design
+
+**The watcher searches. This decides.** `sources.yml` and the workflow answer "what moved" and are
+deliberately incapable of answering "does it matter". That second question is the one that costs the
+author time, and it is the whole of the friction this collection exists to reduce.
+
+**The shape, agreed 2026-09-10.** A scheduled cloud session, once a month on a fixed day, roughly
+thirty minutes. It opens the watcher's issue for that month, reads it, and produces a
+recommendation. It is a reasoning session rather than a script, so it may evaluate and it may
+propose. It may not merge.
+
+**What it evaluates.** The drift report, the venue re-checks, the gap surveillance, and the tracked
+comparables: whether anything published since the last run is worth adopting, at what tier, and
+against which existing rule. That includes the most-starred collections and the respected individual
+writers, read as **signal about where attention is going**, never as content to absorb. See
+"Deliberately not doing" for why that distinction is load-bearing rather than fussy.
+
+**What it may never do**, and each of these is a recorded error rather than a precaution:
+
+- **Merge anything.** It opens a pull request or comments on the issue. A human approves. Four of nine
+  tier-2 ratings were wrong when this collection assigned them to itself unreviewed, and evidence
+  scales have inter-rater agreement around kappa 0.27, so an unreviewed tier is the least reliable
+  step in the whole method to automate.
+- **Change a tier or retire a rule unattended.** The asymmetric-burden rule already forbids a weak
+  source retiring a safeguard. An unattended session is a weak source about its own reach.
+- **Treat an unreachable source as an absent one.** Four recorded errors come from exactly this, and a
+  scheduled session is a restricted environment by definition. The first live watcher run reached 2
+  of 21 sources in one environment and 20 of 21 in another. **A run must lead with its reach**, and a
+  run that reached half its sources is not a clean run, it is an unusable one.
+- **Withdraw a claim.** Error 23: a withdrawal needs the same primary-source standard as an assertion,
+  and a session that cannot open the primary cannot meet it.
+
+**Why it waits for item 1.** Building this before the first adoption repeats the pattern that has held
+for sixteen versions: the apparatus grows because apparatus is where work is legible, and the
+adoption does not. It is also the cheaper order. The friction log will say which categories actually
+cost time in practice, and this session should watch those rather than the ones that seem important
+from inside.
+
+**What it is honestly worth.** Continuous ad-hoc research becomes about thirty minutes a month of
+reading one report and approving or rejecting a short list. That is most of the goal and it is not
+all of it. **It is not zero, and no version of this is zero**, for the reason recorded under known
+weaknesses.
+
 ## Known weaknesses, stated so nobody rediscovers them as news
 
 - **The first-party base is four small repositories and one observer.** Nothing is observed at
@@ -175,6 +218,30 @@ adoption gate. **They were one sequence and that is why neither had started.**
   venues run: a workshop poster, a vision-track short paper and a short-paper talk.
 - **Four items are contested between verification passes.** Recorded in `EVIDENCE.md`. One of them
   undercuts a headline.
+- **The goal this collection is built toward contains a contradiction, and no amount of engineering
+  resolves it.** Recorded 2026-09-10 after it was proposed for the third time, so that the next
+  proposal is answered rather than rebuilt.
+
+  The stated want has two halves: **every claim carries the strength of its evidence**, and **the
+  collection keeps itself current by absorbing the best of what the most-starred collections
+  publish**. Those are mutually exclusive. The most-starred collections grade nothing: 283,707 stars
+  and zero academic citations, 92,967 and one informal citation, both verified 2026-09-08 and
+  2026-09-09. Absorbing them means importing unmarked claims, and a collection that does that has
+  stopped being evidence-graded and become a rules file with a scale attached.
+
+  **The grading cannot be automated away because the grading is the product.** Everything else here
+  is available free and better maintained elsewhere, which the coverage estimate above puts at three
+  quarters to four fifths.
+
+  The adjacent want, **stop researching entirely**, is not available either. Eight outside checks,
+  eight found something, and the eighth found the worst entry on the list. A field with that error
+  curve has no static answer to cache. **What is available is roughly thirty minutes a month**, which
+  is most of the friction gone and is not none of it. Item 6 is that, and it is deliberately not more.
+
+  **And the collection cannot be certified as the best**, which was the third form of the request.
+  That requires a controlled comparison, nothing here has one, and `martinholovsky/SOTA-skills` is
+  ahead on exactly that axis. Error 27 exists because a previous version implied otherwise. A
+  collection built to refuse unsupported superlatives cannot issue one about itself.
 - **The reputation competitor publishes faster than this collection can recheck, and says so.**
   Verified 2026-09-09 from an environment that could reach the page. Simon Willison's agentic
   engineering pattern series states that each chapter is "effectively a blog post with a less
@@ -217,7 +284,7 @@ adoption gate. **They were one sequence and that is why neither had started.**
 
   | Artifact | Stars | Retrieved |
   |---|---|---|
-  | The Jarmak companion repository | **10** | by the landscape pass, 2026-09-09, unconfirmed here |
+  | The Jarmak companion repository | **10** | GitHub REST API, 2026-09-09, confirmed here |
   | `obra/superpowers` | **283,707** | GitHub REST API, 2026-09-09, confirmed here |
 
   **A second datapoint, 2026-09-09, in the same direction.** `martinholovsky/SOTA-skills`, the most
@@ -256,6 +323,13 @@ Recorded because each has been proposed more than once:
 
 - **Product rankings** of harnesses, models or subscriptions. See `AGENTS.md` for why.
 - **Curated recommended-skill or recommended-server lists.** They would contradict `SECURITY.md`.
+- **Ingesting content from collections that cite nothing**, however popular. Verified 2026-09-08 and
+  2026-09-09: `obra/superpowers` carries **283,707 stars and zero academic citations** across its
+  corpus, `addyosmani/agent-skills` **92,967 and one informal citation**, and neither marks confidence
+  on any claim. Absorbing their rules would import unmarked assertions into a collection whose entire
+  argument is that a claim carries the strength of its evidence. That is error 14's shape, at scale
+  and on purpose. **They are tracked in `sources.yml` as a signal source and never as a content
+  source**: that a popular collection added a rule is a research lead, not a claim.
 - **Vendor-specific mechanics.** Hook syntax and command file formats are vendor-documented.
 - **Any observation drawn from a repository the author does not own.** Withdrawn entirely on
   2026-09-06 rather than de-identified further. Two reasons, and the second is the load-bearing one:
