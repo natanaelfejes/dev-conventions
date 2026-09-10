@@ -154,6 +154,25 @@ reach by construction:
 every check in this repository has drawn its boundary at a convenient unit inside the project.
 Before adding one, ask what sits immediately outside the unit it examines.
 
+### A condition an agent acts on must be mechanically checkable, and checked
+
+**Added 2026-09-10, as error 30, found by the first adoption run.** `SKILL.md` selected its two
+layer files on `team: 1` and `team: 2 or more` while the schema had always said
+`solo | pair | small-team | open-source`. The selector matched nothing, in every repository, since
+0.14.0, and said nothing, because a condition that is never true looks exactly like one that did not
+apply. Eight verification passes and two audits read the line without seeing it, because it reads
+correctly and is only wrong against another file.
+
+**Twelve checks verified whether claims were true. None asked whether the instructions could run.**
+Those are different questions and this repository only had instruments for the first. Where a
+document tells an agent to do something conditional, the condition is mechanically checkable:
+`check_selectors` now asserts every selected value is a member of its schema enum, and fails loudly
+if it parses no enums, because a checker that finds nothing to check must never report clean.
+
+**And the general lesson, which is the reason the 1.0 gate exists:** reading finds untrue claims,
+running finds inoperative ones, and this project did nine of the first and none of the second until
+the thirtieth error.
+
 ### A check that protects a list must not publish the list
 
 **Added 2026-09-10, as error 29.** The identifier patterns lived in plaintext in `build.py`, which
@@ -194,10 +213,11 @@ on a cron schedule. The report is the input to `REFRESH.md`, which a human runs.
 
 ### The test to apply to any proposed change
 
-**Does it make a rule an engineer can act on, or does it make the apparatus larger?** Seven
-verification passes have run and zero adoptions. Every one of those passes generated evidence,
-changelog and error entries. **None of them generated a rule.** The apparatus is not the deliverable
-and it has been growing faster than the thing it supports.
+**Does it make a rule an engineer can act on, or does it make the apparatus larger?** Nine
+verification passes ran before the first adoption did, and every one generated evidence, changelog
+and error entries rather than rules. **The first adoption run produced error 30 within the hour**,
+a defect that made the skill inoperative in every repository and that no reading pass had found in
+six days. Reading finds untrue claims. Running finds ones that never worked.
 
 ## The rules that are not negotiable
 

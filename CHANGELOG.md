@@ -191,6 +191,37 @@ inversely correlated in this market and it is no longer an anecdote.** Recorded 
 distributable and deliberately volatile, and the fix below is an instruction rather than a check.**
 Recorded here because both items change what this collection can claim about itself.
 
+### Error 30: the layer selector had never matched, and the first adoption run found it
+
+`SKILL.md` selected its two mutually exclusive layer files on `team: 1` and `team: 2 or more`, while
+`PROFILE.md`, `templates/profile.yml` and all three shipped examples have always used the enum
+`solo | pair | small-team | open-source`. An agent following any shipped example loaded neither
+layer, applied Layer 1 only, and reported nothing. Introduced by the 0.14.0 split. Silent in every
+repository for two days, and read past by eight verification passes and two audits, because the line
+reads correctly and is only wrong against another file.
+
+Selectors now name enum members, in `SKILL.md` and both layer headers. The schema was not changed to
+numbers: every profile in existence uses the enum, and the schema was never the wrong half.
+
+**New check, the twelfth: every value the skill selects on must be a member of that field's schema
+enum.** It parses the enums from `PROFILE.md` and the selectors from shipped prose, reports how many
+of each it examined, and fails loudly if it parses no enums, because a checker with nothing to check
+must never report clean. Made to fail three ways: the original defect restored verbatim, an invented
+value on a different field, and a schema mutated until it stops parsing. Twelve checks verified
+whether claims were true and none asked whether the instructions could run.
+
+### The leak fix broke the first run for a new adopter
+
+Copying `leak-patterns.txt.example` to seed the check, which is exactly what a new adopter does,
+failed the build on the example file itself: its placeholders match the patterns they define, five
+hits before anyone has done anything wrong. The example is now excluded from the repository-wide
+scan and pinned by digest instead, so any edit to it stops the build.
+
+The first attempt at that compensating check held an allowlist of the placeholder strings **in
+`build.py`**, which put a list of pattern-shaped strings back into the file error 29 had just moved
+them out of. It was caught by the fresh-adopter test failing on `build.py`'s own line. A digest
+cannot match a pattern and discloses nothing.
+
 ### Error 29: the leak check could not see itself
 
 Two regexes in `build.py` held the employer, customer and author-name patterns in plaintext.

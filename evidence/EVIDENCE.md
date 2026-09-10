@@ -2142,6 +2142,51 @@ Kept deliberately, because they are the argument for the scale.
     New rule: **a check that protects a list must not publish the list.** Where a check needs secrets
     to do its job, they live outside the artifact and the check fails loudly when they are absent.
 
+30. **The layer selector could never match, in every repository, silently, and eight verification
+    passes read past it.** Found 2026-09-10 by the first adoption run, and that is what earns it a
+    number rather than a changelog line.
+
+    `SKILL.md` selected the two mutually exclusive layer files on **`team: 1`** and **`team: 2` or
+    more**. `PROFILE.md`, `templates/profile.yml` and all three shipped example profiles have always
+    used the enum **`solo | pair | small-team | open-source`**. The selector named values the schema
+    cannot hold, so an agent following any shipped example loaded **neither layer**, applied Layer 1
+    only, and **reported nothing**, because a condition that is never true is indistinguishable from
+    a condition that did not apply. Introduced by the 0.14.0 split, which moved the layers out of
+    `SKILL.md` and carried the old numeric phrasing with them.
+
+    **Why this one is different from the twenty-nine before it.** Every previous error was found by
+    reading: a claim traced to its source, a check read against its scope, an artifact opened. This
+    was found by **running the procedure**. Eight verification passes, two outside audits and a
+    competitive evaluation all read `SKILL.md`, several of them line by line, and the sentence
+    `team: 1` reads perfectly. It is only wrong **against another file**, and only visibly wrong when
+    somebody executes it. **The whole apparatus was pointed at whether claims were true and none of
+    it asked whether the instructions could run.**
+
+    - **Twelve checks verified provenance, packaging, metadata, staleness and venue records. Not one
+      verified that the document's own conditions can be satisfied.** That is the gap, and it is a
+      different kind from every other entry: not an unsupported claim, an inoperative one.
+    - **It is the strongest argument in this repository for the 1.0 gate.** The gate says the skill
+      does not publish until it has been adopted once. This defect is what the gate was for, it was
+      found within an hour of the gate finally being satisfied, and it had survived everything else.
+    - **It is also an argument against the release cadence.** Sixteen versions in six days, and the
+      one thing that would have caught this was the one thing never done.
+
+    Fixed: the selectors now name enum members, in `SKILL.md` and in both layer headers. The schema
+    was **not** changed to numbers, because every profile in existence uses the enum and the schema
+    was never the wrong half.
+
+    New check, the twelfth: **every value the skill selects on must be a member of that field's
+    schema enum.** It parses the enums out of `PROFILE.md` and the selectors out of shipped prose,
+    reports how many of each it examined, and **fails loudly if it parses no enums at all**, because
+    a checker that finds nothing to check must never report clean. Made to fail on purpose three
+    ways: the original defect restored verbatim, an invented value on a different field, and a
+    schema mutated until it stops parsing.
+
+    New rule: **a check that the documents are consistent with each other is not the same as a check
+    that any of them is true, and this collection had twelve of the second kind and none of the
+    first.** Where a document tells an agent to do something conditional, the condition is
+    mechanically checkable and should be checked.
+
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
 the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
@@ -2244,6 +2289,7 @@ things has not slowed**, which is the honest argument for a sixth rather than fo
 | 2026-09-08 | Full external audit at 0.11.0, plus primary sources obtained on paper | Errors 21, 22 and 23. **Three corrections that never reached the agent-facing files**, one of them false about a named third party. An audit scoped to the section rather than the rule. And **two figures that are not in the paper they were attributed to, published under a claim that the paper had been read in full** |
 | 2026-09-09 | An audit that looked at the **installed** skill rather than the repository | **Error 28, the worst one here.** The loaded copy was **eleven releases stale and had been for five days**, because this collection's own README offered a copy install. Seven checks had examined what the repository builds. This was the first to ask what actually runs |
 | 2026-09-10 | An audit that read the checking instrument rather than the files it checks | **Error 29.** The leak check held its patterns in plaintext in `build.py`, which it never scanned, so what would publish is the **index of everything scrubbed**. Also caught a version picker that sorts as strings, which would have reinstalled the very artifact error 28 is about |
+| 2026-09-10 | **The first adoption run**, executing the procedure in a real repository rather than reading it | **Error 30.** The layer selector had **never matched any profile**, in any repository, silently, since 0.14.0. Eight passes and two audits read the line and it reads correctly; it is only wrong against another file. The first check in this project of whether the documents' own conditions can ever be true |
 
 **What the 2026-09-06 pair demonstrated is worth separating from what it found.** Neither pass alone
 produced the trailer table, and neither alone would have caught the mis-tiering. Two passes cost

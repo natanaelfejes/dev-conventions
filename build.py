@@ -12,6 +12,7 @@ Excludes the files that develop the collection rather than being part of it, and
 verifies the things that have actually broken before. Run it with no arguments.
 """
 
+import hashlib
 import json
 import os
 import re
@@ -288,6 +289,16 @@ def check_prose(files):
                              text=True).stdout.split()
     scanned, found = 0, []
     for f in tracked:
+        # The example patterns file is the one tracked file that must contain
+        # pattern-shaped strings, because that is what it is for. A new adopter
+        # copies it to seed the check, the placeholders become the live patterns,
+        # and the scan then matches them inside the example itself: five hits on
+        # the very first build, before anyone has done anything wrong. Found by
+        # running the adoption. Excluded here, and PROTECTED INSTEAD by
+        # check_example_placeholders, so the exclusion is not a hole a real
+        # identifier can be parked in.
+        if f == PATTERNS_EXAMPLE.relative_to(ROOT).as_posix():
+            continue
         fp = ROOT / f
         if not fp.is_file():
             continue
@@ -303,7 +314,8 @@ def check_prose(files):
         fail(f"employer or project identifiers in tracked files: {found[:5]}")
     else:
         ok(f"no employer or project identifiers across {scanned} tracked files "
-           f"(every tracked file, this build script included)")
+           f"(every tracked file except the example patterns file, which is "
+           f"checked separately, and this build script included)")
 
     # cross-references, resolved against WHAT SHIPS rather than what is on disk.
     #
@@ -365,6 +377,86 @@ PUBLISHER_DOI = re.compile(r"\b10\.(?!48550)\d{4,9}/[^\s`)\]]+")
 # shape pointing the other way: it fails work that is right.
 CONFIRMED_AGAINST = re.compile(r"onfirmed\s+\d{4}-\d{2}-\d{2}\s+against", re.I)
 RECORD_WINDOW = 14   # lines after a paper's first mention in which its record must appear
+
+
+SELECTOR = re.compile(r"`([a-z_]+):\s*([A-Za-z0-9_-]+)`")
+ENUM_LINE = re.compile(r"^([a-z_]+):\s*\S+\s+#\s*(.+\|.+)$", re.M)
+
+
+# The example patterns file is pinned by DIGEST rather than by listing what it
+# may contain. The first version of this check held an allowlist of the
+# placeholder strings, which put a list of pattern-shaped strings back into
+# build.py: the exact defect error 29 had just moved out of it, reintroduced by
+# its own fix, and caught only because a fresh-adopter test failed on
+# build.py's own line. A hash cannot match a pattern and discloses nothing.
+#
+# Editing the example is fine and requires updating this digest, deliberately.
+EXAMPLE_SHA256 = "74ed4ed9428c38fc780928da6bae81cae714f756cd209bf5dd10d631b1632df4"
+
+
+def check_example_placeholders():
+    """The example file is excluded from the repository-wide leak scan, because a
+    new adopter copies it to seed the check and its placeholders then match
+    themselves. This is what makes that exclusion safe rather than a hole: any
+    edit at all, a real identifier pasted in most of all, stops the build."""
+    if not PATTERNS_EXAMPLE.exists():
+        fail(f"{PATTERNS_EXAMPLE.name} is missing, so a fresh clone cannot seed the leak check")
+        return
+    actual = hashlib.sha256(PATTERNS_EXAMPLE.read_bytes()).hexdigest()
+    if actual != EXAMPLE_SHA256:
+        fail(f"{PATTERNS_EXAMPLE.name} has changed. It is excluded from the leak scan, so it is "
+             f"pinned instead. Read the diff, confirm no real identifier was added, then set "
+             f"EXAMPLE_SHA256 to {actual}")
+        return
+    lines = [l.strip() for l in PATTERNS_EXAMPLE.read_text(encoding="utf-8").splitlines()]
+    listed = [l for l in lines if l and not l.startswith(("#", "["))]
+    sections = [l for l in lines if l.startswith("[")]
+    if not listed:
+        fail(f"{PATTERNS_EXAMPLE.name} lists no patterns, so a fresh clone seeds an empty check "
+             f"that passes everything")
+    else:
+        ok(f"example patterns file matches its pinned digest, {len(listed)} placeholders "
+           f"across {len(sections)} sections")
+
+
+def check_selectors(files):
+    """Can the document's own conditions ever be true?
+
+    Eleven checks verified claims, provenance, packaging and metadata. Not one
+    asked whether a rule that fires on a profile value names a value the profile
+    schema can hold. The 0.14.0 split moved the two layer files out of SKILL.md
+    and left them selecting on `team: 1` and `team: 2 or more` while the schema
+    had said `solo | pair | small-team | open-source` all along. Every shipped
+    example uses the enum, so the selector matched nothing, in every repository,
+    and an agent following it loaded neither layer and reported no error. Silent,
+    because a condition that is never true looks exactly like a condition that
+    did not apply.
+
+    Found by RUNNING the adoption rather than reading the documents, after eight
+    verification passes and two audits. Error 30."""
+    schema = ROOT / "PROFILE.md"
+    enums = {f: {v.strip() for v in vals.split("|")}
+             for f, vals in ENUM_LINE.findall(schema.read_text(encoding="utf-8"))}
+    if not enums:
+        fail("no enum fields parsed from PROFILE.md, so this check verified nothing")
+        return
+
+    bad, checked = [], 0
+    for f in files:
+        if not f.endswith(".md"):
+            continue
+        for i, line in enumerate((ROOT / f).read_text(encoding="utf-8").splitlines(), 1):
+            for field, value in SELECTOR.findall(line):
+                if field not in enums:
+                    continue
+                checked += 1
+                if value not in enums[field]:
+                    bad.append(f"{f}:{i} selects `{field}: {value}`, not in {sorted(enums[field])}")
+    if bad:
+        fail(f"selectors that can never match the schema: {bad[:5]}")
+    else:
+        ok(f"{checked} profile selectors across {len(enums)} enum fields "
+           f"({', '.join(sorted(enums))}), every value a member of its schema enum")
 
 
 def check_venue_confirmation():
@@ -506,6 +598,8 @@ def main():
     check_frontmatter()
     check_prose(files)
     check_metadata()
+    check_example_placeholders()
+    check_selectors(files)
     check_venue_confirmation()
     check_staleness()
 

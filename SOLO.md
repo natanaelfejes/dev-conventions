@@ -1,6 +1,6 @@
 # Solo repositories
 
-**Load this when the profile says `team: 1`.** Split out of `SKILL.md` on 2026-09-08: this and
+**Load this when the profile says `team: solo`.** Split out of `SKILL.md` on 2026-09-08: this and
 `TEAM.md` are mutually exclusive by the profile's own rule, and both were loading on every session,
 so roughly half of what an agent read applied to nobody.
 

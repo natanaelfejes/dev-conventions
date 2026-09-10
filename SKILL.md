@@ -289,9 +289,9 @@ say, will not say, or says without evidence.
 
 **These are mutually exclusive and neither is loaded by default.**
 
-- **`team: 1` in the profile, load `SOLO.md`.** What replaces a reviewer when there is none, what a
+- **`team: solo` in the profile, load `SOLO.md`.** What replaces a reviewer when there is none, what a
   solo repository records instead of a process, and the failure modes of working alone with an agent.
-- **`team: 2` or more, load `TEAM.md`.** Disclosure, review that exists on paper only, process that
+- **`team: pair`, `team: small-team` or `team: open-source`, load `TEAM.md`.** Disclosure, review that exists on paper only, process that
   exists only as an agreement, decision records, and ownership.
 
 **Do not load both, and do not apply one to the other's repository.** Until 2026-09-08 both were

@@ -1,6 +1,7 @@
 # Team repositories
 
-**Load this when the profile says `team: 2` or more.** Split out of `SKILL.md` on 2026-09-08: this
+**Load this when the profile says `team: pair`, `team: small-team` or `team: open-source`,
+which is every value of that field except `solo`.** Split out of `SKILL.md` on 2026-09-08: this
 and `SOLO.md` are mutually exclusive by the profile's own rule, and both were loading on every
 session.
 
