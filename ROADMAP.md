@@ -173,6 +173,33 @@ carries it.
 **Sequence, in order:** confirm history is clean, then public, then an archival-repository DOI
 against a tagged release, then that DOI into `CITATION.cff`.
 
+### DONE 2026-09-10: history rewritten, repository public
+
+Four identifiers were replaced across all 27 commits with redaction tokens. They had existed in only
+two files ever, `AGENTS.md` and `build.py`, inside the leak regex itself, which is error 29.
+
+**Verified independently after the fact rather than taken on report**: 27 commits, 1,291 blob reads,
+**zero occurrences** of any of the four. The redaction token appears exactly where the shape
+predicts, introduced with the regex at 0.9.0 and gone by the error 29 commit that moved the patterns
+out. Two commit identities across all refs, both legitimate. Attribution deliberately preserved in
+`LICENSE` and `CITATION.cff`.
+
+**Delete and recreate was chosen over force-push, and the reason is worth recording** because it
+inverts the usual advice. A force-push leaves the old objects addressable by hash on the host, and
+error 29 says a rewrite alone is therefore not sufficient. **The repository had never been public,
+so no external party had ever held the old hashes**, and nothing could break by their disappearing.
+That window closes permanently the moment a repository goes public: after that, delete and recreate
+costs every fork, star, issue and inbound link, and force-push stops being the weaker option because
+it is the only one. **The cheap version of this fix was available exactly once.**
+
+**What publication immediately bought**, within the hour: error 31, a check that hashed working-tree
+bytes and would have failed the first build of every Windows user who cloned it. **The first defect
+in this collection that a stranger would have hit rather than the author.** Thirty errors were found
+from inside. The thirty-first needed an outside.
+
+**Still open in this item:** the archival DOI against a tagged release, then that DOI into
+`CITATION.cff`.
+
 **Two sequences now, since the gates split.** The evidence document runs the whole sequence above on
 its own schedule and is blocked only on the repository going public. The skill runs it after the
 adoption gate. **They were one sequence and that is why neither had started.**

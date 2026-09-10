@@ -383,6 +383,19 @@ SELECTOR = re.compile(r"`([a-z_]+):\s*([A-Za-z0-9_-]+)`")
 ENUM_LINE = re.compile(r"^([a-z_]+):\s*\S+\s+#\s*(.+\|.+)$", re.M)
 
 
+def content_digest(path):
+    """Hash CONTENT, not working-tree bytes.
+
+    `core.autocrlf=true` is the Windows default, so a fresh clone there gets CRLF
+    and a byte digest of the same file differs from the same file on Linux. This
+    was written on Linux, passed on Linux, and would have failed the very first
+    build of every Windows user who cloned the repository on the day it went
+    public, telling them a file had changed when nothing had. Tenth instance of
+    the boundary family: the check measured the bytes on disk and what mattered
+    was the content."""
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 # The example patterns file is pinned by DIGEST rather than by listing what it
 # may contain. The first version of this check held an allowlist of the
 # placeholder strings, which put a list of pattern-shaped strings back into
@@ -402,11 +415,12 @@ def check_example_placeholders():
     if not PATTERNS_EXAMPLE.exists():
         fail(f"{PATTERNS_EXAMPLE.name} is missing, so a fresh clone cannot seed the leak check")
         return
-    actual = hashlib.sha256(PATTERNS_EXAMPLE.read_bytes()).hexdigest()
+    actual = content_digest(PATTERNS_EXAMPLE)
     if actual != EXAMPLE_SHA256:
         fail(f"{PATTERNS_EXAMPLE.name} has changed. It is excluded from the leak scan, so it is "
              f"pinned instead. Read the diff, confirm no real identifier was added, then set "
-             f"EXAMPLE_SHA256 to {actual}")
+             f"EXAMPLE_SHA256 to {actual}. Line endings are normalised before hashing, so this "
+             f"is not a CRLF difference.")
         return
     lines = [l.strip() for l in PATTERNS_EXAMPLE.read_text(encoding="utf-8").splitlines()]
     listed = [l for l in lines if l and not l.startswith(("#", "["))]

@@ -191,6 +191,39 @@ inversely correlated in this market and it is no longer an anecdote.** Recorded 
 distributable and deliberately volatile, and the fix below is an instruction rather than a check.**
 Recorded here because both items change what this collection can claim about itself.
 
+### Error 31: the digest measured working-tree bytes, and broke every Windows clone
+
+`check_example_placeholders` pinned the tracked example patterns file by `sha256` of its bytes on
+disk. `core.autocrlf=true` is the Windows default, so a fresh clone there gets CRLF and the same
+file hashes to `237aac65` where Linux gives `74ed4ed9`, the pinned value. The git blob is
+`1594bd62` on both, because git stores content.
+
+**Every Windows user who cloned this repository on the day it went public would have failed their
+first build**, and the failure told them the file had changed and to inspect the diff for a smuggled
+identifier. Nothing had changed. A first-run failure that accuses the reader of the one thing the
+check exists to prevent is worse than a crash, because it is legible and wrong.
+
+Tenth instance of the boundary family, and the cheapest to state: the check measured the bytes, and
+what mattered was the content. Same root cause as the friction log's POSIX-only derivation commands
+one day earlier, both written and tested on Linux and consumed on Windows. **It is also the first
+defect here that a stranger would have hit rather than the author**, which is what publication is
+for: thirty errors were found from inside, and the thirty-first needed an outside.
+
+Fixed by normalising line endings before hashing, and **tested by failing on purpose under both**: a
+CRLF checkout must build, and a real identifier must be refused under CRLF and LF alike. The three
+earlier probes on this check all ran under one line ending, which is why they passed and the defect
+shipped.
+
+### History rewritten, repository public
+
+Four identifiers replaced across all 27 commits. Verified here independently after the fact: 27
+commits, 1,291 blob reads, zero occurrences, redaction tokens appearing exactly where the shape
+predicts, two legitimate commit identities, attribution preserved in `LICENSE` and `CITATION.cff`.
+
+`ROADMAP.md` item 5 records why delete-and-recreate beat force-push, which inverts the usual advice
+and only did so because the repository had never been public: no external party had ever held the
+old hashes. **That option expires permanently at publication.**
+
 ### The first adoption run, and the nine other things it found
 
 Error 30 was the first. Nine more, all landed:

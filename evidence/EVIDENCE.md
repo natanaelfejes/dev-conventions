@@ -2243,6 +2243,51 @@ Kept deliberately, because they are the argument for the scale.
     first.** Where a document tells an agent to do something conditional, the condition is
     mechanically checkable and should be checked.
 
+31. **A check hashed the bytes on disk when what mattered was the content, so every Windows user who
+    cloned this repository on the day it went public would have failed their first build.** Found
+    2026-09-10, roughly an hour after publication, by an orchestrator reading the fix rather than
+    running it. Reproduced here.
+
+    `check_example_placeholders` pinned the tracked example patterns file by `sha256` of
+    `read_bytes()`. **`core.autocrlf=true` is the Windows default**, so a fresh clone there writes
+    CRLF, and the same file hashes differently:
+
+    | | digest |
+    |---|---|
+    | The file as checked out on Linux | `74ed4ed9…`, which is what was pinned |
+    | The same file as checked out on Windows | `237aac65…` |
+    | The git blob, which is what git actually stores | `1594bd62…`, identical on both |
+
+    The failure message said the file **had changed** and told the reader to inspect the diff for a
+    smuggled identifier. Nothing had changed. **A first-run failure that accuses the user of the one
+    thing the check exists to prevent is worse than a crash**, because it is legible and wrong.
+
+    Why it earns a number:
+
+    - **Tenth instance of the boundary family, and the cheapest to state.** The check measured the
+      **bytes in the working tree**. What mattered was the **content**. Git has drawn that
+      distinction since it was written; this check did not.
+    - **It is the same root cause as the friction log's POSIX-only derivation commands, one day
+      apart.** Both were written on Linux, tested on Linux, and are consumed on Windows. Neither is
+      subtle. Both were invisible because the author's platform is the one where they work.
+    - **It is the first defect in this collection that a stranger would have hit rather than the
+      author**, and it arrived with publication, which is what publication is for. Every one of the
+      thirty before it was found by someone already inside the project.
+    - **It was introduced by the fix for error 29**, which was itself introduced by the fix for the
+      first draft of error 29's own compensating check. Three layers, each correct against the
+      previous one's failure and none of them tested on a second platform.
+
+    Fixed: `content_digest()` normalises `\r\n` to `\n` before hashing, so the pin measures content.
+    **Made to fail on purpose under both line endings**, which is the test that would have caught it:
+    a CRLF checkout must build, and a real identifier must be refused under CRLF and under LF alike.
+    Three earlier probes tested the same check under one line ending only, which is why they all
+    passed and the defect shipped.
+
+    New rule: **a check that compares bytes must say which normalisation it assumes, and be tested
+    on both sides of it.** Where the thing being compared is content rather than an encoding,
+    normalise first. Line endings are the common case; trailing whitespace, BOM and Unicode
+    normalisation are the same class.
+
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
 the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
@@ -2273,6 +2318,7 @@ drew its boundary at the convenient unit and the thing it was looking for sat on
 | The working tree | The zip a consumer installs |
 | The built zip | The copy actually installed and loaded |
 | The 28 files that ship | Every tracked file, this repository being public |
+| The bytes in the working tree | The content, which git stores identically on every platform |
 
 Every one of those checks passed. Every one was correct within its scope. **None of them stated its
 scope**, so a clean result read as "clean" rather than as "clean in the half I looked at". The fifth,

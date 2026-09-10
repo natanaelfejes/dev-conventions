@@ -82,7 +82,7 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   measured agent evaluation flipping outcomes between identical runs, with temperature zero providing
   no protection, and two of them name the causes. Every single-run number in this collection inherits
   that caveat, including the ones these four papers report.
-- **The collection has been wrong** and keeps a numbered list of its own errors, thirty of
+- **The collection has been wrong** and keeps a numbered list of its own errors, thirty-one of
   them, including a security figure it inflated nineteenfold, a source it cited as saying the
   opposite of what it found, and **two figures that are not in the paper they were attributed to,
   published under a claim that the paper had been read in full**. That list is not humility

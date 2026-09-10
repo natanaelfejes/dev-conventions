@@ -18,7 +18,7 @@ abstract: >-
   scale ordered by review trail rather than by whether numbers exist. Guidance is
   conditional on a per-repository profile rather than prescribed. Disagreements
   between sources are left standing with a stated default. The collection keeps a
-  numbered list of its own errors, which as of this version runs to thirty
+  numbered list of its own errors, which as of this version runs to thirty-one
   and includes a fabricated statistic it carried for a day before a verification
   pass traced it to a source that does not exist, two figures published under a
   claim that the paper they came from had been read in full when it had not, a
