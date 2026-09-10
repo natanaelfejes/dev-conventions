@@ -67,7 +67,7 @@ Each of these has been asked for directly. Saying no is not a gap.
 ### The one want this artifact cannot meet as stated, and it should be said rather than quietly missed
 
 The author asked for something that means **never having to research this again**, self-updating. In
-a field where eight outside checks each found something and the rate has not slowed, a
+a field where nine outside checks each found something and the rate has not slowed, a
 never-stale digest is not available. **What is available is an honest map of what is known, what is
 contested and what nobody has measured, refreshed on a cadence.** `REFRESH.md` is that cadence and
 the build warns when it lapses. Anything promising more than that is the failure mode this collection
@@ -153,6 +153,32 @@ reach by construction:
 **And the general form, which is the eighth row of the boundary table in `evidence/EVIDENCE.md`:**
 every check in this repository has drawn its boundary at a convenient unit inside the project.
 Before adding one, ask what sits immediately outside the unit it examines.
+
+### A check that protects a list must not publish the list
+
+**Added 2026-09-10, as error 29.** The identifier patterns lived in plaintext in `build.py`, which
+is published and which the leak check never scanned, because its scope was the 28 files that ship.
+What that would have published is not one identifier but **the index of every string considered
+sensitive enough to scrub**, which is a better disclosure than anything it guarded against.
+
+- **Patterns live in `.agents/leak-patterns.txt`, gitignored, read at runtime.** A tracked
+  `.example` carries placeholders. Never put a real identifier in a tracked file, this file
+  included, and that applies to writing about the rule as much as to writing code: the build caught
+  the first draft of error 29 naming an identifier inside the entry about not naming identifiers.
+- **Absent or empty is a hard stop, never a quiet pass.** An empty pattern list matches nothing and
+  passes everything, so a build that skips its leak check silently is worse than one with no leak
+  check. It reports green.
+- **The scope is every tracked file, because this repository is public.** What ships is a strictly
+  smaller set than what is published and was never the right boundary for this question.
+
+### A version picker sorts on parsed integers, never on strings
+
+**Added 2026-09-10.** `sorted(glob(...))[-1]` puts `0.9.0` after `0.15.0`. It appeared three times
+in one day, once in the command written to fix the stale install of error 28, where it would have
+reinstalled that exact stale artifact. Parse the numbers:
+`max(paths, key=lambda p: tuple(int(x) for x in re.findall(r"\d+", p.name)))`. And keep `dist/` to
+the current version only, so there is nothing to pick wrongly, because you cannot fix a version
+picker that lives outside this repository.
 
 ### Detection is automated. Judgment is not.
 
@@ -275,12 +301,12 @@ carry retracted phrasings.
 grep -l "—" *.md templates/* examples/*
 
 # identifier leaks, must be empty
-grep -n -i -E "REDACTED-EMPLOYER|REDACTED-PROJECT-B|REDACTED-PROJECT-A|Natanael|Fejes" *.md templates/* examples/*
+python3 -c "import build" >/dev/null && grep -n -i -E -f <(sed -e '/^[#[]/d' -e '/^$/d' .agents/leak-patterns.txt) -r . --exclude-dir=.git --exclude-dir=dist
 
-# frontmatter description: must parse as YAML and be under 200 chars
+# frontmatter description: must parse as YAML and be under 1024 chars, the documented cap
 python -c "import sys;s=open('SKILL.md',encoding='utf-8').read().split('---')[1];
 d=[l for l in s.strip().splitlines() if l.startswith('description:')][0][13:];
-print(len(d), ': ' in d)"
+print(len(d), len(d) <= 1024, ': ' in d)"
 
 # internal cross-references resolve
 grep -oh -E '[\`][A-Za-z_./-]+[.](md|yml)[\`]' *.md templates/* examples/* | tr -d '\`' | sort -u

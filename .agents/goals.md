@@ -184,5 +184,5 @@ Stated plainly, because the gap is the useful part.
 2. **"Never research again" is not achievable in this field and the collection's value is that it
    refuses to pretend otherwise.** What is achievable is an honest map of what is known, what is
    contested and what nobody has measured, refreshed on a cadence. That is a smaller promise and a
-   more defensible one, and every verification pass so far has confirmed it: eight outside checks, each
+   more defensible one, and every verification pass so far has confirmed it: nine outside checks, each
    one found something, and the rate has not slowed.

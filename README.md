@@ -82,13 +82,13 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   measured agent evaluation flipping outcomes between identical runs, with temperature zero providing
   no protection, and two of them name the causes. Every single-run number in this collection inherits
   that caveat, including the ones these four papers report.
-- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-eight of
+- **The collection has been wrong** and keeps a numbered list of its own errors, twenty-nine of
   them, including a security figure it inflated nineteenfold, a source it cited as saying the
   opposite of what it found, and **two figures that are not in the paper they were attributed to,
   published under a claim that the paper had been read in full**. That list is not humility
   furniture. It is the argument for the scale, and it is the section to read first if you want to
   know how much to trust the rest.
-- **It has been checked from outside eight times**, between 2026-09-03 and 2026-09-09, and every one
+- **It has been checked from outside nine times**, between 2026-09-03 and 2026-09-09, and every one
   of them found something. A fabricated statistic. Two figures wrong. Four items where two
   independent passes disagreed. A shipped template that misstated its own source. Three corrections
   that never reached the files an agent actually loads, one of them false about a named third party.
@@ -96,7 +96,7 @@ Not a compliance framework, not audited by anyone, and not a set of practices to
   repository: it had been eleven releases stale for five days, so none of those corrections had
   reached the thing that loads.** Seven checks examined what this repository builds. The one that
   examined what runs found the worst thing on the list. All recorded, with what each check cost, at
-  the end of `EVIDENCE.md`. **Please be the ninth**: the rate at which checking finds things has not
+  the end of `EVIDENCE.md`. **Please be the tenth**: the rate at which checking finds things has not
   slowed.
 
 ## What is in here, and it is two artifacts now

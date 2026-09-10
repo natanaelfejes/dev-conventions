@@ -2063,6 +2063,85 @@ Kept deliberately, because they are the argument for the scale.
     build's reach, which is the whole finding. `README.md` now refuses the copy install and
     `ADOPTION.md` now opens by asking the skill which version it is.
 
+    **Addendum, 2026-09-10, because it happened twice more within a day.** The install command
+    written to fix this defect picked its zip with `sorted(glob("dist/*.zip"))[-1]`, which sorts
+    **as strings**, so `0.9.0` beats `0.15.0`. `dist/` still held `dev-conventions-0.7.0.zip`, so
+    **the fix for the stale install would have reinstalled the stale skill this error is about.** A
+    bloat-audit script written the same day made the identical mistake and was caught only because
+    its numbers disagreed with the build's own output.
+
+    So, two rules rather than one:
+
+    - **A version picker sorts on parsed integers, never on strings.** `max(paths, key=lambda p:
+      tuple(int(x) for x in re.findall(r"\d+", p.name)))`. String order is not version order and it
+      fails silently, always choosing plausibly.
+    - **And leave nothing to pick wrongly.** `dist/` now holds the current version's outputs only,
+      pruned by `build.py` on every build, because fixing every version picker is necessary and is
+      not verifiable for commands that do not live in this repository. The reason is written into
+      `prune_dist`, next to the code, rather than left as a convention.
+
+29. **The leak check could not see itself, and what it would have published is the index of
+    everything that was scrubbed.** Found 2026-09-10 by an outside audit reading `build.py` rather
+    than the files `build.py` checks. Verified here by importing the module and asking `collect()`
+    what it returns.
+
+    Two regular expressions in `build.py` held the employer, customer and author-name patterns **in
+    plaintext**. `check_prose` scanned the 28 files `collect()` returns. `build.py` is excluded from
+    the distributable, so it was in none of them, and neither were `AGENTS.md` or `CLAUDE.md`. The
+    manual grep command in `AGENTS.md` listed the same patterns again, in an agent-facing file, for
+    the same reason.
+
+    **This is worse than a prose mention of one identifier, and the difference is the point.** A
+    stray mention leaks one fact. A published pattern list leaks the **shape of the redaction**: it
+    tells a reader exactly which strings the author considered sensitive enough to scrub, which is
+    the same reasoning that put `.agents/clearance-inventory.md` behind `.gitignore`. The
+    instrument was a better disclosure than anything it was guarding against.
+
+    Why it earns a number:
+
+    - **It is the ninth instance of the boundary table and the first where the instrument is the
+      thing that leaks.** Row three, the distributable against the repository, recurring. The
+      repository is public, so the scope that matters is what is **published**, and everything
+      tracked is published. The check was scoped to what **ships**, which is a strictly smaller set
+      and was never the right one for this question.
+    - **It survived eight outside checks**, several of which read `build.py` closely enough to find
+      other defects in it, because a regex full of the strings you are protecting reads as the
+      protection rather than as the exposure.
+
+    Fixed:
+
+    - Patterns moved to `.agents/leak-patterns.txt`, **gitignored**, read at runtime, with a tracked
+      `.example` carrying placeholders and the reason.
+    - **A missing or empty patterns file is a hard stop, never a quiet pass.** A build that skips its
+      leak check silently is worse than one with no leak check, because it reports green. An empty
+      section stops the build too, because an empty pattern list matches nothing and passes
+      everything.
+    - The employer and project patterns are now checked against **every tracked file**, 53 of them
+      rather than 26. On its first run the new check failed on `AGENTS.md:278`, which is the line the
+      old one structurally could not reach.
+    - **One further identifier added to the enforced set**, a private project name that had sat only
+      in a manual grep line, so nothing mechanical stopped a first-party observation naming the
+      repository it came from. It is not written here, and the reason is the next bullet.
+    - **The new check caught the writing of this entry.** The first draft of the bullet above named
+      that identifier in plaintext, inside the numbered error about not publishing identifiers, and
+      the build refused it. That is the entry's own argument arriving faster than expected: the
+      instinct to name the thing you are protecting is strong enough to survive writing a rule
+      against it two paragraphs earlier, which is exactly why the check has to be mechanical and
+      has to run over every tracked file.
+    - Three probes, each asserting the **intended** message fired: patterns file absent, a section
+      emptied, and a real pattern planted in `build.py` itself. Plus a positive control, because
+      three probes against a tree that cannot build prove nothing.
+
+    **Still open, and it is the author's decision rather than a defect to fix.** The strings are in
+    `AGENTS.md` and `build.py` on **every ref**, local and remote. Error 17 already established that
+    removing text from HEAD does not remove it from the repository, and on a published code host it
+    is stronger than that: unreachable objects stay addressable by hash and are served by the API
+    long after a rewrite. So a history rewrite is not sufficient on its own and is not obviously
+    worth its cost. Recorded rather than quietly dropped.
+
+    New rule: **a check that protects a list must not publish the list.** Where a check needs secrets
+    to do its job, they live outside the artifact and the check fails loudly when they are absent.
+
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
 the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
@@ -2079,7 +2158,7 @@ Two lessons, not one:
   error on this list at least leaves you uncertain. This one hands you confidence.
 
 **And one pattern runs through errors 9 and 17 and every repeat of them, which is worth stating as a
-rule because naming the instances did not stop it recurring.** Eight times in this repository, a check
+rule because naming the instances did not stop it recurring.** Nine times in this repository, a check
 drew its boundary at the convenient unit and the thing it was looking for sat one unit outside it:
 
 | The check looked at | What it was looking for was in |
@@ -2092,6 +2171,7 @@ drew its boundary at the convenient unit and the thing it was looking for sat on
 | The tier-2 section | Tier 1, where the same rule applied |
 | The working tree | The zip a consumer installs |
 | The built zip | The copy actually installed and loaded |
+| The 28 files that ship | Every tracked file, this repository being public |
 
 Every one of those checks passed. Every one was correct within its scope. **None of them stated its
 scope**, so a clean result read as "clean" rather than as "clean in the half I looked at". The fifth,
@@ -2163,6 +2243,7 @@ things has not slowed**, which is the honest argument for a sixth rather than fo
 | 2026-09-08 | Competitive evaluation against comparable published work, and a skill-craft audit | Errors 24 and 25. **A platform limit this collection invented and enforced in its own build**, which starved the field that decides whether the skill loads. **A conflict claim about a vendor that had gone stale** while the recheck date read zero days old, with a live conflict unrecorded at the same moment. Also: the overlap with first-party vendor guidance is materially larger than this collection claimed |
 | 2026-09-08 | Full external audit at 0.11.0, plus primary sources obtained on paper | Errors 21, 22 and 23. **Three corrections that never reached the agent-facing files**, one of them false about a named third party. An audit scoped to the section rather than the rule. And **two figures that are not in the paper they were attributed to, published under a claim that the paper had been read in full** |
 | 2026-09-09 | An audit that looked at the **installed** skill rather than the repository | **Error 28, the worst one here.** The loaded copy was **eleven releases stale and had been for five days**, because this collection's own README offered a copy install. Seven checks had examined what the repository builds. This was the first to ask what actually runs |
+| 2026-09-10 | An audit that read the checking instrument rather than the files it checks | **Error 29.** The leak check held its patterns in plaintext in `build.py`, which it never scanned, so what would publish is the **index of everything scrubbed**. Also caught a version picker that sorts as strings, which would have reinstalled the very artifact error 28 is about |
 
 **What the 2026-09-06 pair demonstrated is worth separating from what it found.** Neither pass alone
 produced the trailer table, and neither alone would have caught the mis-tiering. Two passes cost

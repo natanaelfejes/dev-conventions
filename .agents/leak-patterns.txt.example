@@ -1,0 +1,40 @@
+# Identifier patterns the build refuses to ship. COPY THIS FILE:
+#
+#     cp .agents/leak-patterns.txt.example .agents/leak-patterns.txt
+#
+# then replace the placeholders with your real ones. `leak-patterns.txt` is
+# gitignored and must never be committed.
+#
+# Why this file exists rather than a regex in build.py: until 2026-09-10 the
+# patterns sat in plaintext in build.py, which is published and which the leak
+# check never scanned, because the check's scope was the 28 files that ship.
+# Publishing the list of strings you consider sensitive is worse than a single
+# mention of one: it hands a reader the index of everything you scrubbed.
+# Error 29.
+#
+# One regex alternative per line. Blank lines and # comments are ignored.
+# Matching is case-insensitive.
+
+# Scanned across EVERY tracked file, this build script included. Employers,
+# customers, private project names. The real secret list.
+[forbidden_everywhere]
+ACME_CORP
+AcmeCustomerName
+PRIVATE_PROJECT_CODENAME
+acme-sso-handle
+
+# Scanned across SHIPPED PROSE ONLY, and the narrower scope is deliberate.
+# The repository is published under the author's name and its own URL contains
+# the author's account handle, so a repository-wide ban on it is unsatisfiable.
+# What must not happen is the skill's own prose naming anybody.
+[forbidden_in_shipped_prose]
+YourGivenName
+YourFamilyName
+
+# Scanned against COMMIT AUTHOR AND COMMITTER metadata, on every ref. Error 17:
+# the prose check passed over every shipped file while an employer address sat
+# in the author field of every commit, which is not file content.
+[forbidden_in_commit_metadata]
+ACME_CORP
+AcmeCustomerName
+acme-sso-handle

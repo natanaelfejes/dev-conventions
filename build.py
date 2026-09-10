@@ -92,19 +92,61 @@ EVIDENCE_ORDER = ["EVIDENCE.md", "RESEARCH.md", "VOCABULARY.md"]
 
 FAILURES = []
 
-# Names that must not appear in anything distributed, in file contents OR in
-# commit metadata. The second half is error 17: this regex passed over every
-# shipped file while the employer address sat in the author and committer field
-# of every commit, which is not file content and so was never examined.
-LEAK = re.compile(r"REDACTED-EMPLOYER|REDACTED-PROJECT-A|Natanael|Fejes|Feješ", re.I)
+# The identifier patterns are NOT in this file. They live in a gitignored file
+# read at runtime, because until 2026-09-10 they sat here in plaintext, in a
+# script that is published and that the leak check never scanned: the check's
+# scope was the 28 files that ship, and this one does not. Publishing the list
+# of strings you consider sensitive is worse than one mention of one, because
+# it hands a reader the index of everything you scrubbed. Error 29.
+PATTERNS_FILE = ROOT / ".agents" / "leak-patterns.txt"
+PATTERNS_EXAMPLE = ROOT / ".agents" / "leak-patterns.txt.example"
 
-# Commit metadata is checked against a NARROWER pattern, and the difference is
-# deliberate rather than an oversight. Skill prose must name nobody, the author
-# included. Commit metadata must name the author, because that is the ownership
-# record and an unattributed history is worth less than an attributed one. What
-# must never appear there is the employer, in any of the forms it takes on a
-# machine provisioned by one: the domain, the company name, the account handle.
-EMPLOYER = re.compile(r"REDACTED-EMPLOYER|REDACTED-PROJECT-A|REDACTED-USER", re.I)
+# Three scopes, each stated, because a check that does not report its boundary
+# is this repository's most repeated defect:
+#   forbidden_everywhere        every tracked file, this script included
+#   forbidden_in_shipped_prose  the shipped prose only. The repository is
+#                               published under the author's name and its own
+#                               URL carries his account handle, so a repo-wide
+#                               ban on it is unsatisfiable rather than strict.
+#   forbidden_in_commit_metadata  commit author and committer, every ref. Error 17.
+SCOPES = ("forbidden_everywhere", "forbidden_in_shipped_prose", "forbidden_in_commit_metadata")
+
+
+def load_patterns():
+    """Absent or malformed means STOP, never a quiet pass. A build that silently
+    skips its leak check is worse than one with no leak check, because it reports
+    green. Error 29."""
+    if not PATTERNS_FILE.exists():
+        sys.exit(
+            f"\n  STOP  {PATTERNS_FILE.relative_to(ROOT)} is missing, so nothing is being\n"
+            f"        checked for identifier leaks. This is a hard stop and not a warning.\n\n"
+            f"        cp {PATTERNS_EXAMPLE.relative_to(ROOT)} {PATTERNS_FILE.relative_to(ROOT)}\n\n"
+            f"        then put your real identifiers in it. It is gitignored.\n")
+    groups, current = {s: [] for s in SCOPES}, None
+    for raw in PATTERNS_FILE.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("[") and line.endswith("]"):
+            current = line[1:-1]
+            if current not in SCOPES:
+                sys.exit(f"\n  STOP  unknown section [{current}] in {PATTERNS_FILE.name}. "
+                         f"Known sections: {', '.join(SCOPES)}\n")
+            continue
+        if current is None:
+            sys.exit(f"\n  STOP  pattern before any [section] in {PATTERNS_FILE.name}\n")
+        groups[current].append(line)
+    empty = [s for s in SCOPES if not groups[s]]
+    if empty:
+        sys.exit(f"\n  STOP  these sections of {PATTERNS_FILE.name} are empty, so they check\n"
+                 f"        nothing: {empty}. An empty pattern list passes everything.\n")
+    return {s: re.compile("|".join(re.escape(p) for p in groups[s]), re.I) for s in SCOPES}
+
+
+PATTERNS = load_patterns()
+EVERYWHERE = PATTERNS["forbidden_everywhere"]
+LEAK = PATTERNS["forbidden_in_shipped_prose"]
+EMPLOYER = PATTERNS["forbidden_in_commit_metadata"]
 
 
 def fail(msg):
@@ -225,12 +267,43 @@ def check_prose(files):
             if LEAK.search(line):
                 leaks.append(f"{f}:{i}")
     if leaks:
-        fail(f"identifier leaks: {leaks[:5]}")
+        fail(f"author-name leaks in shipped prose: {leaks[:5]}")
     else:
         # Say what was measured, not "no errors". This check reported clean for a
         # day while the employer address sat in every commit header, because its
         # scope was file contents and nobody said so. Error 17.
-        ok(f"no identifier leaks in {len(md)} files (contents only, see the metadata check)")
+        ok(f"no author-name leaks in {len(md)} shipped prose files (contents only, "
+           f"see the metadata check)")
+
+    # The employer, customer and private-project patterns are checked against
+    # EVERY TRACKED FILE, not the 28 that ship.
+    #
+    # Until 2026-09-10 this ran only over the shipped set, so build.py, AGENTS.md
+    # and CLAUDE.md were never examined, and build.py was the file carrying the
+    # patterns in plaintext. The instrument was the leak. Ninth instance of the
+    # boundary table and the first where the check itself is what it was looking
+    # for. Error 29. The repository is public, so the scope that matters is what
+    # is published, and everything tracked is published.
+    tracked = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True,
+                             text=True).stdout.split()
+    scanned, found = 0, []
+    for f in tracked:
+        fp = ROOT / f
+        if not fp.is_file():
+            continue
+        try:
+            text = fp.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        scanned += 1
+        for i, line in enumerate(text.splitlines(), 1):
+            if EVERYWHERE.search(line):
+                found.append(f"{f}:{i}")
+    if found:
+        fail(f"employer or project identifiers in tracked files: {found[:5]}")
+    else:
+        ok(f"no employer or project identifiers across {scanned} tracked files "
+           f"(every tracked file, this build script included)")
 
     # cross-references, resolved against WHAT SHIPS rather than what is on disk.
     #
@@ -396,6 +469,36 @@ def check_metadata():
         ok(f"no employer identifiers across {len(commits)} commits on {len(refs)} refs")
 
 
+def prune_dist(version):
+    """dist/ holds the CURRENT version's outputs and nothing else.
+
+    The decision, and the reason, because "it is gitignored" was not enough.
+    Until 2026-09-10 this directory accumulated every build ever made, twelve
+    versions back to 0.7.0. Gitignored means it does not reach a consumer; it
+    does not mean nothing reads it. Something did: an install command handed to
+    the author picked a zip with sorted(glob(...))[-1], which sorts as STRINGS,
+    so "0.9.0" beats "0.15.0" and the command would have installed 0.7.0. That
+    is the version error 28 is about, so the fix for the stale install would
+    have re-created the stale install.
+
+    Two ways to close that. Fix every version picker, which is necessary and
+    which you cannot verify for commands that do not live in this repository.
+    Or leave nothing here to pick wrongly, which is the one that holds. Both.
+
+    An older artifact is not lost: check out its tag and rebuild, which is the
+    only way to be sure the artifact matches the tag anyway."""
+    if not DIST.exists():
+        return
+    keep = {f"dev-conventions-{version}.zip", f"dev-conventions-{version}.json",
+            f"dev-conventions-evidence-{version}.md"}
+    stale = sorted(f for f in DIST.iterdir() if f.is_file() and f.name not in keep)
+    for f in stale:
+        f.unlink()
+    if stale:
+        print(f"  Removed {len(stale)} build outputs from versions no longer in the tree. "
+              f"dist/ holds {version} only.")
+
+
 def main():
     print("Checking before building.\n")
     version = read_version()
@@ -411,6 +514,8 @@ def main():
         return 1
 
     DIST.mkdir(exist_ok=True)
+
+    prune_dist(version)
     zip_path = DIST / f"dev-conventions-{version}.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
         for rel in files:

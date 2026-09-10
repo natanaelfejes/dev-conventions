@@ -191,6 +191,43 @@ inversely correlated in this market and it is no longer an anecdote.** Recorded 
 distributable and deliberately volatile, and the fix below is an instruction rather than a check.**
 Recorded here because both items change what this collection can claim about itself.
 
+### Error 29: the leak check could not see itself
+
+Two regexes in `build.py` held the employer, customer and author-name patterns in plaintext.
+`check_prose` scanned the 28 files `collect()` returns; `build.py`, `AGENTS.md` and `CLAUDE.md` are
+in none of them. The manual grep line in `AGENTS.md` listed the same patterns again. What that
+publishes is not one identifier but the index of everything scrubbed, which is the same reasoning
+that gitignored the clearance inventory.
+
+Ninth instance of the boundary table and the first where the instrument is the thing that leaks.
+Row three recurring: the repository is public, so the scope that matters is what is published, and
+everything tracked is published.
+
+- Patterns moved to a gitignored `.agents/leak-patterns.txt`, read at runtime, with a tracked
+  `.example` carrying placeholders and the reason.
+- A missing or empty patterns file is a hard stop. An empty section stops the build too, because an
+  empty pattern list passes everything.
+- Employer and project patterns are now checked across **every tracked file**, 53 rather than 26.
+  The new check failed on `AGENTS.md:278` on its first run, the line the old one could not reach.
+- One further private project name added to the enforced set. Three probes, each asserting the
+  intended message fired, plus a positive control.
+
+**Open, and the author's call:** the strings are in `AGENTS.md` and `build.py` on every ref. Error 17
+established that removing text from HEAD does not remove it from the repository, and on a public
+code host unreachable objects stay addressable by hash after a rewrite, so a rewrite is not
+sufficient on its own.
+
+### Two version-picking corrections
+
+`sorted(glob(...))[-1]` sorts as strings, so `0.9.0` beats `0.15.0`. It appeared three times in one
+day, once in the install command written to fix error 28, where `dist/` still held the 0.7.0 zip and
+the fix would have reinstalled the stale skill the error is about. Version pickers now parse
+integers, and `dist/` holds the current version only, pruned by `build.py` on every build, with the
+reason written next to the code. Twenty-five stale build outputs removed.
+
+Also: `AGENTS.md` still told agents the description cap was 200 characters. Error 24 corrected that
+to 1,024 in `build.py` a day earlier and never reached the agent-facing file.
+
 ### Error 28, and it is the worst one on the list
 
 An outside audit session found that the installed skill on the author's machine was **0.7.0, dated
