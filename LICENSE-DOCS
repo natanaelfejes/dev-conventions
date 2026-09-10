@@ -11,11 +11,20 @@ and the human-readable summary at:
 
     https://creativecommons.org/licenses/by/4.0/
 
-Files covered by this licence rather than by the MIT licence in LICENSE:
+Scope, stated as a default rather than as a list. EVERY .md file in this
+collection is under this licence, EXCEPT these, which are MIT and are named in
+LICENSE:
 
-    README.md, SKILL.md, EVIDENCE.md, DOCS.md, SECURITY.md, WORKFLOW.md,
-    RESEARCH.md, TOOLING.md, OBSERVABILITY.md, VOCABULARY.md, PROFILE.md,
-    OPERATING.md, ADOPTION.md, CHANGELOG.md
+    templates/    examples/    build.py    .claude-plugin/    LICENSE    LICENSE-DOCS
+
+This was an enumerated list until 2026-09-10 and the list had gone stale: seven
+prose files added after it was written were absent from it, including both of
+the mutually exclusive layer rule sets, which by LICENSE's own fallback made
+them MIT and removed the attribution requirement from them without anyone
+deciding that. A list of covered files has to be edited every time a file is
+added and silently under-covers when it is not. A default does not. The build
+now checks that every shipped file is covered by exactly one of the two
+licences, so this cannot drift again.
 
 You are free to share and adapt these, including commercially, provided you
 give appropriate credit, link to this licence, and indicate if changes were

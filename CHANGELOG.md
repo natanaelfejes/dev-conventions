@@ -191,6 +191,29 @@ inversely correlated in this market and it is no longer an anecdote.** Recorded 
 distributable and deliberately volatile, and the fix below is an instruction rather than a check.**
 Recorded here because both items change what this collection can claim about itself.
 
+### The attribution licence had stopped covering seven prose files
+
+Asked directly whether the collection guarantees credit, and checked rather than answered from the
+README. `LICENSE-DOCS` enumerated fourteen covered files. `LICENSE` said everything else was MIT.
+Seven prose files added since that list was written were in neither: `SETUP.md`, `SOLO.md`,
+`TEAM.md`, `SPEC.md`, `HANDOFF.md`, `MEASURING.md` and `REFRESH.md`, **including both mutually
+exclusive layer rule sets**. By the licence's own fallback they were MIT, so the attribution
+requirement had been dropped from them and nobody had decided to drop it.
+
+**The fallback is now inverted.** The MIT list is exhaustive and short; everything else is CC BY.
+A prose file is attribution-covered the moment it exists rather than the moment somebody remembers
+to add it to a list. A collection arguing that claims should be traceable to who made them and when
+should not leave its own terms to a hand-maintained enumeration.
+
+**The built evidence document now carries its own licence line.** It is a single file that travels
+on its own, meant for a DOI and for citation, and it had no terms attached once separated from the
+repository's `LICENSE`.
+
+**New check:** every shipped file under exactly one licence, both licence files actually shipping,
+and `LICENSE-DOCS` still stating coverage as a default rather than a list. Made to fail on purpose
+two ways: reverting the prose licence to an enumeration, and a rule that matches everything, which
+must fail rather than report a clean split.
+
 ### Error 31: the digest measured working-tree bytes, and broke every Windows clone
 
 `check_example_placeholders` pinned the tracked example patterns file by `sha256` of its bytes on

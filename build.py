@@ -407,6 +407,42 @@ def content_digest(path):
 EXAMPLE_SHA256 = "74ed4ed9428c38fc780928da6bae81cae714f756cd209bf5dd10d631b1632df4"
 
 
+# Exhaustive. Anything shipped that is not matched here is CC BY, which is the
+# attribution-covered default. Inverted 2026-09-10: the fallback used to be MIT,
+# and an enumerated CC BY list had gone stale by seven prose files.
+MIT_PREFIXES = ("templates/", "examples/", ".claude-plugin/")
+MIT_FILES = {"build.py", "LICENSE", "LICENSE-DOCS"}
+
+
+def check_licence_cover(files):
+    """Every shipped file under exactly one licence, and both licence files present.
+
+    A collection whose argument is that claims should be traceable to who made
+    them and when cannot leave its own attribution terms to a hand-maintained
+    list. That list under-covered seven prose files, including both layer rule
+    sets, which silently made them MIT and dropped the attribution requirement
+    nobody had decided to drop."""
+    mit, ccby = [], []
+    for f in files:
+        (mit if f.startswith(MIT_PREFIXES) or f in MIT_FILES else ccby).append(f)
+    if not mit or not ccby:
+        fail(f"licence split degenerate: {len(mit)} MIT, {len(ccby)} CC BY. One side empty "
+             f"means the rule matched everything or nothing and checked neither")
+        return
+    for name in ("LICENSE", "LICENSE-DOCS"):
+        if name not in files:
+            fail(f"{name} does not ship, so a consumer receives the files and not the terms")
+            return
+    # the prose licence must state the default rather than enumerate, or it rots again
+    doc = (ROOT / "LICENSE-DOCS").read_text(encoding="utf-8")
+    if "EVERY .md file" not in doc:
+        fail("LICENSE-DOCS no longer states coverage as a default. An enumerated list "
+             "silently under-covers every file added after it was written")
+        return
+    ok(f"{len(files)} shipped files covered by exactly one licence, {len(ccby)} CC BY and "
+       f"{len(mit)} MIT, coverage stated as a default rather than a list")
+
+
 def check_example_placeholders():
     """The example file is excluded from the repository-wide leak scan, because a
     new adopter copies it to seed the check and its placeholders then match
@@ -612,6 +648,7 @@ def main():
     check_frontmatter()
     check_prose(files)
     check_metadata()
+    check_licence_cover(files)
     check_example_placeholders()
     check_selectors(files)
     check_venue_confirmation()
@@ -643,6 +680,10 @@ def main():
         "**This is not the skill.** The skill is a separate, much smaller artifact that an agent",
         "loads. This is the record a human reads once, argues with, and cites. They were one",
         "artifact until 2026-09-08 and splitting them is recorded in `CHANGELOG.md`.\n",
+        "**Licence: CC BY 4.0.** Share and adapt this, including commercially, with credit to "
+        "the collection and the version. This document travels on its own, so it carries its own "
+        "terms rather than relying on a LICENSE file next to it. `CITATION.cff` in the repository "
+        "carries the citation metadata.\n",
         "**Cite the version.** A claim corrected between versions is otherwise indistinguishable",
         "from one that still holds, which is the same reason the skill carries a version line.\n",
         "---\n",

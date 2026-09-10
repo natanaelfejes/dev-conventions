@@ -1,7 +1,9 @@
 This collection is dual-licensed, and which licence applies depends on the file.
 
-  MIT (below)      templates/, examples/, build.py, .claude-plugin/
-  CC BY 4.0        the prose. See LICENSE-DOCS for the file list and the reason.
+  MIT (below)      templates/, examples/, build.py, .claude-plugin/, and these
+                   two licence files. That list is exhaustive.
+  CC BY 4.0        EVERYTHING ELSE, which is all of the prose. Attribution is
+                   the default here, not the exception. See LICENSE-DOCS.
 
 If you are copying a template into your own repository, that is MIT and no
 obligation travels with it. If you are quoting or adapting the prose, that is
@@ -35,5 +37,10 @@ SOFTWARE.
 
 Note on scope: LOCAL.md is excluded from any public distribution of this
 collection. It names a specific personal toolchain, machine paths and account
-access, and is not part of the shareable artefact. Every other file, including
-OPERATING.md, is covered by the licence above.
+access, and is not part of the shareable artefact.
+
+A previous version of this note ended "every other file is covered by the
+licence above", which made MIT the fallback for anything LICENSE-DOCS had not
+been updated to list. It had not been updated for seven files. The fallback now
+runs the other way: anything not in the exhaustive MIT list above is CC BY, so
+a new prose file is attribution-covered the moment it exists.
