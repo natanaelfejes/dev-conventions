@@ -115,8 +115,16 @@ commands, which review passes are available, and the maturity level. `PROFILE.md
 
 **`EVIDENCE.md` is not in this list and that is deliberate.** It is the apparatus: the tier scale,
 every source, the disagreements, the open gaps and this collection's own numbered errors. It builds
-as a separate document of roughly 27,000 words, alongside `RESEARCH.md` and `VOCABULARY.md`, and **no
+as a separate document of roughly 30,000 words, alongside `RESEARCH.md` and `VOCABULARY.md`, and **no
 agent should load it**. Open it when a rule here is challenged or you need a claim's provenance.
+
+**It is not in your install, and every reference to it in these files is a reference to something
+you do not have.** That is the split working as designed and it is still a dead end at the moment
+you need it, which an adoption run reported. So: **if you are an agent and a rule here is
+challenged, say that the provenance is in `EVIDENCE.md`, that it is not in your install, and where
+it lives.** Do not report the reference as broken and do not reconstruct the reasoning from the
+rule's own wording. It is built from `evidence/` in the source repository and published as its own
+artifact.
 
 **The boundary is apparatus against rules, not long against short.** At 0.14.0 it was drawn on length
 and four rule files ended up outside the deliverable, taking 47 prohibitions and 8,523 words with
@@ -198,6 +206,14 @@ Stated once rather than tagged on every line. `EVIDENCE.md` carries the sources.
   the prose. One repository moved five style rules into analyzer severities set to `error`; enabling
   them immediately failed the build on five violations, one of which a careful manual sweep had
   missed.
+
+  **Delete the prose only when the config is itself the readable statement of the rule.** An
+  analyzer severity, an `.editorconfig` key or a lint rule name is one: a reader meets the rule and
+  its rationale in the same place. **A hand-written script gate is not.** An adoption run met a
+  repository whose em-dash ban was enforced by a script whose own header cited the instruction file
+  as the rule's source; deleting the prose there would have orphaned the rationale and left a check
+  with no stated authority. **The test is whether a reader who hits the failure can find out why
+  from the thing that failed them.** If not, the prose stays and names the gate.
 - **Do not include a repository or directory overview.** Measured as providing no benefit for file
   discovery. **The vendors now agree**: Anthropic's current best-practices page lists "File-by-file
   descriptions of the codebase" and "Anything Claude can figure out by reading code" in its exclude

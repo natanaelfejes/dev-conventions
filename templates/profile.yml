@@ -32,6 +32,9 @@ docs:
     # not a note: dropping a slot relocates its content rather than removing it, usually into a
     # document that forbids it.
     # history: "milestone notes live in the architecture doc, deliberately"
+    #
+    # If NO slot is blank, write `absent: {}` on the line above rather than deleting this
+    # field. An omitted field is indistinguishable from one nobody checked.
 
 stack:
   language:
@@ -59,5 +62,13 @@ maturity: prototype          # prototype | production | published
                              # published also requires no employer-identifying content and an
                              # explicit statement of what is not established.
 
-secrets:                     # gitignored paths that must never be committed
-  # - .env
+secrets:                     # gitignored paths that must never be committed. A LIST, always,
+  # - .env                   # even with one entry: one adoption found three paths across two
+  # - config/local.json      # project directories, and a comma-separated scalar leaves a
+                             # reader guessing whether to split or to iterate.
+
+setup: ~/.agents/setup.yml   # your resolved stack, installs and delegation policy, decided
+                             # once per machine by SETUP.md rather than once per repository.
+                             # Write `setup: none` if that file does not exist yet. Never
+                             # leave it blank: blank reads as "not applicable" and as "never
+                             # checked" equally well.

@@ -1445,6 +1445,45 @@ Kept deliberately, because they are the argument for the scale.
     New rule, since the old one did not cover this: **before reporting an absence, state what string
     or shape you searched for and confirm that shape is the one this system would produce.** A grep
     for a convention the target does not use returns zero, indistinguishable from a true absence.
+
+    **Reproduced live, 2026-09-10, in a second repository, against the rule written to prevent it.**
+    This is the only entry on the list with an independent replication, and it happened during the
+    first adoption run rather than during a verification pass.
+
+    Deriving the `reviewers` field, the procedure's own instruction is to try more than one hosting
+    platform's wording. Against a repository whose history is entirely self-merged by one author,
+    the searches disagreed completely:
+
+    | Query | Result |
+    |---|---|
+    | The most widely documented platform's anchored wording | **0** |
+    | The wording of the platform the repository is actually hosted on | **33** |
+    | Case-insensitive, unanchored | 37 |
+    | Two further platforms' wordings | 0 each, correctly |
+
+    **The expected shape and the actual shape share no anchored prefix**: one names the pull request
+    number after the branch, the other names the branch first and parenthesises the number. Had only
+    the first query run, the profile would have recorded a repository with **no pull-request flow at
+    all**, confidently, because a clean zero from a well-formed query is indistinguishable from a
+    genuine absence.
+
+    **And the finding that would have been lost is the character of the flow, not its existence.**
+    All 33 merges carry **identical author and committer identity**, which makes it a
+    continuous-integration gate rather than review. Recording `none` and recording `reviewers: one`
+    would both have been wrong, in opposite directions, which is the same shape as this entry's
+    original third bullet.
+
+    **What would have caught it earlier than four parallel searches: read the platform off the
+    configured remote before choosing the query, rather than after.** The remote URL names the host
+    in one command and costs nothing, and it converts "try several wordings and hope" into "look up
+    this host's wording". The multi-wording sweep stays as the safety net; it was never the right
+    primary method for a question with a direct answer. `PROFILE.md` now says so.
+
+    **Two things this replication establishes that the original could not.** The failure is not a
+    property of one careless search: it recurred with the rule in force, in a different repository,
+    on a different platform, run by a different agent. And **the multi-wording mitigation works and
+    is still the wrong shape**: it caught the problem here, at the cost of four queries and a
+    reader who thought to doubt a zero.
 11. **A rewrite silently broke the field that routes this skill.** Shortening the frontmatter
     `description` to fit a 200-character platform cap introduced a colon followed by a space. A YAML
     plain scalar **cannot contain `": "`**, so the value truncated at the first colon and the tool
@@ -2170,6 +2209,23 @@ Kept deliberately, because they are the argument for the scale.
       found within an hour of the gate finally being satisfied, and it had survived everything else.
     - **It is also an argument against the release cadence.** Sixteen versions in six days, and the
       one thing that would have caught this was the one thing never done.
+
+    **Provenance, split as the reporting agent asked and worth keeping split.** The adopting agent
+    verified the mismatch **in its own install**: every `team:` occurrence across the skill's
+    Markdown, five locations, two forms, zero overlap. It **relayed on the coordinator's authority**
+    that the same holds in the source repository rather than having checked it. Both halves were
+    confirmed here against the source at `ca1d38e` before this entry was written. Recording which
+    half each party actually saw costs a sentence and is the difference between two independent
+    observations and one observation repeated, which error 15 is about.
+
+    **The sharper framing, from the adopting agent, and it is the part that matters.** It loaded
+    `SOLO.md` correctly, and doing so required inferring what the author meant rather than following
+    the document as written: `team: solo` is not `team: 1` by any mechanical reading, and the
+    mapping was available only to a reader already reasoning about the skill's design intent. That
+    reader is not the audience. A stranger follows `PROFILE.md` to write `team: solo`, follows
+    `SKILL.md` to choose a layer, gets neither, and sees nothing. **The defect's cost is not that it
+    is hard to work around. It is that bridging it needs context the document does not supply, and
+    the failure when you lack that context looks exactly like success.**
 
     Fixed: the selectors now name enum members, in `SKILL.md` and in both layer headers. The schema
     was **not** changed to numbers, because every profile in existence uses the enum and the schema

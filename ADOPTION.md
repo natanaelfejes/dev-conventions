@@ -34,6 +34,13 @@ The skill reads `.agents/profile.yml` before any of its rules apply, and it is w
 repositories without one. Follow the seven-step derivation procedure in the skill's `PROFILE.md`
 exactly, running the commands rather than reasoning from what the repository looks like.
 
+**If a profile already exists, derive the new one independently first and only then diff it against
+the old.** Do not audit the existing file field by field, because reading an answer before deriving
+it is how you end up confirming it. Report every field where the two disagree, and treat a field the
+old profile carries that you cannot re-derive as **carried forward and unverified**, marked as such
+in the file, rather than as agreed. **The first adoption run had to decide this unprompted**, and a
+copied-forward answer is precisely what the rest of this phase forbids.
+
 Non-negotiable in this phase:
 
 - **Do not fill the profile in from a template or from the examples.** A copied profile is worse than
@@ -66,8 +73,12 @@ against this repository. Verify credentials against **full history**, not the ig
 whether any auth or safety default fails open on a fresh clone. Check whether a stated security
 property is actually true in the code rather than only in a document.
 
-**Report every finding before changing anything.** If something is exposed, I need to know before a
-commit touches it, because the fix and the disclosure are different decisions.
+**Report every EXPOSURE before changing anything, and this gates exposures, not corrections.** If
+something is exposed, I need to know before a commit touches it, because the fix and the disclosure
+are different decisions. A correction that only reduces misinformation and touches no control is
+not an exposure: fix it, and report it in this phase's report. **The first adoption run read this
+as a hard stop before any edit at all**, which conflicts with the instruction to finish the phase,
+and had to pick between the two readings unaided.
 
 **2. Check whether this repository's own safeguards actually install.** If a hook, a pre-commit check
 or a setup step is the last line of defence for something, confirm that a fresh clone following the
@@ -85,6 +96,14 @@ repository's own rules forbid.
 **4. Add the mechanical checks that would have caught what you just found by reading.** A path
 checker, an internal link checker, a banned-character grep, a count reconciler if any document states
 counts.
+
+**If checks already exist, this step is a different and harder job, and say so.** The first adoption
+run met a repository carrying four gates from an earlier pass, and this step reads as greenfield.
+Re-adoption means: run the existing gates, read what each one **deliberately skips** and whether it
+says so, and add the one check that the existing set leaves a gap for. **A gate that suppresses
+cases without counting them has quietly stopped checking**, so a suppression count is the first
+thing to look for. Finding the gap in four working checks is worth more than adding a fifth that
+overlaps them, and it is harder, so report it as the finding it is.
 
 **Then make each one fail on purpose before you trust it.** A check that can pass by finding nothing
 to check is worse than no check, and this has happened in this collection's own history: a link
@@ -111,8 +130,16 @@ code, the correct instruction file is none.
 - **Do not claim a practice reduces defects.** Nothing in this space has evidence for that, this
   collection says so explicitly, and justifying a change on scoping or cost grounds is both honest
   and sufficient.
-- **Work on a branch, never the default branch.** Commit in logical pieces. Do not push and do not
-  open a pull request unless I ask.
+- **Work on a branch, never the default branch, and check which branch you are on before every
+  commit.** `git rev-parse --abbrev-ref HEAD`, every time, not once at the start. Commit in logical
+  pieces. Do not push and do not open a pull request unless I ask.
+
+  **This is not pedantry and it cost a recovery on the first adoption run.** A concurrent session
+  moved HEAD and advanced the default branch mid-pass, and a commit landed on the default branch
+  because the working tree had been switched underneath. **A two-phase procedure with a human stop
+  in the middle is exactly where another session gets a window**, and the stop is the point at which
+  you are least likely to re-check. If you find HEAD somewhere you did not put it, say so in the
+  report: it is a finding about the procedure, not an embarrassment.
 - **State what you did not verify** at the end of each phase. That sentence is more useful than a
   summary of what you did.
 

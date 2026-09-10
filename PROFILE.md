@@ -27,8 +27,11 @@ docs:                       # which slots exist, and where a missing slot's cont
   pending: docs/ROADMAP.md
   decisions: docs/adr/
   contributing: CONTRIBUTING.md
-  absent:
+  absent:                   # where a MISSING slot's content actually went. With every slot
     history: "milestone notes live in the architecture doc, deliberately"
+                            # present, write `absent: {}` rather than omitting the field.
+                            # An omitted field is indistinguishable from one nobody checked,
+                            # which is the distinction this whole schema exists to keep.
 
 stack:
   language: csharp
@@ -50,9 +53,16 @@ tools:
   forbidden: []             # e.g. tools banned by an employer or a course
 
 maturity: prototype         # prototype | production | published
-secrets: appsettings.Development.json, .env    # gitignored, never committed
+secrets:                    # a LIST, always, even with one entry. The first adoption run
+  - config/local.json       # found three paths across two project directories, which do not
+  - .env                    # read on one line, and a comma-separated scalar leaves a reader
+                            # guessing whether to split on commas or iterate a sequence.
 
 setup: ~/.agents/setup.yml  # your resolved stack, installs and delegation policy.
+                            # Write `setup: none` if that file does not exist yet, and never
+                            # leave it blank: blank reads as "not applicable" and as "never
+                            # checked" equally well. `none` means SETUP.md has not been run
+                            # on this machine, which is a fact worth carrying.
                             # Added 2026-09-08. It does NOT vary by repository, so
                             # it does not live here: a value repeated in seven
                             # profiles is a value that will be wrong in one of them.
@@ -82,6 +92,21 @@ know.
 Work in this order. It is ordered by dependency, not by importance: the later fields read better once
 you have seen the earlier output.
 
+**The commands below are POSIX and this was never stated.** They use `head`, `wc`, `awk` and pipes,
+none of which exist in PowerShell, and the first adoption run hit this in a Windows-first repository
+whose own gate is pinned to `powershell.exe`. They ran only because a Bash tool happened to be
+available. **Run them in a POSIX shell, or translate as you go:**
+
+| POSIX | PowerShell |
+|---|---|
+| `… \| wc -l` | `… \| Measure-Object -Line` or `(… ).Count` |
+| `… \| head -1` | `… \| Select-Object -First 1` |
+| `git log --format='%ae\|%ce' \| awk -F'\|' '$1!=$2' \| wc -l` | `(git log --format='%ae\|%ce' \| Where-Object { $_.Split('\|')[0] -ne $_.Split('\|')[1] }).Count` |
+| `… \| grep -iE "pat"` | `… \| Select-String -Pattern "pat"` |
+
+**`git` itself is identical in both**, which is the point: every derivation here is a git query with
+a counting pipeline bolted on, and only the bolt-on is shell-specific.
+
 ### 1. Size and age, which calibrate everything after
 
 ```sh
@@ -106,7 +131,16 @@ git log --grep='Co-authored-by' --oneline | wc -l
 
 Near-zero on all of those means **nobody's review left a trace**, whatever the process claims.
 
-Then check whether a pull-request flow exists at all, and **try more than one wording**:
+Then check whether a pull-request flow exists at all. **Read the host off the remote before you
+choose a query, rather than trying wordings and hoping:**
+
+```sh
+git remote -v            # the host is in the URL, one command, and it costs nothing
+```
+
+Each host writes a different merge subject and **they share no anchored prefix**, so a query
+written for the wrong host returns a clean, well-formed zero. Look up the one your remote names,
+then run the sweep below as a safety net rather than as the primary method:
 
 ```sh
 git log --oneline -i --grep='pull request' | wc -l   # catches most platforms
@@ -114,10 +148,17 @@ git log --oneline --grep='^Merge pull request' | wc -l
 git log --oneline --grep='^Merged in ' | wc -l
 ```
 
-**The single-wording version of this check has already produced a false absence in this
-collection's own research**: a search for one host's phrasing against a repository on another host
-reported no pull requests where 36 existed. If you only run one of these, you will sometimes
-confidently record `none` for a repository that has a flow.
+**The single-wording version of this check has produced a false absence twice, once in this
+collection's own research and once during a live adoption run against the rule written to prevent
+it.** In the second case the most widely documented host's phrasing returned **zero** while the
+host the repository was actually on returned **33**. A clean zero from a well-formed query is
+indistinguishable from a genuine absence, so the failure is silent and confident.
+
+**And the thing that would have been lost is not the flow's existence but its character.** All 33
+merges carried identical author and committer identity, which makes the flow a continuous-integration
+gate rather than review. Recording `none` and recording `reviewers: one` would both have been wrong,
+in opposite directions. That is why this field is derived from history rather than from what the
+contributing guide claims.
 
 Deciding between the values:
 

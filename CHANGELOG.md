@@ -191,6 +191,32 @@ inversely correlated in this market and it is no longer an anecdote.** Recorded 
 distributable and deliberately volatile, and the fix below is an instruction rather than a check.**
 Recorded here because both items change what this collection can claim about itself.
 
+### The first adoption run, and the nine other things it found
+
+Error 30 was the first. Nine more, all landed:
+
+| Finding | Fix |
+|---|---|
+| `reviewers` derivation searched merge wording without knowing the host: 0 against 33 | `PROFILE.md` reads the host off `git remote -v` first; the multi-wording sweep is now the safety net, not the method |
+| Every derivation command is POSIX, in a Windows-first repository, never stated | `PROFILE.md` states it, with a POSIX-to-PowerShell table |
+| `ADOPTION.md` step 4 reads as greenfield; the repository already had four gates | Re-adoption is now its own case: run the existing gates, read what each deliberately skips, find the gap the set leaves |
+| Phase 1 assumes no profile exists | Derive independently first, then diff; a field you cannot re-derive is carried forward and marked unverified, never agreed |
+| "Report every finding before changing anything" read as a hard stop before any edit | It gates **exposures**, not corrections; stated, because the strict reading makes the phase unfinishable |
+| `secrets` scalar or list, `docs.absent` with nothing absent, `setup` when the file does not exist | All three specified in schema and template. `absent: {}` and `setup: none`, because a blank field cannot be told apart from an unchecked one |
+| Deleting prose a script enforces orphans the rationale | The linter rule now turns on whether the config is itself the readable statement. An analyzer severity is; a hand-written gate is not |
+| `EVIDENCE.md` is referenced repeatedly and is in no install | `SKILL.md` says what an agent should do instead of reporting a broken reference |
+| Nothing told an adopting agent to check its branch before each commit | Now a whole-job rule. A concurrent session moved HEAD mid-pass and a commit landed on the default branch |
+
+**Error 10 gains its first independent replication**, live, in a second repository, against the rule
+written to prevent it. The wording of the most widely documented host returned zero where the actual
+host's returned 33, and the two share no anchored prefix. What would have been lost is the flow's
+character rather than its existence: all 33 merges carry identical author and committer identity,
+so it is a CI gate and not review, and both `none` and `reviewers: one` would have been wrong.
+
+**`ROADMAP.md` item 1 is closed and item 0's condition is met.** The next version bump is earned by
+that entry's own terms for the first time in seventeen versions. The friction log is at
+`.agents/adoption-friction-2026-09-10.md`, recorded unnamed.
+
 ### Error 30: the layer selector had never matched, and the first adoption run found it
 
 `SKILL.md` selected its two mutually exclusive layer files on `team: 1` and `team: 2 or more`, while

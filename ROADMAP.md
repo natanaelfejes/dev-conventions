@@ -78,24 +78,39 @@ than a new capability. **That is not a productivity signal, it is a defect-disco
 is high because the artifact keeps changing rather than because the checking keeps improving.
 
 **Freeze the version.** The next bump should be caused by an adoption run finding something, not by a
-verification pass finding something. Corrections that are genuinely blocking still ship, and this
+verification pass finding something.
+
+**Condition met, 2026-09-10.** The first adoption run happened and found error 30, a defect that had
+made the skill's entire solo/team split inoperative in every repository since 0.14.0, silently, and
+that nine reading passes had missed. Nine further friction items followed. **So the next version
+bump is now earned by the terms of this entry**, and it is the first one in seventeen that is. What
+the entry asked for was never "stop releasing"; it was "stop releasing on the strength of
+re-reading your own artifact". Corrections that are genuinely blocking still ship, and this
 entry exists so that "genuinely blocking" has to be argued rather than assumed.
 
 **What this does not mean.** It does not mean stop fixing defects: a false claim in an agent-facing
 file ships as soon as it is found, and three of the last four releases were exactly that. It means
 stop *generating* work by re-examining an artifact nobody outside has used.
 
-### 1. Adopt it somewhere, and stop researching
+### 1. Adopt it somewhere, and stop researching. DONE 2026-09-10, and it paid immediately
 
-**This is now the only item that matters and it has been the only item that matters for five
-versions.** Six verification passes and one external audit have run. Zero adoptions. Every one of
-those passes generated evidence entries, changelog entries and error entries, and not one of them
-generated a rule. The collection has got much better at proving itself and no better at telling
-anyone what to do.
+**Nine verification passes and two outside audits ran before the first adoption did.** Every one
+generated evidence entries, changelog entries and error entries. Not one generated a rule. The
+collection got much better at proving itself and no better at telling anyone what to do.
 
-The 1.0 gate below says the same thing in stronger terms. This entry exists because the gate is easy
-to read as a distant milestone, and the actual instruction is immediate: **run `ADOPTION.md` against
-a repository, in anger, and record where it was wrong.**
+**The first adoption run produced ten actionable findings in about sixteen minutes**, one of which
+had made the skill's entire solo/team split inoperative in every repository, silently, for two days,
+and had been read past by everything else. See `.agents/adoption-friction-2026-09-10.md` and error
+30.
+
+**Keep this entry rather than ticking it, because one run is not a practice.** What it established
+is that reading and running find different classes of defect, on a sample of one repository, one
+agent, one pass. The second adoption is worth more than the first was: it is the one that says
+whether these ten findings were about the collection or about that repository.
+
+**What the next adoption should do differently**, from this one's own log: derive an existing
+profile independently before diffing it, check the branch before every commit, and expect
+re-adoption rather than greenfield if any gate is already present.
 
 ### 2. Make it citable
 
