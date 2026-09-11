@@ -975,6 +975,20 @@ tier 7 like everything else in this section.
   benchmark, token count or model disclosed. Cite as engineering judgment.
 - **The instruction-file line-count targets.** 20-30, 150 and 200 all circulate. None is measured.
 
+  **Four independent appearances in three days, 2026-09-08 to 2026-09-11, none citing a measurement,
+  and this is the strongest corroboration any tier-8 entry here has.** A repository's own instruction
+  file asserted that passing roughly 150 lines costs 20% more inference with no gain, citing nothing,
+  found by the first adoption run. A vendor-neutral architecture document put the figure at roughly
+  200, attributing it to a vendor. A research summary put it at roughly 150, attributing it to an
+  open standard's guidance. And the number circulates as 20-30 in the shortest advice. **Four
+  numbers, four sources, one range of nearly ten to one, and not one of them names an experiment.**
+
+  What makes this worth recording rather than repeating: the claim is **not** that a shorter file is
+  no better. It may well be. The claim is that **a specific threshold is being passed between
+  documents and gaining confidence with each hop**, which is the mechanism this collection was built
+  to interrupt. A number nobody measured does not become measured by being repeated by a vendor, a
+  standards body or a search engine's summary. Treat every one of these as judgment.
+
 ---
 
 ## Administrative facts are not research claims
