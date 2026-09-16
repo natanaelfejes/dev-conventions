@@ -92,6 +92,16 @@ entry exists so that "genuinely blocking" has to be argued rather than assumed.
 file ships as soon as it is found, and three of the last four releases were exactly that. It means
 stop *generating* work by re-examining an artifact nobody outside has used.
 
+**The consumer cost of a freeze, added 2026-09-16, because this entry argued the producer's side
+only.** Between 0.15.0 and this bump, three commits changed shipped content without a version bump,
+correctly by the terms above. **An installed copy therefore went stale under an unchanged version
+number**, and `ADOPTION.md`'s opening version assertion, which exists because of error 28, passed on
+it. A second repository reported this from the consumer side. That is error 36, and the fix is not to
+release more often: it is that this entry now states the cost, and `ADOPTION.md` says a matching
+version is evidence about the version and not about the content. **Second bump earned by this entry's
+terms, and the first one earned twice over:** 0.16.0 is caused by two adoption runs and a six-day
+post-adoption round finding things.
+
 ### 1. Adopt it somewhere, and stop researching. DONE 2026-09-10, and it paid immediately
 
 **Nine verification passes and two outside audits ran before the first adoption did.** Every one
@@ -108,9 +118,24 @@ is that reading and running find different classes of defect, on a sample of one
 agent, one pass. The second adoption is worth more than the first was: it is the one that says
 whether these ten findings were about the collection or about that repository.
 
-**What the next adoption should do differently**, from this one's own log: derive an existing
-profile independently before diffing it, check the branch before every commit, and expect
-re-adoption rather than greenfield if any gate is already present.
+**Second adoption run, 2026-09-16, and the answer to this entry's own question.** Twelve further
+findings from a second full pass, six more from ambient development in a sibling repository, five
+dated instances behind one proposed rule, and four post-adoption observations six days on.
+`.agents/adoption-friction-2026-09-16.md`. **They were about the collection, not about that
+repository:** four of them are defects in the collection's own shipped artefacts, errors 32 through
+36, and three of those are the collection failing to apply its own first rule to itself. The second
+run also produced five Layer 1 rules where nine verification passes produced none.
+
+**Keep this entry open for a third time, and the question has changed.** What is now unknown is not
+whether reading and running find different defects, which is settled, but **whether a repository
+nobody here has seen produces the same kind of finding**. Both runs so far are the author's own
+repositories, one agent, one toolchain family, and the two repositories copy conventions from each
+other, which the second run showed is itself a way to propagate an error.
+
+**What the next adoption should do differently**, from both logs: derive an existing profile
+independently before diffing it, check the branch before every commit, expect re-adoption rather than
+greenfield if any gate is already present, run `templates/validate_profile.py` at the end of phase 1,
+and **do not trust a matching version string as evidence that the content matches**.
 
 ### 2. Make it citable
 

@@ -1,8 +1,26 @@
 #!/bin/sh
 #
-# Pre-push hook. Copy to .git/hooks/pre-push and make it executable:
+# Pre-push hook. Track it in the repository and point git at it. Do NOT copy it
+# into .git/hooks/:
 #
-#   cp templates/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+#   mkdir -p .githooks
+#   cp templates/pre-push .githooks/pre-push && chmod +x .githooks/pre-push
+#   git config core.hooksPath .githooks
+#
+# Then put that last line in whatever setup step your readme actually names, and
+# confirm a fresh clone following the documented instructions ends up with the
+# hook installed.
+#
+# WHY, and this changed on 2026-09-16 because the old header said .git/hooks/.
+# Nothing under .git/ is cloned. A hook installed there is absent from every
+# fresh clone by construction, so it protects the one machine it was installed
+# on and nobody else, while looking like a repository-wide gate. SECURITY.md
+# states the rule: do not rely on a gate a fresh clone does not install. This
+# file used to instruct the exact install that rule forbids. Error 33.
+#
+# core.hooksPath is per-clone configuration and is therefore still a step
+# somebody has to run. That is the point: it is one named, greppable line that
+# belongs in a setup recipe, instead of a copy nobody can tell you performed.
 #
 # Two jobs, and only two: run the repository's own check command, and refuse a
 # direct push to the default branch. Both are things prose in an instruction
@@ -48,5 +66,11 @@ fi
 # truncates or summarises the push output itself: a push is a one-shot
 # state-changing command and a hidden ref update cannot be re-read. Compress
 # build and test output all you like. Never the push.
+#
+# And never the compound form. `git push ... | grep -E "error" || echo pushed`
+# reported success twice on pushes that never landed, because the || fires
+# whenever grep matches nothing, which includes both a clean push and no output
+# at all. Read the exit status of the push, never the exit status of something
+# reading its output.
 
 exit 0

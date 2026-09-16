@@ -60,6 +60,31 @@ managed platforms (Daytona open-core, Modal proprietary).
   escape costs you less.
 - **Do not confuse a worktree with a sandbox.** A git worktree isolates *file state* between
   concurrent agents. It does not restrict what a command can reach. You often want both.
+- **Do not assume a worktree isolates build output.** A third axis, and the one that hides longest.
+  The two above are about *reach*: network, credentials, the filesystem outside the tree. This one is
+  about **a path the build itself chooses**. A worktree isolates the source. It does not isolate
+  build output, an intermediate object directory, a package restore directory or a machine-wide
+  cache, and a correct worktree setup does nothing about any of them.
+
+  `first-party`, **two repositories, 2026-09-16**, the same mechanism both times. In the first, the
+  combined check command hardcoded one artifacts path, so four concurrent sessions overwrote each
+  other's dependency output and produced a phantom test failure. In the second, the build-and-test
+  command wrote into one machine-wide cache directory regardless of which worktree invoked it, and
+  concurrent runs clobbered each other mid-build, producing a missing-manifest exception and phantom
+  missing-namespace compiler errors.
+
+  **Two things make this worth a rule rather than a note.**
+
+  - **The symptom is indistinguishable on screen from a real product defect.** One session spent real
+    time investigating a defect that did not exist. **A second session hit the same race and simply
+    reran until it passed, which is the worse of the two outcomes**, because it teaches
+    retry-until-green instead of investigation, and the lesson outlives the race.
+  - **It only appears under genuine concurrency, so testing a check command one agent at a time
+    never exercises it.** That is why it survives a check that is otherwise correct.
+
+  The fix is cheap and it is a path change, not a policy: **key the output path to the worktree**,
+  for example to a hash of the worktree's own filesystem path, so two trees cannot name the same
+  directory. Then run the check in two worktrees at once, on purpose, before believing it.
 
 ### 3. Secret scanning and pre-commit safety
 

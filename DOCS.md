@@ -66,9 +66,9 @@ confounds. Where a pattern appeared in genuinely independent contexts, the count
 
 **Dropping a slot does not remove its content. It relocates it, usually somewhere that forbids it.**
 
-Confirmed across four repositories, with **four distinct displacement targets**. Knowing which one a
-repository uses is the difference between an audit that finds the content and one that concludes it
-does not exist.
+Confirmed across four repositories, with **five distinct displacement targets**, the fifth added
+2026-09-16. Knowing which one a repository uses is the difference between an audit that finds the
+content and one that concludes it does not exist.
 
 **1. Sibling documents.** A repository deliberately had no history and no pending slot, with a
 written rule that its current-state documents carried no "how we got here" narrative. Its history
@@ -81,7 +81,7 @@ was deleted along with the 158 lines of readme describing it; the sole surviving
 subsystem ever existed is one commit subject. Nothing indexes it, and it is invisible to anyone
 reading the documents.
 
-**3. Branch topology, the least visible of the four.** The same repository's pending work lives in
+**3. Branch topology, the least visible of the five.** The same repository's pending work lives in
 six unmerged remote branches. One sits 50 commits ahead and 60 behind the default branch, carrying a
 settings page and a data-lifecycle module that **no document mentions as planned**. The roadmap is
 real, and it is stored in the shape of the branch graph.
@@ -89,11 +89,21 @@ real, and it is stored in the shape of the branch graph.
 **4. An external tracker, deliberately.** A third repository routes roadmap and ticket detail to an
 issue tracker and says so in writing, including an explicit instruction not to recreate a pending
 document. This is the healthy case: the slot is absent, the destination is named, and the naming is
-enforced. It is also the only one of the four where an auditor is not left guessing.
+enforced. It is also the only one of the five where an auditor is not left guessing.
+
+**5. A sibling repository.** Added 2026-09-16. Two repositories worked by the same author, sharing a
+toolchain and copying conventions from each other, share documentation slots too: a pending-work
+document in one carried three items explicitly recorded as carried back from the other. **This one is
+invisible from inside the repository being audited**, which is what distinguishes it from the four
+above: every one of those can be found by looking harder at one repository, and this one cannot be
+found at all without knowing the sibling exists. `docs.absent` had no vocabulary for it, so it is
+written into the value: "roadmap items for this service live in the sibling service's roadmap,
+deliberately".
 
 So if the profile declares a slot absent, it must name the destination, and that claim is something
-to **verify rather than trust**. Check all four targets before concluding content is missing:
-sibling documents, commit subjects, unmerged branches, and the tracker.
+to **verify rather than trust**. Check all five targets before concluding content is missing:
+sibling documents, commit subjects, unmerged branches, the tracker, and a sibling repository where
+one exists.
 
 ## A bias in the ranking below, stated before you read it
 
@@ -218,7 +228,15 @@ Worth having, in order of value per effort:
 3. **A banned-character grep** in the same gate as formatting, for whatever your instruction file
    prohibits.
 4. **A count reconciler**, if a catalog document states counts: derive the number from source and
-   fail on mismatch. Counts disagreed across documents at least four separate times.
+   fail on mismatch. Counts disagreed across documents at least **five** separate times, the fifth
+   found 2026-09-16 in this collection's own evidence document, where a sentence said nine beside a
+   table of ten rows for six days and was caught only because somebody was adding the eleventh.
+
+**Name the command in the profile, at `stack.docs_check`.** Added 2026-09-16, because an adoption
+run that had just been required to build one of these **invented an undeclared profile key to record
+it**, which is what a missing slot looks like from the inside. It is a separate field from
+`stack.check` because the documentation gate is not always inside the main one, and a rule that names
+a command only in prose is not portable to the next repository.
 
 **Then test each check against a known-bad input before trusting it, every time you write one.**
 

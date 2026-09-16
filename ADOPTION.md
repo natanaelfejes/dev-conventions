@@ -11,6 +11,14 @@ expect. An installed skill is a copy of a document, it goes stale silently, and 
 against a stale copy produces a friction log about defects you already fixed. That is error 28 and
 it is the reason this line exists.
 
+**And the version assertion has a hole that the assertion cannot close, found 2026-09-16.** A second
+adoption run reported that the skill's source had moved three commits since its install while the
+version string was unchanged, deliberately, because a roadmap entry had frozen the version. **So the
+assertion passed on a copy whose content had drifted**, which is a different failure from the missed
+bump error 28 records and is invisible to the same check. If the version matches and something still
+reads wrong, **the version matching is not evidence that the content does**: say so in your report
+rather than working around it. That is error 36.
+
 Run it once per repository. It is deliberately **two phases with a stop in between**, because the
 second phase is wrong if the first one guessed. The stop is friction on purpose.
 
@@ -52,16 +60,44 @@ Non-negotiable in this phase:
   finding in this collection's own research.
 - **`secrets` is verified with `git log -- <path>`**, not against the ignore file. An ignored path can
   have been committed before it was ignored. The history command is the only output that is evidence.
-- **`maturity` is derived from process evidence, not from what the readme claims.** No licence caps
-  it below `published` whatever else is true.
+- **`maturity` is derived from process evidence, not from what the readme claims. Without a licence,
+  `maturity` cannot exceed `production`.** Both files worded this as the negation of a cap until
+  2026-09-16, which parses two ways, and an adoption run reconstructed the intended meaning correctly
+  from neither sentence.
+- **Record what you declined**, in the profile's `declined:` block, with what, when and why. Anything
+  this procedure or `DOCS.md` proposes that the repository has deliberately refused goes there, as a
+  fact rather than as an instruction. **Without it the only way to stop the next pass re-proposing
+  the same three documents is to write an instruction into the profile**, which breaks `PROFILE.md`'s
+  own last rule. A run did exactly that and reported it had no other option.
+- **Derive `disclosure` by counting, like everything else.** `git log --grep='Assisted-by'`, and the
+  same for the other tokens `WORKFLOW.md` names. Zero of all of them in a repository whose commits
+  are substantially agent-written is a decision made by default, and `undecided` is the honest value
+  to write.
 - **`docs.absent` records where displaced content actually went**, not that a slot is missing. Check
-  all four displacement targets before concluding anything is absent: sibling documents, commit
-  messages, branch topology, and an external tracker.
+  all five displacement targets before concluding anything is absent: sibling documents, commit
+  messages, branch topology, an external tracker, and **a sibling repository where one exists**. The
+  fifth was added 2026-09-16 and is the only one you cannot find by looking harder at this repository
+  alone.
 - **Comment any field you guessed, with today's date.** A profile that hides its guesses is worse
   than a blank one.
 
-Then **stop** and report: the profile you wrote, how you derived each field, and anything about this
-repository that surprised you. Do not change any other file yet.
+**End this phase by validating the file, not by reading it back.** This collection's first rule is
+not to do a linter's job in prose, and it did not apply that to its own central artefact until
+2026-09-16:
+
+```sh
+python3 templates/validate_profile.py .agents/profile.yml
+```
+
+**It will not tell you whether a value is right**, and no file check can: `reviewers` is counted from
+history. It tells you the value is a shape the schema can hold, which is the half that had no
+instrument and where an adoption run found four defects at once. Run it with `--self-test` first if
+you have not seen it fail, and point `--cite` at any file in this repository that quotes a profile
+field, because a template citing a field that does not exist is a defect nothing else catches.
+
+Then **stop** and report: the profile you wrote, how you derived each field, the validator's output
+including the count it examined, and anything about this repository that surprised you. Do not change
+any other file yet.
 
 ## Phase 2: apply the conventions, once I have approved the profile
 
@@ -111,8 +147,12 @@ checker reported everything clean while having extracted zero references to chec
 each check examined, never "no errors". "17 references checked, all resolve" is a result; "no errors"
 is compatible with having checked nothing.
 
-**5. The instruction file, last and least.** If an `AGENTS.md` or equivalent exists, move anything a
-linter, formatter or analyzer could enforce into config and delete the prose. Do not add a repository
+**5. The instruction file, last and least. Read `declined:` before you propose anything.** If the
+profile records that this repository considered and refused a document, that question is answered,
+not open. Re-proposing it is the friction this procedure exists to remove.
+
+If an `AGENTS.md` or equivalent exists, move anything a linter, formatter or analyzer could enforce
+into config and delete the prose. Do not add a repository
 overview; it is measured as not helping. Do not chase a line count; no published number is measured.
 **Do not generate a new instruction file from scratch if none exists**: generated context files
 measurably underperform having none, so if nothing about this repository is hard to infer from its
@@ -140,6 +180,12 @@ code, the correct instruction file is none.
   in the middle is exactly where another session gets a window**, and the stop is the point at which
   you are least likely to re-check. If you find HEAD somewhere you did not put it, say so in the
   report: it is a finding about the procedure, not an embarrassment.
+- **Do not copy a convention wholesale from a sibling repository.** Re-derive it here. Found
+  2026-09-16: a single commit imported a security file, a change template and a pre-push hook from a
+  sibling, and **two of the three cited a profile field and value that does not exist**, in both
+  repositories, with nothing to catch it. Copying an artefact copies its assumptions about a profile
+  that was never derived for this repository. Read the sibling for shape, then run the commands here.
+  `templates/validate_profile.py --cite <file>` catches the field-name half of this for free.
 - **State what you did not verify** at the end of each phase. That sentence is more useful than a
   summary of what you did.
 

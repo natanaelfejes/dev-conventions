@@ -2302,6 +2302,131 @@ Kept deliberately, because they are the argument for the scale.
     normalise first. Line endings are the common case; trailing whitespace, BOM and Unicode
     normalisation are the same class.
 
+32. **The skill shipped a template pre-filled with three correct answers, next to a bold instruction
+    not to copy a template.** Found 2026-09-16 by the second adoption run, in a second repository.
+
+    `ADOPTION.md`, in bold: "Do not fill the profile in from a template or from the examples. A
+    copied profile is worse than no profile, because it looks derived." `templates/profile.yml`
+    shipped with `team`, `reviewers` and `maturity` filled in, and the three filled values were
+    **verbatim this repository's own correct derived answers** for three of the four hardest fields.
+    `docs`, `stack` and `secrets` were correctly blank, which is what makes the other three read as
+    deliberate rather than as an oversight.
+
+    **The defect is not that somebody might copy it. It is that nobody could tell.** A copying run
+    and a deriving run produce the same file, so the rule forbidding the copy had no instrument
+    behind it and could not have one: the profile carried no record of how it was made.
+
+    Two fixes, and only the second is load-bearing. The values are blanked. And the schema gains
+    `derived` and `commits_at_derivation`, so provenance is a field rather than an assurance.
+    `commits_at_derivation` pays twice: it also dates the staleness, which the two staleness findings
+    below made worth having on its own.
+
+    New rule: **a document that forbids a shortcut must not ship the shortcut**, and where the
+    shortcut cannot be removed, the artefact records which route produced it. This is the "installed
+    is not working" family pointed at provenance rather than at behaviour.
+
+33. **A template instructed the exact installation the collection's own security rule forbids.**
+    Found in the same pass, 2026-09-16.
+
+    `templates/pre-push` said, in its third line: copy to `.git/hooks/pre-push`. `SECURITY.md`,
+    repository obligations: "Do not rely on a gate a fresh clone does not install." **Nothing under
+    `.git/` is cloned**, so a hook installed there is absent from every fresh clone by construction.
+    `ADOPTION.md` step 2 makes confirming that install a required part of every adoption. So the
+    procedure required an agent to verify a property that the template it shipped guaranteed would be
+    false.
+
+    **The adopting repository had independently arrived at the right answer**, which is the part
+    worth recording: a tracked hooks directory plus `core.hooksPath`, set by a named setup recipe. So
+    the step-2 finding there was not "the hook is missing" but "the hook is fine and the documented
+    setup omits the line that installs it", which is a sharper finding and the collection's own
+    template would have argued it down.
+
+    Fixed: the template carries the `core.hooksPath` pattern and says why. It also now warns against
+    the compound push idiom, for the reason in error 36's neighbourhood and in `SKILL.md`.
+
+    What it teaches that no earlier entry does: **the rules and the templates were checked
+    separately.** Eleven build checks verify that templates ship, that they carry no identifier and
+    that cross-references resolve. **Not one reads a template against a rule.** A template is
+    executable prose and it is the most-copied thing here.
+
+34. **Nothing validated the profile, in a collection whose first and most repeated rule is not to do
+    a linter's job in prose, and this repository's own profile was in violation of its own schema
+    while eleven build checks reported clean.** Found 2026-09-16. It is the eleventh instance of the
+    boundary family and the most expensive one to have missed, because the profile is what every
+    other rule here is conditional on.
+
+    Reported by the second adoption run against its own repository: a comma-separated scalar where
+    `PROFILE.md` says "a LIST, always, even with one entry", an absent `setup` where `PROFILE.md`
+    says never leave it blank, and four stale values. **Checking that finding against this
+    repository found two of the same defects here**: `secrets: none` as a scalar, and `setup` absent
+    entirely. Both had been there since the file was written on 2026-09-04. Ten verification passes,
+    two external audits and eleven build checks read past them, **because not one of them opens a
+    profile.**
+
+    `check_selectors`, added for error 30, is the near miss that makes this sharper. It verifies that
+    **prose** selecting on a profile value names a value the schema can hold. It never looks at a
+    profile. Error 30's lesson was "ask whether the instructions can run"; the instrument built for it
+    was pointed at the instructions and not at the thing they run against.
+
+    Fixed by shipping `templates/validate_profile.py`, with `--self-test` so it can be seen to fail,
+    a hard failure when it examines nothing, and `--cite` for files that quote a profile field. It
+    reports the count it examined rather than exiting quietly, which is error 9's rule applied at
+    write time rather than remembered later. `ADOPTION.md` phase 1 now ends by running it.
+
+    **It found something immediately that reading had not**: `secrets: []` had no defined meaning.
+    The schema said list, always, and had no way to say zero, so the honest answer to "no
+    secret-bearing path exists" had to be written as a scalar. That is `absent: {}`'s argument,
+    unnoticed one field away for twelve days.
+
+    New rule, and it is this collection's own first rule turned on itself: **the artefact every rule
+    is conditional on gets a checker before the rules get another sentence.**
+
+35. **The adoption procedure was unreachable from inside the skill.** Found 2026-09-16, and it is
+    error 30's shape without the silence: not a condition that could never be true, but a document
+    that nothing points to.
+
+    `SKILL.md`'s companion table had thirteen rows and a "load it when" column. `ADOPTION.md` was not
+    one of them, and neither was `README.md`. **An agent told "load the dev-conventions skill and
+    adopt it in this repository" reads that table and is never told an adoption procedure exists.**
+    Everything the procedure adds is therefore invisible from inside the skill: the two phases, the
+    human stop, the version assertion, the refusal to copy a profile, and the ordering that puts
+    security before documentation.
+
+    It worked twice only because **a human had already found the file and pasted its prompt**, which
+    is precisely the friction this collection exists to remove and the reason the omission survived
+    two adoption runs without being felt by the runs themselves.
+
+    Fixed by one row. What it teaches: **a table of contents is a control, not furniture.** Nine of
+    the thirteen rows name files an agent loads when a condition arises. The one file that says what
+    to do first was discoverable only by listing the install directory.
+
+36. **An installed copy went stale under an unchanged version number, which is the one failure error
+    28's rule cannot detect.** Reported 2026-09-16 by a second repository running against an install
+    of this collection.
+
+    Error 28's rule is: assert the loaded version before acting on loaded rules, and `ADOPTION.md`
+    opens with it. **That assertion passed.** The installed copy reported `0.15.0` and `0.15.0` was
+    the current version. Meanwhile three commits had changed shipped content since the install: an
+    error entry, a licence-fallback inversion that changed the terms on seven prose files, and a new
+    rule about deleting prose. **None of them bumped the version**, deliberately, because
+    `ROADMAP.md` item 0 had frozen it, and that entry is right about why.
+
+    So two correct decisions produced a wrong outcome: **a freeze on releases and a version assertion
+    are individually sound and together they certify a stale copy as current.** Error 28 was a missed
+    bump, which a version comparison catches. This is content drift under a matching version, which
+    it cannot, and the consumer has no other instrument.
+
+    What it does **not** teach is "bump on every commit", which would restore the sixteen-versions-in-
+    six-days problem item 0 exists to stop. What it teaches is narrower:
+
+    - **A version freeze has a consumer cost and the entry imposing it must say so.** Item 0 argued
+      the producer's side only.
+    - **A version assertion that passes is evidence about the version, not about the content.**
+      `ADOPTION.md` now says that, so a run that finds something reading wrong against a matching
+      version reports it instead of assuming its copy is fine.
+    - The version is bumped at 0.16.0 for this batch, which item 0's own terms earn: the bump is
+      caused by adoption runs finding things, not by a verification pass.
+
 Errors 1 through 5 were caught by an external check rather than by the tagging system. **Errors 6
 through 8 are a different failure and they need a different check.** All three were paraphrase drift:
 the tier was right, the source was right, and the sentence retelling it was not. So tiering a claim
@@ -2318,8 +2443,12 @@ Two lessons, not one:
   error on this list at least leaves you uncertain. This one hands you confidence.
 
 **And one pattern runs through errors 9 and 17 and every repeat of them, which is worth stating as a
-rule because naming the instances did not stop it recurring.** Nine times in this repository, a check
-drew its boundary at the convenient unit and the thing it was looking for sat one unit outside it:
+rule because naming the instances did not stop it recurring.** Eleven times in this repository, a
+check drew its boundary at the convenient unit and the thing it was looking for sat one unit outside
+it. **This sentence read "nine" while the table below held ten rows**, from 2026-09-10 until
+2026-09-16, and was corrected only because an eleventh row was being added: a catalog stating a count
+beside the list it counts is exactly what `DOCS.md`'s count reconciler is for, and this document does
+not run one on itself.
 
 | The check looked at | What it was looking for was in |
 |---|---|
@@ -2333,6 +2462,7 @@ drew its boundary at the convenient unit and the thing it was looking for sat on
 | The built zip | The copy actually installed and loaded |
 | The 28 files that ship | Every tracked file, this repository being public |
 | The bytes in the working tree | The content, which git stores identically on every platform |
+| The files that ship | The profile every one of those files is conditional on |
 
 Every one of those checks passed. Every one was correct within its scope. **None of them stated its
 scope**, so a clean result read as "clean" rather than as "clean in the half I looked at". The fifth,

@@ -164,6 +164,15 @@ These generalise across languages and stacks. The profile's `secrets` field name
 - **Do not rely on a gate a fresh clone does not install.** One repository's pre-commit hook was its
   stated last defence against committing real user data, and it was absent from that repository's
   own setup instructions. A contributor following the documentation never installed it.
+
+  **`.git/hooks/` is the common way to break this rule, and this collection's own template broke it
+  until 2026-09-16.** Nothing under `.git/` is cloned, so a hook installed there is absent from every
+  fresh clone by construction, and the instruction to copy one there cannot coexist with this rule.
+  **Track the hook in the repository and point git at it**: `git config core.hooksPath .githooks`,
+  run by the setup step your readme actually names. `templates/pre-push` carries the pattern. That is
+  error 33, and an adopting repository had independently arrived at the same answer, which is why the
+  finding there was not "the hook is missing" but "the hook is fine and the documented setup omits
+  the line that installs it".
 - **Do not mistake an ignore file for a control.** A distinct and more common shape, found
   2026-09-04 in a repository with live deployments: **no hook existed at all.** No pre-commit
   configuration, no hook manager, `core.hooksPath` unset, nothing in history. Every protection
@@ -177,6 +186,36 @@ These generalise across languages and stacks. The profile's `secrets` field name
 - **Do not document a security property as done without checking the code.** A reviewer reading a
   false security claim is worse off than one reading nothing, because they stop looking. If a claim
   cannot be verified now, say what is not established.
+
+  **Second occurrence, 2026-09-16, and it arrived in a shape the first one did not have.** A
+  validation attribute sat on a configuration type that was bound from settings, with **no validation
+  call wired to that binding**, so nothing ever evaluated it. It was decorative from the day it was
+  written, and a sibling integration in the same repository did have the call. **The claim was
+  document-shaped and it was inside the code**: an annotation, not a comment and not a readme line.
+  That matters because a repository that has done the work of building documentation checks has
+  built exactly the instruments that cannot see this, and none of that repository's gates found it.
+  An independent review with no prior context did. **Treat a declarative annotation asserting a
+  security or validation property as a claim to verify, not as the mechanism**: find the call that
+  evaluates it, or it is prose in a stricter font.
+- **Do not leave a security rule as an advisory flag a caller has to remember to check.** A flag
+  that says "this object contains reserved data, redact it" is a rule implemented in prose with a
+  boolean attached, and it fails the moment one call site forgets. Found 2026-09-16 with **zero call
+  sites and no test**: every consumer had forgotten, from the beginning, and nothing said so.
+
+  The correction is the same one this file makes about instruction-file prose: **move the guarantee
+  into a place where forgetting is not possible.** There, the only constructor path was made to drop
+  the reserved data before the object exists, so no caller can hold an unredacted one. An allowlist
+  correction was ruled out first, by reading the upstream source rather than reasoning about it: the
+  same numeric key means an unrelated setting for one downstream consumer and an encrypted secret for
+  another, inside the same reserved region of the same enum family, so a narrower per-key rule cannot
+  be written correctly.
+
+  **And the check discipline transfers.** `DOCS.md` says make each check fail on purpose before you
+  trust it, written for documentation gates. It applies unchanged to a security guarantee: two of the
+  six tests there target the guarantee rather than today's behaviour, one sweeping the whole reserved
+  range and one asserting by reflection that no alternate constructor exists, and **the fix was
+  reverted on purpose to confirm five of the six then failed.** A guarantee whose tests have never
+  been seen to fail is a guarantee you are taking on faith.
 
 ## Untrusted input taxonomy
 

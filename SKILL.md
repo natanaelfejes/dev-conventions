@@ -5,7 +5,12 @@ description: Evidence-graded conventions for AI-assisted development, where ever
 
 # Development conventions, evidence-graded
 
-**Version 0.15.0. External claims last rechecked 2026-09-08.**
+**Version 0.16.0. External claims last rechecked 2026-09-08.**
+
+**The recheck date is older than the version and that is not an oversight.** Everything added at
+0.16.0 is `first-party`, from two repositories, and no external claim was re-opened. A version bump
+that moved the recheck date without a recheck would be the dishonest bump this collection criticises
+elsewhere.
 
 ## What this is and is not
 
@@ -99,13 +104,14 @@ commands, which review passes are available, and the maturity level. `PROFILE.md
 
 | File | Load it when |
 |---|---|
+| `ADOPTION.md` | **First, when the task is "adopt these conventions here".** It is the two-phase procedure with the human stop, and the order it imposes is the point: version assertion, then profile, then security, then documentation |
 | `PROFILE.md` | Writing or reading a repo profile, including the resolved-stack block |
 | `SECURITY.md` | Touching auth, secrets, CI, untrusted input, or installing a skill or MCP server |
 | `SPEC.md` | About to build or delegate something large enough that getting it wrong costs a rebuild |
 | `HANDOFF.md` | Closing a session whose decisions, dead ends or half-finished work outlive it |
 | `OPERATING.md` | Human-facing: prompting, delegation, model and vendor selection |
 | `SETUP.md` | Once, per machine rather than per repository: resolving tool categories, recording what you installed and when you vetted it, and writing the delegation policy down |
-| `SOLO.md` / `TEAM.md` | Load exactly one, whichever the profile's `team` field selects |
+| `SOLO.md` / `TEAM.md` | Load exactly one, whichever the profile's `team` field selects. **They are not symmetric and the table used to imply they were.** `TEAM.md` is nine times the size, because a team carries obligations Layer 1 does not cover. **`SOLO.md` is a short appendix and the substance for a solo repository is Layer 1**, which is where almost all of this collection's first-party observation came from |
 | `MEASURING.md` | About to compare two configurations, models or prompts, or decide whether a practice earns its cost |
 | `REFRESH.md` | The build warns the recheck date is over ninety days old |
 | `DOCS.md` | Setting up, auditing or pruning a repository's documentation |
@@ -136,9 +142,9 @@ Stated once rather than tagged on every line. `EVIDENCE.md` carries the sources.
 
 | Section | Provenance |
 |---|---|
-| Verifying a claim | **Mixed.** Run-to-run nondeterminism is **tier 1**, the only multiply replicated finding here, four independent groups. The rest is `first-party` method, demonstrated on external papers: the habits are this collection's own, what they were tested on is public |
-| Instruction files | **Mixed, all external, all weak.** Rule polarity, authorship and repository overviews are each tier 4. Analyzer-beats-prose and the incident rule are `first-party` |
-| Working with agents | **Mixed.** Agent-only review is tier 2; reviewer disagreement was tier 2 and is **tier 4 since 2026-09-07**, when its venue turned out to be author-claimed; context-beats-procedure is tier 3; multi-agent degradation and context length are tier 5. Worktree collision and the delegation heuristic are `first-party` |
+| Verifying a claim | **Mixed.** Run-to-run nondeterminism is **tier 1**, the only multiply replicated finding here, four independent groups. The rest is `first-party` method. Most of it was demonstrated on external papers, where the habits are this collection's own and what they were tested on is public. **The environment-mismatch rule and the opt-in-suite corollary are not**: they come from running systems in two repositories, 2026-09-16, and no external source was found for either |
+| Instruction files | **Mixed, all external, all weak.** Rule polarity, authorship and repository overviews are each tier 4. Analyzer-beats-prose, the incident rule and its inverse, the recurrence rule, are `first-party` |
+| Working with agents | **Mixed.** Agent-only review is tier 2; reviewer disagreement was tier 2 and is **tier 4 since 2026-09-07**, when its venue turned out to be author-claimed; context-beats-procedure is tier 3; multi-agent degradation and context length are tier 5. Worktree collision, parallel-branch semantic collision, the limit of what review can confirm about a running system, and the delegation heuristic are `first-party` |
 | Measuring whether any of this works | **Mostly tier 7**, vendor and practitioner. Nondeterminism is tier 1, judge bias is tier 4. The absence of any controlled defect study is a recorded search result, not an assumption |
 | `OBSERVABILITY.md` | **Mixed.** The content-off-by-default rule is a standards-body default, the strongest thing in that file. Mix shift and heartbeat monitoring are established practice from outside this field. Alert fatigue transfers by analogy and says so. Cost figures are vendor-adjacent. Two failure modes are `first-party` |
 | `VOCABULARY.md` | **Weaker sourcing than the rest, and it says so at the top.** Verdicts are this collection's judgement; the figures come from one research pass and were not each re-verified to primary sources |
@@ -185,6 +191,34 @@ Stated once rather than tagged on every line. `EVIDENCE.md` carries the sources.
   hook can be configured for a binary absent from `PATH`; a script can be present but invoked under
   an interpreter name that does not resolve; a tool can be on `PATH` and still report zero activity.
   All three occurred in one week. Run the thing.
+- **Do not accept a check that runs in a different environment than the artifact it certifies.** It
+  is not checking that artifact. This is the sibling of the rule above and the rule above does not
+  cover it: the thing *was* run, somewhere else, against something else, and it was green.
+  `first-party`, **five instances in one afternoon across two repositories**, 2026-09-16:
+
+  - A container definition omitted a file that a packaging change had just made load-bearing. The
+    local gate builds from the **working tree**, where the file is present, and stayed green.
+    Production was unbuildable from the merge onward, and it was found by deploying.
+  - Nine tests against a real database sat behind an environment variable and outside the gate.
+    Three had run once, five days earlier; six had never run. **One tool and two resources failed
+    100% of calls in front of a live tester while a 282-test suite reported green**, because every
+    one of those tests used a fake repository.
+  - A deploy script's own verifier printed OK and returned true immediately after the build had
+    failed, because it inspected a container it had not deployed: up 27 hours, three fixes behind.
+    **A green verdict on a failed deploy is worse than no verdict**, and it is why that broken build
+    survived an afternoon.
+  - The cheapest instance, one command long: a diagnostic `curl -sS` without `-i` returned an empty
+    body on a 401 and was read as "the endpoint returns nothing". **An empty result and an auth
+    failure were indistinguishable** because the status line was never requested.
+
+  Before believing a green result, name the environment it ran in and the environment the artifact
+  will run in, and say what differs. Where they differ, the result is evidence about the first one.
+- **Do not count an opt-in suite as a suite.** A suite excluded from the gate, behind an environment
+  variable, a marker or a manual flag, is a suite that does not exist: it does not run, nobody
+  notices it does not run, and its existence is counted in the total that reports green. Either it
+  runs in the gate or the gate states, in its own output, how many tests it skipped. **A count of
+  what was skipped is the whole mechanism**; a suite whose skip is silent is indistinguishable from
+  one that passed.
 - **Do not treat rediscovery as replication.** Two research passes finding the same paper confirms
   the paper exists. It does not corroborate its finding or resolve its disagreement with another.
 - **Do not conclude anything from a single agent run, and do not believe temperature zero makes it
@@ -233,6 +267,13 @@ Stated once rather than tagged on every line. `EVIDENCE.md` carries the sources.
   not helping. Size for cost, and cut when you notice a rule being skipped.
 - **Do not write a rule you cannot cite an incident for.** Rules derived from a real failure stick.
   General good practice belongs in a linter or nowhere.
+- **Do not close a recurring defect at the instance.** The inverse of the rule above, and it was
+  unhandled: that rule stops a rule with no incident, and nothing stopped **four incidents with no
+  rule**. Silent truncation shipped four separate times in one repository before it became a trap in
+  that repository's instruction file, because each occurrence was fixed individually and correctly.
+  **When a defect class recurs, promoting it to the instruction file, a linter rule or a check is
+  part of the fix**, not a separate improvement to schedule. The question "have I seen this shape
+  before" is the one nobody was asking. `first-party`, 2026-09-16.
 - **Do not leave a superseded rule in place with an annotation.** Delete it. A file that states a
   rule and then contradicts itself is worse than one that omits the rule.
 
@@ -257,6 +298,23 @@ say, will not say, or says without evidence.
   The authors' own conclusion is that review agents should augment rather than replace human
   reviewers. **Tier 2**, confirmed against a publisher record. No vendor says this, and the incentive
   runs the other way.
+- **Do not expect review to confirm a claim about a running system.** Review confirms that a change
+  does what it claims. It does not confirm the claim was right about the real system, and a reviewer
+  cannot verify a claim about a running system without touching the running system. **The rule above
+  is the control that failed here and it is not wrong, it is insufficient:** a fix for a
+  network-rebinding weakness passed an independent, zero-context review and still broke production,
+  because it did not distinguish the application's own internal hostname from a caller-supplied one.
+  Isolating the reviewer's context is not the hard part when the missing context is the deployment.
+  `first-party`, 2026-09-16.
+- **Do not merge two parallel agent branches on a clean merge alone.** Conflict markers appear only
+  where the same lines changed. **Semantic collisions change different lines and merge silently**,
+  and both branches are green because neither one's tests know about the other's change. Twice in one
+  day in one repository: a new ranking function written in one worktree arrived carrying the exact
+  defect that a fix in another worktree had just removed; and a fix half-shipped because the default
+  branch had meanwhile split one query into four texts, so git merged the fix cleanly into two of
+  them and left the old constant in the third. **A merge between parallel agent branches gets a real
+  review pass, not conflict resolution.** `first-party`, 2026-09-16, and see `TOOLING.md` for the
+  other half of this, which is that a worktree does not isolate build output.
 - **Do not stop at isolating the reviewer. Instruct it to disagree, and bound what it reports.** A
   reviewer agent given a change without an explicit disagreement instruction scored the worst
   measured result in its comparison by agreeing with the implementer; the same setup with the
@@ -286,6 +344,15 @@ say, will not say, or says without evidence.
 
 - **Do not filter the output of a one-shot, state-changing command.** Compress build and test output
   freely; never compress or truncate a push, because a hidden ref update cannot be re-read.
+
+  **The compound form is the one that actually bites, and plain filtering is not what masked it.** A
+  push piped into a grep for the word error, with an `|| echo pushed` after it, **reported success
+  twice on pushes that never landed.** The `||` fires when grep finds nothing, and finding nothing
+  includes both a clean push and a push that produced no output at all because it failed earlier in
+  the pipeline. **A search-and-fallback idiom converts silence into a success message**, which is
+  strictly worse than truncation: truncation loses information, this manufactures it. Read the exit
+  status of the command itself, never the exit status of something reading its output.
+  `first-party`, 2026-09-16.
 - **Do not describe only your own commits.** Describe the whole diff against the default branch,
   including work you did not write. A description accurate about its author and false about the
   change as a whole is worse than a missing one: it authorises a merge that would otherwise have

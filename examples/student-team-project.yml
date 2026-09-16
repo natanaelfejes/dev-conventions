@@ -38,9 +38,9 @@ docs:
     decisions: "nowhere. Architecture arguments are settled in chat and lost"
                          # All three are the displacement rule. Dropping a slot
                          # relocates its content, it does not remove it. Check
-                         # all four targets (sibling docs, commit messages,
-                         # branch topology, external tracker) before concluding
-                         # anything is missing.
+                         # all five targets (sibling docs, commit messages,
+                         # branch topology, external tracker, a sibling
+                         # repository) before concluding anything is missing.
 
 stack:
   language: typescript

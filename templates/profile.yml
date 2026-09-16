@@ -7,9 +7,24 @@
 #   stack.check  - find the command that actually runs format, build and test together
 #   docs         - list what exists, not what should, then fill `absent` for every missing slot
 #   secrets      - verify against full history, not against the ignore file
+#
+# EVERY VALUE HERE IS BLANK ON PURPOSE, since 2026-09-16. This file used to ship
+# with team, reviewers and maturity filled in, which are three of the four hardest
+# fields, and the filled-in answers were verbatim the correct ones for the
+# repository that develops this collection. ADOPTION.md forbids copying a profile
+# in bold, and a copying run and a deriving run produced indistinguishable files.
+# Error 32. Fill each value by running the command PROFILE.md gives for it.
+#
+# Then check it:  python3 templates/validate_profile.py .agents/profile.yml
 
-team: solo                   # solo | pair | small-team | open-source
-reviewers: none              # none | nominal | agent | one | rotating
+derived:                     # the date you ran the commands below. Not today's date if you
+                             # did not run them today.
+commits_at_derivation:       # git rev-list --count HEAD, on that date. Together these two are
+                             # the only thing that tells a derived profile from a copied one,
+                             # and they date the staleness for the next reader.
+
+team:                        # solo | pair | small-team | open-source
+reviewers:                   # none | nominal | agent | one | rotating
                              # Humans who ACTUALLY read the diff. Not agents, and not humans a
                              # template merely names. Count changes where merger != author, and
                              # count review comments. If both are near zero while a reviewer
@@ -42,6 +57,9 @@ stack:
   format:
   test:
   build:
+  docs_check:                # the mechanical documentation check. DOCS.md and ADOPTION.md
+                             # step 4 both require one, and it is not always inside `check`.
+                             # Write `docs_check: none` if there is not one yet.
 
 review:                      # which passes actually exist here
   # - code-review
@@ -53,19 +71,46 @@ tools:
   worker:                    # whichever cheaper model implements
   forbidden: []              # tools banned by an employer, a customer, or a course
 
-maturity: prototype          # prototype | production | published
+disclosure:                  # assisted-by | generated-by | none | undecided
+                             # Which AI-authorship trailer this repository uses. WORKFLOW.md
+                             # makes this a rule and records that the ecosystems have NOT
+                             # converged on one token, so it is a real per-repository decision.
+                             # `undecided` is the honest value until somebody decides: a
+                             # repository with hundreds of agent-written commits and zero
+                             # trailers has decided by default, and with no slot the next
+                             # adoption pass raises it again as new. Count first:
+                             #   git log --grep='Assisted-by' --oneline | wc -l
+
+declined:                    # what was CONSIDERED and deliberately NOT done, so an idempotent
+                             # adoption pass does not re-propose it. {what, when, why}.
+  # - what: CONTRIBUTING.md
+  #   when: 2026-09-16
+  #   why: "solo repository, no second contributor exists, and this is deliberate"
+                             #
+                             # DESCRIPTIVE, never imperative. "no second contributor exists"
+                             # is a fact about the repository. "do not add one" is an
+                             # instruction, and this file's last rule is that a profile
+                             # carries no instructions. An adoption pass with nowhere to
+                             # record a decline wrote instructions here instead, and said it
+                             # had no other option. This block is the other option.
+
+maturity:                    # prototype | production | published
                              # DERIVE this from process evidence; do not copy the readme's claim.
                              # Three of three repositories checked claimed a maturity their process
                              # contradicted, in both directions. Ask: does a check command exist and
                              # does anything run it automatically, do tests exercise the assembled
                              # system, is there a credential boundary, is there a licence.
                              # published also requires no employer-identifying content and an
-                             # explicit statement of what is not established.
+                             # explicit statement of what is not established. Without a licence,
+                             # maturity cannot exceed `production`.
 
 secrets:                     # gitignored paths that must never be committed. A LIST, always,
   # - .env                   # even with one entry: one adoption found three paths across two
   # - config/local.json      # project directories, and a comma-separated scalar leaves a
-                             # reader guessing whether to split or to iterate.
+                             # reader guessing whether to split or to iterate. With NO such
+                             # path at all, write `secrets: []`, not `none`: the empty list
+                             # is "checked, found nothing", and it is the same argument as
+                             # `absent: {}`.
 
 setup: ~/.agents/setup.yml   # your resolved stack, installs and delegation policy, decided
                              # once per machine by SETUP.md rather than once per repository.

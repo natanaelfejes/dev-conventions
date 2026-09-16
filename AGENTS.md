@@ -330,6 +330,15 @@ print(len(d), len(d) <= 1024, ': ' in d)"
 
 # internal cross-references resolve
 grep -oh -E '[\`][A-Za-z_./-]+[.](md|yml)[\`]' *.md templates/* examples/* | tr -d '\`' | sort -u
+
+# this repository's own profile, against this repository's own schema. Added
+# 2026-09-16 as error 34: the profile carried a scalar where PROFILE.md says
+# list and no `setup` where PROFILE.md says never blank, from the day it was
+# written, while eleven build checks reported clean, because none of them opens
+# a profile. Run the self-test first: a checker nobody has seen fail is a
+# checker nobody should believe.
+python3 templates/validate_profile.py --self-test
+python3 templates/validate_profile.py .agents/profile.yml
 ```
 
 **Make each check fail on purpose before you trust it.** A check that can pass by finding nothing is

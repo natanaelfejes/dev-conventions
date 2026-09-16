@@ -4,6 +4,151 @@ Most recent first. Versions exist so a consuming repository can pin one and know
 convention came from, because a convention whose source has since been corrected is otherwise
 indistinguishable from one that still holds.
 
+## 0.16.0, 2026-09-16
+
+**The second friction batch, worked as one change.** Four sources, two repositories, six days after
+the first: a second full adoption pass, ambient findings from ordinary development in a sibling
+repository, a proposed rule with five dated first-party instances, and a post-adoption round asking
+whether anything from the first pass was still visible unprompted. Filed unnamed at
+`.agents/adoption-friction-2026-09-16.md`, with the items that were deliberately not acted on and
+why.
+
+**This bump is earned by `ROADMAP.md` item 0's own terms**, for the second time: it is caused by
+adoption runs finding things, not by a verification pass. **The recheck date does not move.**
+Everything here is `first-party` and no external claim was reopened, and a version bump that carried
+the recheck date with it would be the dishonest bump this collection criticises in a comparable
+project.
+
+**The Unreleased section below ships in this version**, rather than being folded into it, because
+corrections to this file are made by a new entry and never by editing history.
+
+### Every claim the batch made about this collection was re-run before it was acted on
+
+None turned out to be wrong or already fixed. **Two understated the case.** The profile validator
+finding said the profile has no validator; it does not, and separately **this repository's own
+profile violated its own schema in two places**, since the day it was written. And `SOLO.md` is not
+only three bullets, **one of the three is false**: "no one else's branch is in flight" does not hold
+in a solo repository worked by parallel agent sessions, and this collection has two recorded
+incidents of exactly that. One claim needed narrowing: the annotation collision is real as
+experienced, but `SKILL.md`'s rule sits under "Instruction files" and `PROFILE.md` already says a
+profile is not one, so the fix is to say so rather than to change either rule.
+
+### Five new Layer 1 rules, which is the point of a friction batch
+
+- **A check that runs in a different environment than the artifact it certifies is not checking that
+  artifact.** The sibling of "installed is not working, run the thing", and not covered by it: the
+  thing was run, somewhere else. Five instances in one afternoon across two repositories, including a
+  container definition missing a file the local gate could not miss, a deploy verifier that printed
+  OK against a container it had not deployed, and a `curl -sS` without `-i` that made an auth failure
+  and an empty body indistinguishable.
+- **An opt-in suite is a suite that does not exist.** Stated separately because it is actionable
+  alone. Nine tests behind an environment variable: three had run once five days earlier, six never.
+  One tool and two resources failed 100% of calls in front of a live tester while a 282-test suite
+  reported green.
+- **Review does not confirm a claim about a running system.** The no-self-review rule is the control
+  that failed: a fix passed an independent zero-context review and still broke production. It is not
+  wrong, it is insufficient, and the file read as though isolating the reviewer's context were the
+  hard part.
+- **Do not merge two parallel agent branches on a clean merge alone.** Semantic collisions change
+  different lines, produce no conflict markers, and leave both branches green. Twice in one day.
+- **Do not close a recurring defect at the instance.** The inverse of "never write a rule you cannot
+  cite an incident for", and it was unhandled: four incidents and still no rule, because each was
+  fixed correctly on its own. Silent truncation shipped four times before it became a trap.
+
+The push rule gains its compound form: `git push … | grep -E "error" || echo pushed` reported success
+twice on pushes that never landed, because the `||` fires whenever grep matches nothing, and matching
+nothing includes silence. **A search-and-fallback idiom manufactures a success message**, which is
+worse than truncation losing one.
+
+### Five errors, and four of them are the collection checking its own artefacts for the first time
+
+- **Error 32:** the skill shipped a template pre-filled with three of the four hardest fields,
+  verbatim this repository's own answers, beside a bold instruction not to copy a template. The
+  defect is that a copying run and a deriving run produced indistinguishable files. Values blanked,
+  and `derived` plus `commits_at_derivation` added so provenance is a field rather than an assurance.
+- **Error 33:** `templates/pre-push` instructed an install into `.git/hooks/`, which `SECURITY.md`
+  forbids in as many words, because nothing under `.git/` is cloned. **Eleven build checks verify
+  that templates ship and carry no identifier. Not one reads a template against a rule.**
+- **Error 34:** nothing validated the profile, in a collection whose first rule is not to do a
+  linter's job in prose, and this repository's own profile carried a scalar where the schema says
+  list and no `setup` where the schema says never blank. Eleventh instance of the boundary family and
+  the most expensive: the profile is what every other rule is conditional on.
+  `templates/validate_profile.py` ships, with `--self-test`, a hard failure when it examines nothing,
+  and `--cite`. It found something reading had not: `secrets: []` had no defined meaning, so the
+  honest answer to "no secret-bearing path exists" had to be written as the wrong shape.
+- **Error 35:** the adoption procedure was unreachable from inside the skill. Thirteen companion rows
+  and `ADOPTION.md` in none of them. It worked twice only because a human had already found the file,
+  which is the friction this collection exists to remove. Fixed by one row.
+- **Error 36:** an installed copy went stale under an **unchanged** version number, which is the one
+  failure error 28's version assertion cannot detect. Two individually correct decisions, a release
+  freeze and a version assertion, together certify a stale copy as current. `ADOPTION.md` now says a
+  version assertion is evidence about the version and not about the content.
+
+### The profile schema gains four things it was missing and one it could not say
+
+`disclosure` (assisted-by, generated-by, none, undecided), because `WORKFLOW.md` makes this a rule,
+the ecosystems have not converged, and a repository with hundreds of agent-written commits and zero
+trailers has decided by default with nowhere to record it. `stack.docs_check`, because an adoption
+run **invented that exact key unprompted** to hold the command the procedure had just required it to
+build. `declined:`, a list of what, when and why, because an adoption pass with nowhere to record a
+refusal wrote instructions into the file whose last section forbids them, and reported it had no
+other option. `derived` and `commits_at_derivation` for provenance and staleness. And `secrets: []`
+now has a meaning.
+
+**The merge-strategy slot the finding also asked for is deliberately not added**, and the friction
+file says why: a merge strategy already lives somewhere enforceable, and a profile copy of an
+enforceable fact is a copy that goes stale.
+
+### Two staleness data points, and the rule they produce
+
+Hours in the first round, **five days** in the second: a profile field describing a security property
+in prose was falsified by a feature the day after it was written and was still wrong five days later,
+in a repository whose author corrects stale claims promptly when something triggers a look. **A
+profile is a snapshot with no subscription to the thing it describes.** The rule is not a cadence:
+prefer a field a command can re-derive over a property stated in prose, tie the re-read to the change
+that falsifies it, and when a field changes, re-check the documents that field cites. That last one
+is error 21's shape inside a single profile: a run corrected a slot and did not chase the citation
+back to a document that now contradicts the repository.
+
+### Also
+
+`TOOLING.md` gains the third worktree axis: a worktree isolates source, **not build output, caches or
+package restore**, and a correct worktree setup does nothing about a path the build itself chooses.
+Two repositories, same mechanism. The symptom is indistinguishable from a real defect, and the worse
+of the two observed outcomes was the session that reran until it passed, because that teaches
+retry-until-green.
+
+`SECURITY.md` gains two entries. A security rule left as an advisory flag callers must remember to
+check, found with **zero call sites and no test**, corrected by moving the guarantee into the only
+constructor path and verified by reverting the fix to confirm five of six tests then failed: the
+fail-on-purpose discipline, written for documentation gates, generalising unchanged. And a second
+occurrence of "do not document a security property as done without checking the code", in a shape the
+first did not have: a **document-shaped claim inside code**, a validation attribute with no validation
+call wired to it, which is the shape a repository's documentation checks are by construction unable
+to see.
+
+`SOLO.md` says it is a short appendix and that the substance is Layer 1, corrects the false bullet,
+and gains the two solo failure modes this batch evidences. The companion table says the two layer
+files are not symmetric, which it had implied since they were split.
+
+`PROFILE.md`'s POSIX table reaches sections 3 and 5, which is where it was actually needed, and adds
+the instruction to keep each command flat: a harness refused composed `git | awk | wc` pipelines
+outright as too complex to verify. The maturity sentence now reads "Without a licence, `maturity`
+cannot exceed `production`", in both files: the old wording stated a constraint as the negation of a
+cap, which parses two ways, and an adoption run reconstructed the intended meaning correctly from
+neither sentence.
+
+**The displacement rule gains a fifth target: a sibling repository.** `DOCS.md` had four, all of
+them findable by looking harder at one repository. This one is not: a pending-work document in one
+repository carried three items recorded as carried back from a sibling, and nothing in the schema
+could say so. The count is corrected in `DOCS.md`, `PROFILE.md`, `ADOPTION.md` and the one example
+that states it, per the rule about not correcting a figure in one file only.
+
+**And one count correction found while editing.** The boundary table's introduction said nine beside
+a table of ten rows, from 2026-09-10 until today, because error 31 added a row and not the number.
+`DOCS.md`'s count of how often counts have disagreed goes from four to five, this being the fifth,
+and this document still does not run the count reconciler it recommends.
+
 ## 0.15.0, 2026-09-09
 
 **A third landscape pass searched code hosts instead of literature and found the thing two earlier

@@ -6,6 +6,17 @@
 #
 # Read AGENTS.md before applying any rule from the collection here.
 
+derived: 2026-09-04
+commits_at_derivation: unrecoverable
+# Both fields added 2026-09-16, from history rather than at derivation time, when
+# templates/validate_profile.py was written and pointed at this file. The count
+# is unrecoverable rather than unknown: this repository's history was rewritten
+# on 2026-09-10 and the commits the 2026-09-04 derivation read no longer exist.
+# That is exactly the gap the field exists to make visible, and it is recorded
+# rather than back-filled with a number that would be a guess.
+#
+# A full re-derivation is owed and this file does not pretend otherwise.
+
 team: solo
 reviewers: none
 # Honest and currently trivially true: the repository was created today and has
@@ -81,7 +92,12 @@ maturity: prototype
 # repository profile. Three profiles exist and one person wrote all three. Until
 # somebody else derives one, the claim is documented rather than demonstrated.
 
-secrets: none
+secrets: []
+# `[]` and not `none`, corrected 2026-09-16: the schema says a list, always, and
+# an empty list is the answer "checked, found nothing". This file held the scalar
+# from the day it was written, through eleven build checks and ten verification
+# passes, because not one of them looked at a profile. Error 34.
+#
 # Verified against history rather than the ignore file: this repository has no
 # credential, no environment file and no configuration carrying a value. It is
 # prose and templates. The `.gitignore` excludes build output only.
@@ -89,3 +105,11 @@ secrets: none
 # One real exposure risk that is not a credential: LOCAL.md, which names machine
 # paths and a personal toolchain, must never be committed here. It is gitignored
 # and it is also excluded by build.py, so both paths are covered.
+
+setup: none
+# Added 2026-09-16. GUESSED, and flagged as such per PROFILE.md section 7:
+# nothing in this repository references a resolved-stack file and SETUP.md is
+# written as a once-per-machine procedure, so this reads as "SETUP.md has not
+# been run on this machine". Correct it from the machine, not from here. It was
+# absent entirely until today, which reads as "not applicable" and as "never
+# checked" equally well, and that is the ambiguity the field exists to close.
